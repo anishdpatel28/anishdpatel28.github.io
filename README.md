@@ -12,64 +12,100 @@ A modern portfolio website built with React, TypeScript, Material UI, and Django
 - **Docker support**
 - **CI/CD with CircleCI**
 
-## Quick Setup
+## 🚀 Quick Setup (New Computer)
 
-1. **Rename environment file:**
-   ```bash
-   mv env.config .env
-   ```
+### Prerequisites
+Make sure you have installed:
+- **Node.js** (version 16 or higher) - [Download here](https://nodejs.org/)
+- **Python 3.9+** - [Download here](https://www.python.org/downloads/)
+- **npm** (comes with Node.js)
 
-2. **Install dependencies and set up database:**
-   ```bash
-   npm run setup
-   ```
+### 1. Download and Extract
+1. Download the project from Google Drive
+2. Extract to your desired folder
+3. Open terminal/command prompt in the project folder
 
-3. **Start development servers:**
-   ```bash
-   npm start
-   ```
+### 2. One-Command Setup
+```bash
+npm run setup
+```
 
-   This will start both the frontend (http://localhost:3000) and backend (http://localhost:8000) servers.
+This automatically:
+- ✅ Creates the `.env` file
+- ✅ Installs frontend dependencies
+- ✅ Creates Python virtual environment
+- ✅ Installs backend dependencies
+- ✅ Sets up the database
 
-## Available Scripts
+### 3. Start Development
+```bash
+npm start
+```
+
+**That's it!** Your portfolio will be running at:
+- **Frontend**: http://localhost:3000
+- **Backend API**: http://localhost:8000
+
+## 🛠️ Manual Setup (If Needed)
+
+If the automatic setup doesn't work, run these commands one by one:
+
+```bash
+# 1. Create environment file
+cp env.config .env
+
+# 2. Install root dependencies
+npm install
+
+# 3. Install frontend dependencies
+cd frontend && npm install && cd ..
+
+# 4. Set up Python backend
+cd backend
+python3 -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+cd ..
+
+# 5. Set up database
+npm run backend:makemigrations
+npm run backend:migrate
+
+# 6. Start both servers
+npm start
+```
+
+## 📜 Available Scripts
+
+### Essential Commands
+- `npm run setup` - **One-time setup for new computers**
+- `npm start` - **Start both frontend and backend**
+- `npm run reset` - **Clean everything and start fresh**
 
 ### Development
-- `npm start` - Start both frontend and backend servers
 - `npm run dev` - Same as start
 - `npm run frontend:dev` - Start frontend only
 - `npm run backend:dev` - Start backend only
 
-### Build
+### Build & Test
 - `npm run build` - Build frontend for production
-- `npm run frontend:build` - Build frontend
-
-### Testing
 - `npm test` - Run all tests
-- `npm run frontend:test` - Run frontend tests
-- `npm run backend:test` - Run backend tests
-- `npm run frontend:test:watch` - Run frontend tests in watch mode
-- `npm run frontend:test:coverage` - Run frontend tests with coverage
-
-### Linting
 - `npm run lint` - Run linter
-- `npm run frontend:lint` - Run frontend linter
 
 ### Database
-- `npm run backend:migrate` - Run database migrations
-- `npm run backend:makemigrations` - Create new migrations
-- `npm run backend:createsuperuser` - Create Django admin user
+- `npm run backend:migrate` - Apply database changes
+- `npm run backend:createsuperuser` - Create admin user
 
-### Docker
-- `docker-compose up` - Start all services with Docker
+### Docker (Optional)
+- `docker-compose up` - Start with Docker
 - `docker-compose build` - Build Docker images
-- `docker-compose down` - Stop all services
 
 ### Cleanup
-- `npm run clean` - Remove all build artifacts and dependencies
+- `npm run clean` - Remove all dependencies and build files
 
-## Database Schema
+## 🗄️ Database Schema
 
-The application uses PostgreSQL with the following table for page view tracking:
+The application uses PostgreSQL with this table for page view tracking:
 
 ```sql
 CREATE TABLE pageviews_pageview (
@@ -80,9 +116,10 @@ CREATE TABLE pageviews_pageview (
 );
 ```
 
-## Project Structure
+## 🏗️ Project Structure
 
 ```
+anishdpatel28.github.io/
 ├── frontend/                 # React TypeScript frontend
 │   ├── src/
 │   │   ├── components/       # Reusable components
@@ -90,7 +127,6 @@ CREATE TABLE pageviews_pageview (
 │   │   ├── services/        # API services
 │   │   ├── themes/          # Material UI themes
 │   │   └── types/           # TypeScript types
-│   ├── public/              # Static assets
 │   └── dist/                # Build output
 ├── backend/                 # Django backend
 │   ├── portfolio_backend/   # Django project settings
@@ -100,49 +136,84 @@ CREATE TABLE pageviews_pageview (
 └── docker-compose.yml     # Docker configuration
 ```
 
-## Technologies Used
+## 🔧 Technologies Used
 
 ### Frontend
-- React 18
-- TypeScript
-- Material UI
-- Framer Motion
-- Vite
-- ESLint
-- Jest
+- React 18 with TypeScript
+- Material UI (with custom dark theme)
+- Framer Motion (animations)
+- Vite (build tool)
+- Axios (API calls)
 
 ### Backend
 - Django 4.2
 - Django REST Framework
-- PostgreSQL
+- PostgreSQL (Neon database)
 - Python 3.9+
 
 ### DevOps
-- Docker
-- CircleCI
-- GitHub Actions
+- Docker & Docker Compose
+- CircleCI (CI/CD)
+- ESLint & Prettier
 
-## Environment Variables
+## 🌐 Environment Configuration
 
-Create a `.env` file in the root directory with:
-
+The `.env` file contains:
 ```env
-DATABASE_URL=your_postgresql_connection_string
-SECRET_KEY=your_django_secret_key
-DEBUG=True
+DATABASE_URL=postgresql://...  # Neon database connection
+SECRET_KEY=your-secret-key     # Django secret key
+DEBUG=True                     # Debug mode
 FRONTEND_URL=http://localhost:3000
 BACKEND_URL=http://localhost:8000
 ```
 
-## Contributing
+## 🚨 Troubleshooting
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests for new functionality
-5. Run tests and linting
-6. Submit a pull request
+### Common Issues:
 
-## License
+**"npm start" doesn't work:**
+```bash
+npm run reset  # Clean and start fresh
+```
+
+**Frontend shows blank page:**
+- Check browser console (F12) for errors
+- Ensure both servers are running
+- Try refreshing the page
+
+**Backend API errors:**
+```bash
+npm run backend:migrate  # Apply database changes
+```
+
+**Port already in use:**
+- Frontend: Change port in `frontend/vite.config.ts`
+- Backend: Use `python manage.py runserver 8001`
+
+**Python virtual environment issues:**
+```bash
+cd backend
+rm -rf venv
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+## 📱 Features
+
+- **Page View Counter**: Animated counter in top-right corner
+- **Navigation**: Dropdown menus for Projects → MacroKit → curlGUI/MacroBoard
+- **Dark Theme**: Custom color palette using Material UI
+- **Responsive**: Works on desktop and mobile
+- **API Integration**: Real-time data from Django backend
+
+## 🎯 Next Steps
+
+1. **Create admin user**: `npm run backend:createsuperuser`
+2. **Access admin panel**: http://localhost:8000/admin
+3. **Add content**: Update components in `frontend/src/`
+4. **Deploy**: Use Docker or build for production
+
+## 📄 License
 
 MIT License - see LICENSE file for details 

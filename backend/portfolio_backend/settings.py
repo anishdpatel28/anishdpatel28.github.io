@@ -84,25 +84,15 @@ WSGI_APPLICATION = 'portfolio_backend.wsgi.application'
 
 tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
 
-# Filter out unsupported options for psycopg2
-query_params = dict(parse_qsl(tmpPostgres.query or ''))
-# Remove channel_binding as it's not supported by psycopg2
-if 'channel_binding' in query_params:
-    del query_params['channel_binding']
-
-# Add endpoint ID for Neon database
-if tmpPostgres.hostname and 'ep-curly-wind-aeu0b0l0' in tmpPostgres.hostname:
-    query_params['options'] = 'endpoint=ep-curly-wind-aeu0b0l0'
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': tmpPostgres.path.replace('/', '') if tmpPostgres.path else '',
+        'NAME': tmpPostgres.path.replace('/', ''),
         'USER': tmpPostgres.username,
         'PASSWORD': tmpPostgres.password,
         'HOST': tmpPostgres.hostname,
         'PORT': 5432,
-        'OPTIONS': query_params,
+        'OPTIONS': dict(parse_qsl(tmpPostgres.query)),
     }
 }
 
