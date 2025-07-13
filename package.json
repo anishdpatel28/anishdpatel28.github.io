@@ -1,0 +1,38 @@
+{
+  "name": "anishdpatel28-portfolio",
+  "version": "1.0.0",
+  "description": "Portfolio website for Anish Patel",
+  "main": "index.js",
+  "scripts": {
+    "install": "npm install --prefix frontend && cd backend && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt",
+    "dev": "concurrently \"npm run frontend:dev\" \"npm run backend:dev\"",
+    "frontend:dev": "cd frontend && npm run dev",
+    "backend:dev": "cd backend && source venv/bin/activate && python manage.py runserver",
+    "frontend:build": "cd frontend && npm run build",
+    "backend:migrate": "cd backend && source venv/bin/activate && python manage.py migrate",
+    "backend:makemigrations": "cd backend && source venv/bin/activate && python manage.py makemigrations",
+    "backend:createsuperuser": "cd backend && source venv/bin/activate && python manage.py createsuperuser",
+    "lint": "npm run frontend:lint",
+    "frontend:lint": "cd frontend && npm run lint",
+    "test": "npm run frontend:test && npm run backend:test",
+    "frontend:test": "cd frontend && npm run test",
+    "backend:test": "cd backend && source venv/bin/activate && python manage.py test",
+    "frontend:test:watch": "cd frontend && npm run test:watch",
+    "frontend:test:coverage": "cd frontend && npm run test:coverage",
+    "setup": "npm run install && npm run backend:makemigrations && npm run backend:migrate",
+    "start": "npm run dev",
+    "build": "npm run frontend:build",
+    "clean": "rm -rf frontend/node_modules frontend/dist backend/venv backend/__pycache__ backend/pageviews/__pycache__ backend/portfolio_backend/__pycache__"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "keywords": [
+    "portfolio",
+    "react",
+    "django",
+    "typescript"
+  ],
+  "author": "Anish Patel",
+  "license": "MIT"
+}
