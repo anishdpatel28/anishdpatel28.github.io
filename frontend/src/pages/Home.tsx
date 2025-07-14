@@ -1,22 +1,19 @@
 import { Box, Typography, Container, Card, CardContent, Avatar } from '@mui/material';
 import { motion } from 'framer-motion';
 import ScrollProgress from '@/components/ScrollProgress';
+import ParallaxSection from '@/components/ParallaxSection';
+import ProjectsParallax from '@/components/ProjectsParallax';
 
 const Home = () => {
   return (
     <Box>
       <ScrollProgress />
-      {/* Home Section - Full Screen */}
-      <Box
+
+      {/* Home Section - Parallax */}
+      <ParallaxSection
         id="home"
-        sx={{
-          height: '100vh',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: '#1b263b', // Darker navy background
-          background: 'linear-gradient(135deg, #1b263b 0%, #0d1b2a 100%)', // Subtle gradient
-        }}
+        speed={0.3}
+        backgroundColor="linear-gradient(135deg, #1b263b 0%, #0d1b2a 100%)"
       >
         <Container maxWidth="lg">
           <Box sx={{
@@ -89,7 +86,7 @@ const Home = () => {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 3.0 }}
+              transition={{ duration: 0.8, delay: 2.5 }}
               style={{ flex: 1, display: 'flex', justifyContent: 'center' }}
             >
               <Box sx={{
@@ -121,17 +118,13 @@ const Home = () => {
             </motion.div>
           </Box>
         </Container>
-      </Box>
+      </ParallaxSection>
 
-      {/* About Section */}
-      <Box
+      {/* About Section - Parallax */}
+      <ParallaxSection
         id="about"
-        sx={{
-          height: '100vh',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}
+        speed={0.2}
+        backgroundColor="linear-gradient(135deg, #2c3e50 0%, #34495e 100%)"
       >
         <Container maxWidth="lg">
           <motion.div
@@ -139,21 +132,25 @@ const Home = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <Card>
-              <CardContent>
-                <Typography variant="h4" gutterBottom>
+            <Card sx={{
+              backgroundColor: 'rgba(224, 225, 221, 0.05)',
+              backdropFilter: 'blur(10px)',
+              border: '1px solid rgba(224, 225, 221, 0.1)',
+            }}>
+              <CardContent sx={{ p: 4 }}>
+                <Typography variant="h4" gutterBottom sx={{ color: '#e0e1dd', fontWeight: 600 }}>
                   About Me
                 </Typography>
-                <Typography variant="body1" paragraph>
+                <Typography variant="body1" paragraph sx={{ color: 'rgba(224, 225, 221, 0.9)', lineHeight: 1.7 }}>
                   I&apos;m a Computer Science student at Rensselaer Polytechnic Institute with minors in
                   Cognitive Science of Artificial Intelligence and Information Technology and Web Science.
                 </Typography>
-                <Typography variant="body1" paragraph>
+                <Typography variant="body1" paragraph sx={{ color: 'rgba(224, 225, 221, 0.9)', lineHeight: 1.7 }}>
                   I have experience working as a Software Engineer Intern at Analog Devices and
                   Intuit Credit Karma, where I developed full-stack applications and gained proficiency
                   in modern web technologies.
                 </Typography>
-                <Typography variant="body1">
+                <Typography variant="body1" sx={{ color: 'rgba(224, 225, 221, 0.9)', lineHeight: 1.7 }}>
                   My interests include machine learning, artificial intelligence, and building
                   scalable web applications.
                 </Typography>
@@ -161,67 +158,34 @@ const Home = () => {
             </Card>
           </motion.div>
         </Container>
-      </Box>
+      </ParallaxSection>
 
-      {/* Projects Section */}
-      <Box
-        id="projects"
-        sx={{
-          height: '100vh',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}
-      >
-        <Container maxWidth="lg">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            <Card>
-              <CardContent>
-                <Typography variant="h4" gutterBottom>
-                  Skills & Technologies
-                </Typography>
-                <Typography variant="body1">
-                  <strong>Programming Languages:</strong> Python, JavaScript, TypeScript, Java, C, C++, CSS, HTML5
-                </Typography>
-                <Typography variant="body1" sx={{ mt: 1 }}>
-                  <strong>Frameworks & Libraries:</strong> React, Django, Node.js, OpenAPI, Material UI
-                </Typography>
-                <Typography variant="body1" sx={{ mt: 1 }}>
-                  <strong>Tools & Technologies:</strong> PostgreSQL, Docker, GitHub, VS Code, Jira, Figma, Postman
-                </Typography>
-              </CardContent>
-            </Card>
-          </motion.div>
-        </Container>
-      </Box>
+      {/* Projects Section - Special Parallax */}
+      <ProjectsParallax />
 
-      {/* Contact Section */}
-      <Box
+      {/* Contact Section - Parallax */}
+      <ParallaxSection
         id="contact"
-        sx={{
-          height: '100vh',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}
+        speed={0.2}
+        backgroundColor="linear-gradient(135deg, #1b263b 0%, #0d1b2a 100%)"
       >
         <Container maxWidth="lg">
-          <Card>
-            <CardContent>
-              <Typography variant="h4" gutterBottom>
+          <Card sx={{
+            backgroundColor: 'rgba(224, 225, 221, 0.05)',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(224, 225, 221, 0.1)',
+          }}>
+            <CardContent sx={{ p: 4 }}>
+              <Typography variant="h4" gutterBottom sx={{ color: '#e0e1dd', fontWeight: 600 }}>
                 Contact Me
               </Typography>
-              <Typography variant="body1">
+              <Typography variant="body1" sx={{ color: 'rgba(224, 225, 221, 0.9)', lineHeight: 1.7 }}>
                 Feel free to reach out for collaboration opportunities or just to connect!
               </Typography>
             </CardContent>
           </Card>
         </Container>
-      </Box>
+      </ParallaxSection>
     </Box>
   );
 };
