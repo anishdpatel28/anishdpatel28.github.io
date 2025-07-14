@@ -62,7 +62,7 @@ const Home = () => {
                       fontSize: { xs: '1.5rem', md: '2rem' }
                     }}
                   >
-                    I&apos;m a fullstack web developer
+                    I&apos;m a Fullstack Web Developer
                   </Typography>
                 </motion.div>
                 <motion.div
