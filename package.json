@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "setup": "npm run install-deps && npm run setup-db",
-    "install-deps": "npm install --prefix frontend && cd backend && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt",
+    "install-deps": "npm install && npm install --prefix frontend && cd backend && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt",
     "setup-db": "npm run backend:makemigrations && npm run backend:migrate",
     "dev": "concurrently \"npm run frontend:dev\" \"npm run backend:dev\"",
     "start": "npm run dev",
