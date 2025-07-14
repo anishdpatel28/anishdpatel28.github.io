@@ -1,7 +1,7 @@
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline, GlobalStyles } from '@mui/material';
 import { theme } from './themes/theme';
-import Navbar from './components/Navbar';
+import TimelineNavbar from './components/TimelineNavbar';
 import Home from './pages/Home';
 import CustomScrollbar from './components/CustomScrollbar';
 
@@ -21,10 +21,21 @@ function App() {
           },
           'html, body': {
             overflow: 'auto',
+          },
+          '@keyframes pulse': {
+            '0%': {
+              opacity: 1,
+            },
+            '50%': {
+              opacity: 0.3,
+            },
+            '100%': {
+              opacity: 1,
+            }
           }
         }}
       />
-      <Navbar />
+      <TimelineNavbar />
       <Home />
       <CustomScrollbar />
     </ThemeProvider>
