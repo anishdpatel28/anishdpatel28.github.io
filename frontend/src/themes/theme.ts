@@ -70,8 +70,9 @@ export const theme = createTheme({
     MuiAppBar: {
       styleOverrides: {
         root: {
-          backgroundColor: colors.navy,
-          borderBottom: `1px solid ${colors.slate}`,
+          backgroundColor: 'rgba(27, 38, 59, 0.8)',
+          backdropFilter: 'blur(10px)',
+          borderBottom: 'none',
         },
       },
     },
