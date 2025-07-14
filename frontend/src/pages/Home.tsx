@@ -28,55 +28,68 @@ const Home = () => {
             px: { xs: 2, md: 0 }
           }}>
             {/* Left side - Text content */}
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              style={{ flex: 1 }}
-            >
+            <Box style={{ flex: 1 }}>
               <Box sx={{ textAlign: { xs: 'center', md: 'left' } }}>
-                <Typography
-                  variant="h2"
-                  component="h1"
-                  sx={{
-                    fontWeight: 300,
-                    mb: 1,
-                    fontSize: { xs: '2rem', md: '3rem' }
-                  }}
+                <motion.div
+                  initial={{ opacity: 0, y: -30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.5 }}
                 >
-                  Hey, I&apos;m <Box component="span" sx={{ fontWeight: 600, color: '#e0e1dd' }}>Anish</Box>
-                </Typography>
-                <Typography
-                  variant="h4"
-                  component="h2"
-                  sx={{
-                    fontWeight: 500,
-                    mb: 3,
-                    color: 'text.secondary',
-                    fontSize: { xs: '1.5rem', md: '2rem' }
-                  }}
+                  <Typography
+                    variant="h2"
+                    component="h1"
+                    sx={{
+                      fontWeight: 300,
+                      mb: 1,
+                      fontSize: { xs: '2rem', md: '3rem' }
+                    }}
+                  >
+                    Hey, I&apos;m <Box component="span" sx={{ fontWeight: 600, color: '#e0e1dd' }}>Anish</Box>
+                  </Typography>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: -30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.8 }}
                 >
-                  I&apos;m a fullstack web developer
-                </Typography>
-                <Typography
-                  variant="h6"
-                  sx={{
-                    fontWeight: 400,
-                    opacity: 0.9,
-                    lineHeight: 1.6,
-                    maxWidth: { xs: '100%', md: '400px' }
-                  }}
+                  <Typography
+                    variant="h4"
+                    component="h2"
+                    sx={{
+                      fontWeight: 500,
+                      mb: 3,
+                      color: 'text.secondary',
+                      fontSize: { xs: '1.5rem', md: '2rem' }
+                    }}
+                  >
+                    I&apos;m a fullstack web developer
+                  </Typography>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: -30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 1.1 }}
                 >
-                  I love creating innovative digital experiences and bring ideas to life.
-                </Typography>
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      fontWeight: 400,
+                      opacity: 0.9,
+                      lineHeight: 1.6,
+                      maxWidth: { xs: '100%', md: '400px' }
+                    }}
+                  >
+                    I love creating innovative digital experiences and bring ideas to life.
+                  </Typography>
+                </motion.div>
               </Box>
-            </motion.div>
+            </Box>
 
             {/* Right side - Image placeholder */}
             <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 3.0 }}
               style={{ flex: 1, display: 'flex', justifyContent: 'center' }}
             >
               <Box sx={{

@@ -49,25 +49,29 @@ const NavbarPageViews = () => {
         setDisplayViews(Math.max(0, finalViews - 1));
         setIsLoaded(true);
 
-        // After a short delay, animate to actual views (only once)
+        // After a delay for other animations to complete, animate to actual views (only once)
         setTimeout(() => {
           if (isMounted && !hasAnimated) {
             animateToActualViews(finalViews);
             setHasAnimated(true);
           }
-        }, 500);
+        }, 500); // Short delay after component loads
       } catch (error) {
         console.error('Error with page views:', error);
         if (isMounted) setIsLoaded(true);
       }
     };
 
-    if (!hasAnimated) {
-      fetchAndHandlePageViews();
-    }
+    // Wait for other animations to complete before starting
+    const delayedStart = setTimeout(() => {
+      if (!hasAnimated && isMounted) {
+        fetchAndHandlePageViews();
+      }
+    }, 3800); // 3.8s delay to appear after profile image
 
     return () => {
       isMounted = false;
+      clearTimeout(delayedStart);
     };
   }, [hasAnimated, controls]);
 
