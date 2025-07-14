@@ -67,7 +67,7 @@ const NavbarPageViews = () => {
       if (!hasAnimated && isMounted) {
         fetchAndHandlePageViews();
       }
-    }, 3800); // 3.8s delay to appear after profile image
+    }, 1600);
 
     return () => {
       isMounted = false;
