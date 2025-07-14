@@ -33,7 +33,7 @@ const PageViews = () => {
           setPageViews(prev => prev + 1);
           setHasIncremented(true);
           sessionStorage.setItem(sessionKey, 'true');
-          
+
           controls.start({
             scale: [1, 1.2, 1],
             transition: { duration: 0.6, ease: "easeOut" }
@@ -48,10 +48,10 @@ const PageViews = () => {
   }, [hasIncremented, controls]);
 
   return (
-    <Box sx={{ 
-      position: 'fixed', 
-      top: 16, 
-      right: 16, 
+    <Box sx={{
+      position: 'fixed',
+      top: 16,
+      right: 16,
       zIndex: 1000,
       display: 'flex',
       alignItems: 'center',
