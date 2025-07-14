@@ -4,7 +4,7 @@
   "description": "Portfolio website for Anish Patel",
   "main": "index.js",
   "scripts": {
-    "setup": "npm run install-deps && npm run setup-db",
+    "setup": "npm run install-deps && npm run backend:migrate",
     "install-deps": "npm install && npm install --prefix frontend && cd backend && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt",
     "setup-db": "npm run backend:makemigrations && npm run backend:migrate",
     "dev": "concurrently \"npm run frontend:dev\" \"npm run backend:dev\"",
@@ -23,8 +23,7 @@
     "frontend:test:watch": "cd frontend && npm run test:watch",
     "frontend:test:coverage": "cd frontend && npm run test:coverage",
     "build": "npm run frontend:build",
-    "clean": "rm -rf frontend/node_modules frontend/dist backend/venv backend/__pycache__ backend/pageviews/__pycache__ backend/portfolio_backend/__pycache__",
-    "reset": "npm run clean && npm run setup"
+    "clean": "rm -rf frontend/node_modules frontend/dist backend/venv backend/__pycache__ backend/pageviews/__pycache__ backend/portfolio_backend/__pycache__"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
