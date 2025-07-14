@@ -130,149 +130,156 @@ const ProjectsParallax = () => {
             position: 'relative',
             height: { xs: '40vh', lg: '60vh' }
           }}>
+            {/* Carousel Wrapper with Navigation */}
             <Box sx={{
               position: 'relative',
-              width: 300,
-              height: 400,
-              perspective: '1000px'
+              display: 'flex',
+              alignItems: 'center',
+              gap: 8
             }}>
-              <motion.div
-                style={{
-                  position: 'relative',
-                  width: '100%',
-                  height: '100%',
-                  transformStyle: 'preserve-3d',
-                  transform: 'translateZ(-200px)'
-                }}
-                animate={{
-                  rotateY: rotation
-                }}
-                transition={{
-                  duration: 0.8,
-                  ease: [0.25, 0.1, 0.25, 1]
+              {/* Left Arrow */}
+              <IconButton
+                onClick={prevProject}
+                disabled={isAnimating}
+                sx={{
+                  backgroundColor: isAnimating ? 'rgba(224, 225, 221, 0.05)' : 'rgba(224, 225, 221, 0.1)',
+                  color: isAnimating ? 'rgba(224, 225, 221, 0.5)' : '#e0e1dd',
+                  cursor: isAnimating ? 'not-allowed' : 'pointer',
+                  '&:hover': {
+                    backgroundColor: isAnimating ? 'rgba(224, 225, 221, 0.05)' : 'rgba(224, 225, 221, 0.2)',
+                    transform: isAnimating ? 'none' : 'scale(1.1)'
+                  },
+                  '&:disabled': {
+                    color: 'rgba(224, 225, 221, 0.5)'
+                  },
+                  transition: 'all 0.2s ease',
+                  zIndex: 10
                 }}
               >
-                {projects.map((project, index) => {
-                  const rotationY = index * 90; // Fixed position for each card in cube
-                  const translateZ = 200; // Distance from center for cube formation
+                <ArrowBack />
+              </IconButton>
 
-                  return (
-                    <motion.div
-                      key={project.id}
-                      style={{
-                        position: 'absolute',
-                        width: '100%',
-                        height: '100%',
-                        borderRadius: '16px',
-                        cursor: 'pointer',
-                        transformStyle: 'preserve-3d',
-                        transform: `rotateY(${rotationY}deg) translateZ(${translateZ}px)`
-                      }}
-                      onClick={() => index !== currentProject && handleCardClick(index)}
-                    >
-                      <Card sx={{
-                        width: '100%',
-                        height: '100%',
-                        backgroundColor: project.color,
-                        background: `linear-gradient(135deg, ${project.color}, ${project.color}dd)`,
-                        border: '2px solid rgba(255, 255, 255, 0.2)',
-                        borderRadius: '16px',
-                        boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3), 0 15px 25px rgba(0, 0, 0, 0.2)',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        textAlign: 'center',
-                        position: 'relative',
-                        overflow: 'hidden',
-                        transform: 'translateZ(0)',
-                        backfaceVisibility: 'hidden',
-                        '&::before': {
-                          content: '""',
+              {/* 3D Carousel Container */}
+              <Box sx={{
+                position: 'relative',
+                width: 300,
+                height: 400,
+                perspective: '1000px'
+              }}>
+                <motion.div
+                  style={{
+                    position: 'relative',
+                    width: '100%',
+                    height: '100%',
+                    transformStyle: 'preserve-3d',
+                    transform: 'translateZ(-200px)'
+                  }}
+                  animate={{
+                    rotateY: rotation
+                  }}
+                  transition={{
+                    duration: 0.8,
+                    ease: [0.25, 0.1, 0.25, 1]
+                  }}
+                >
+                  {projects.map((project, index) => {
+                    const rotationY = index * 90;
+                    const translateZ = 200;
+
+                    return (
+                      <motion.div
+                        key={project.id}
+                        style={{
                           position: 'absolute',
-                          top: 0,
-                          left: 0,
-                          right: 0,
-                          bottom: 0,
-                          background: 'linear-gradient(145deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 50%, rgba(0,0,0,0.1) 100%)',
+                          width: '100%',
+                          height: '100%',
                           borderRadius: '16px',
-                          pointerEvents: 'none'
-                        }
-                      }}>
-                        <Box sx={{
-                          position: 'absolute',
-                          top: 0,
-                          left: 0,
-                          right: 0,
-                          bottom: 0,
-                          background: 'rgba(0, 0, 0, 0.3)',
-                          backdropFilter: 'blur(10px)'
-                        }} />
-                        <CardContent sx={{ position: 'relative', zIndex: 2, color: 'white' }}>
-                          <Typography variant="h5" sx={{ fontWeight: 700, mb: 2 }}>
-                            {project.title}
-                          </Typography>
-                          <Chip
-                            label={project.category}
-                            sx={{
-                              backgroundColor: 'rgba(255, 255, 255, 0.2)',
-                              color: 'white',
-                              fontWeight: 600
-                            }}
-                          />
-                        </CardContent>
-                      </Card>
-                    </motion.div>
-                  );
-                })}
-              </motion.div>
+                          cursor: 'pointer',
+                          transformStyle: 'preserve-3d',
+                          transform: `rotateY(${rotationY}deg) translateZ(${translateZ}px)`
+                        }}
+                        onClick={() => index !== currentProject && handleCardClick(index)}
+                      >
+                        <Card sx={{
+                          width: '100%',
+                          height: '100%',
+                          backgroundColor: project.color,
+                          background: `linear-gradient(135deg, ${project.color}, ${project.color}dd)`,
+                          border: '2px solid rgba(255, 255, 255, 0.2)',
+                          borderRadius: '16px',
+                          boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3), 0 15px 25px rgba(0, 0, 0, 0.2)',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          textAlign: 'center',
+                          position: 'relative',
+                          overflow: 'hidden',
+                          transform: 'translateZ(0)',
+                          backfaceVisibility: 'hidden',
+                          '&::before': {
+                            content: '""',
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            background: 'linear-gradient(145deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 50%, rgba(0,0,0,0.1) 100%)',
+                            borderRadius: '16px',
+                            pointerEvents: 'none'
+                          }
+                        }}>
+                          <Box sx={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            background: 'rgba(0, 0, 0, 0.3)',
+                            backdropFilter: 'blur(10px)'
+                          }} />
+                          <CardContent sx={{ position: 'relative', zIndex: 2, color: 'white' }}>
+                            <Typography variant="h5" sx={{ fontWeight: 700, mb: 2 }}>
+                              {project.title}
+                            </Typography>
+                            <Chip
+                              label={project.category}
+                              sx={{
+                                backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                                color: 'white',
+                                fontWeight: 600
+                              }}
+                            />
+                          </CardContent>
+                        </Card>
+                      </motion.div>
+                    );
+                  })}
+                </motion.div>
+              </Box>
+
+              {/* Right Arrow */}
+              <IconButton
+                onClick={nextProject}
+                disabled={isAnimating}
+                sx={{
+                  backgroundColor: isAnimating ? 'rgba(224, 225, 221, 0.05)' : 'rgba(224, 225, 221, 0.1)',
+                  color: isAnimating ? 'rgba(224, 225, 221, 0.5)' : '#e0e1dd',
+                  cursor: isAnimating ? 'not-allowed' : 'pointer',
+                  '&:hover': {
+                    backgroundColor: isAnimating ? 'rgba(224, 225, 221, 0.05)' : 'rgba(224, 225, 221, 0.2)',
+                    transform: isAnimating ? 'none' : 'scale(1.1)'
+                  },
+                  '&:disabled': {
+                    color: 'rgba(224, 225, 221, 0.5)'
+                  },
+                  transition: 'all 0.2s ease',
+                  zIndex: 10
+                }}
+              >
+                <ArrowForward />
+              </IconButton>
             </Box>
-
-            <IconButton
-              onClick={prevProject}
-              disabled={isAnimating}
-              sx={{
-                position: 'absolute',
-                left: -8,
-                backgroundColor: isAnimating ? 'rgba(224, 225, 221, 0.05)' : 'rgba(224, 225, 221, 0.1)',
-                color: isAnimating ? 'rgba(224, 225, 221, 0.5)' : '#e0e1dd',
-                cursor: isAnimating ? 'not-allowed' : 'pointer',
-                '&:hover': {
-                  backgroundColor: isAnimating ? 'rgba(224, 225, 221, 0.05)' : 'rgba(224, 225, 221, 0.2)',
-                  transform: isAnimating ? 'none' : 'scale(1.1)'
-                },
-                '&:disabled': {
-                  color: 'rgba(224, 225, 221, 0.5)'
-                },
-                transition: 'all 0.2s ease',
-                zIndex: 10
-              }}
-            >
-              <ArrowBack />
-            </IconButton>
-
-            <IconButton
-              onClick={nextProject}
-              disabled={isAnimating}
-              sx={{
-                position: 'absolute',
-                right: -8,
-                backgroundColor: isAnimating ? 'rgba(224, 225, 221, 0.05)' : 'rgba(224, 225, 221, 0.1)',
-                color: isAnimating ? 'rgba(224, 225, 221, 0.5)' : '#e0e1dd',
-                cursor: isAnimating ? 'not-allowed' : 'pointer',
-                '&:hover': {
-                  backgroundColor: isAnimating ? 'rgba(224, 225, 221, 0.05)' : 'rgba(224, 225, 221, 0.2)',
-                  transform: isAnimating ? 'none' : 'scale(1.1)'
-                },
-                '&:disabled': {
-                  color: 'rgba(224, 225, 221, 0.5)'
-                },
-                transition: 'all 0.2s ease',
-                zIndex: 10
-              }}
-            >
-              <ArrowForward />
-            </IconButton>
           </Box>
 
           {/* Project Details */}
