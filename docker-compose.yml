@@ -8,16 +8,16 @@ services:
     depends_on:
       - backend
     environment:
-      - REACT_APP_API_URL=http://localhost:8000/api
+      - BACKEND_URL=${BACKEND_URL}
 
   backend:
     build: ./backend
     ports:
       - "8000:8000"
     environment:
-      - DATABASE_URL=postgresql://neondb_owner:npg_TKPdR5mGHy0C@ep-curly-wind-aeu0b0l0-pooler.c-2.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require
-      - SECRET_KEY=your-secret-key-here
-      - DEBUG=True
+      - DATABASE_URL=${DATABASE_URL}
+      - SECRET_KEY=${SECRET_KEY}
+      - DEBUG=${DEBUG}
     volumes:
       - ./backend:/app
     command: >
