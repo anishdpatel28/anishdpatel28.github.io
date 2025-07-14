@@ -1,26 +1,32 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ThemeProvider, CssBaseline, Box } from '@mui/material';
-import { theme } from '@/themes/theme';
-import Navbar from '@/components/Navbar';
-import Home from '@/pages/Home';
+import { ThemeProvider } from '@mui/material/styles';
+import { CssBaseline, GlobalStyles } from '@mui/material';
+import { theme } from './themes/theme';
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
+import CustomScrollbar from './components/CustomScrollbar';
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Router>
-        <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-          <Navbar />
-          <Box component="main" sx={{ flexGrow: 1 }}>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<div>About Page (Coming Soon)</div>} />
-              <Route path="/projects" element={<div>Projects Page (Coming Soon)</div>} />
-              <Route path="/contact" element={<div>Contact Page (Coming Soon)</div>} />
-            </Routes>
-          </Box>
-        </Box>
-      </Router>
+      <GlobalStyles
+        styles={{
+          // Hide default scrollbar
+          '*::-webkit-scrollbar': {
+            display: 'none',
+          },
+          '*': {
+            '-ms-overflow-style': 'none',
+            'scrollbar-width': 'none',
+          },
+          'html, body': {
+            overflow: 'auto',
+          }
+        }}
+      />
+      <Navbar />
+      <Home />
+      <CustomScrollbar />
     </ThemeProvider>
   );
 }
