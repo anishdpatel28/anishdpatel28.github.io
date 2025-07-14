@@ -1,10 +1,11 @@
 from django.db import models
 from django.utils import timezone
 
+
 class PageView(models.Model):
-    count = models.IntegerField(default=0)
-    created_at = models.DateTimeField(default=timezone.now)
-    updated_at = models.DateTimeField(auto_now=True)
+    count = models.IntegerField(default=0)  # type: ignore
+    created_at = models.DateTimeField(default=timezone.now)  # type: ignore
+    updated_at = models.DateTimeField(auto_now=True)  # type: ignore
 
     def __str__(self) -> str:
         return f"Page Views: {self.count}"
