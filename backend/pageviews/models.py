@@ -6,16 +6,16 @@ class PageView(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Page Views: {self.count}"
 
     @classmethod
-    def get_count(cls):
+    def get_count(cls) -> int:
         obj, created = cls.objects.get_or_create(pk=1)
         return obj.count
 
     @classmethod
-    def increment_count(cls):
+    def increment_count(cls) -> int:
         obj, created = cls.objects.get_or_create(pk=1)
         obj.count += 1
         obj.save()
