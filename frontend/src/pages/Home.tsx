@@ -32,7 +32,7 @@ const Home = () => {
               Anish Patel
             </Typography>
             <Typography variant="body1" sx={{ maxWidth: 600, mx: 'auto', mb: 4 }}>
-              Computer Science student at Rensselaer Polytechnic Institute with experience in 
+              Computer Science student at Rensselaer Polytechnic Institute with experience in
               full-stack development, machine learning, and cloud platform engineering.
             </Typography>
           </Box>
@@ -49,16 +49,16 @@ const Home = () => {
                 About Me
               </Typography>
               <Typography variant="body1" paragraph>
-                I'm a Computer Science student at Rensselaer Polytechnic Institute with minors in 
+                I&apos;m a Computer Science student at Rensselaer Polytechnic Institute with minors in
                 Cognitive Science of Artificial Intelligence and Information Technology and Web Science.
               </Typography>
               <Typography variant="body1" paragraph>
-                I have experience working as a Software Engineer Intern at Analog Devices and 
-                Intuit Credit Karma, where I developed full-stack applications and gained proficiency 
+                I have experience working as a Software Engineer Intern at Analog Devices and
+                Intuit Credit Karma, where I developed full-stack applications and gained proficiency
                 in modern web technologies.
               </Typography>
               <Typography variant="body1">
-                My interests include machine learning, artificial intelligence, and building 
+                My interests include machine learning, artificial intelligence, and building
                 scalable web applications.
               </Typography>
             </CardContent>
