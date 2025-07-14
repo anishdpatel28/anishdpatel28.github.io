@@ -1,136 +1,226 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   AppBar,
   Toolbar,
   Typography,
   Button,
-  Menu,
-  MenuItem,
   Box,
   IconButton,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
 } from '@mui/material';
-import { Menu as MenuIcon, ExpandMore } from '@mui/icons-material';
-import { Link, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { Menu as MenuIcon, Close } from '@mui/icons-material';
+import NavbarPageViews from './NavbarPageViews';
 
 const Navbar = () => {
-  const [projectsAnchorEl, setProjectsAnchorEl] = useState<null | HTMLElement>(null);
-  const [macroKitAnchorEl, setMacroKitAnchorEl] = useState<null | HTMLElement>(null);
-  const navigate = useNavigate();
+  const [activeSection, setActiveSection] = useState('home');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const handleProjectsClick = (event: React.MouseEvent<HTMLElement>) => {
-    setProjectsAnchorEl(event.currentTarget);
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ['home', 'about', 'projects', 'contact'];
+      const scrollPosition = window.scrollY + 100; // Offset for navbar height
+
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const offsetTop = element.offsetTop;
+          const offsetHeight = element.offsetHeight;
+
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+            setActiveSection(section);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Check initial position
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Close mobile menu when screen becomes wide enough for desktop nav
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 900 && mobileMenuOpen) { // md breakpoint
+        setMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [mobileMenuOpen]);
+
+  const handleMobileMenuToggle = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
   };
 
-  const handleMacroKitClick = (event: React.MouseEvent<HTMLElement>) => {
-    setMacroKitAnchorEl(event.currentTarget);
+  const handleMobileNavClick = (sectionId: string) => {
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+    setMobileMenuOpen(false);
   };
 
-  const handleClose = () => {
-    setProjectsAnchorEl(null);
-    setMacroKitAnchorEl(null);
-  };
-
-  const handleProjectNavigation = (projectId: string) => {
-    navigate(`/projects#${projectId}`);
-    handleClose();
-  };
+  const getButtonStyles = (section: string) => ({
+    color: 'inherit',
+    position: 'relative' as const,
+    '&::after': activeSection === section ? {
+      content: '""',
+      position: 'absolute',
+      bottom: -2,
+      left: '50%',
+      transform: 'translateX(-50%)',
+      width: '80%',
+      height: 2,
+      backgroundColor: '#e0e1dd',
+      borderRadius: 1,
+    } : {},
+    '&:hover': {
+      backgroundColor: 'rgba(224, 225, 221, 0.1)',
+    },
+  });
 
   return (
-    <AppBar position="static" elevation={0}>
-      <Toolbar>
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <Typography variant="h6" component={Link} to="/" sx={{ 
-            textDecoration: 'none', 
+    <AppBar
+      position="fixed"
+      elevation={0}
+      sx={{
+        backgroundColor: 'rgba(27, 38, 59, 0.8)', // Navy with 80% opacity
+        backdropFilter: 'blur(10px)', // Add subtle blur effect
+        top: 0,
+        zIndex: 1100,
+      }}
+    >
+      <Toolbar
+        sx={{
+          px: 0,
+          maxWidth: '1000px',
+          width: '100%',
+          mx: 'auto',
+          justifyContent: 'space-between'
+        }}
+      >
+        <Typography
+          variant="h6"
+          onClick={() => document.getElementById('home')?.scrollIntoView({ behavior: 'smooth' })}
+          sx={{
+            textDecoration: 'none',
             color: 'inherit',
-            flexGrow: 1,
             fontWeight: 600,
-          }}>
-            Anish Patel
-          </Typography>
-        </motion.div>
-        
-        <Box sx={{ flexGrow: 1 }} />
-        
-        <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-          <Button color="inherit" component={Link} to="/">
+            ml: 2,
+            cursor: 'pointer',
+            '&:hover': {
+              opacity: 0.8,
+            },
+          }}
+        >
+          Anish Patel
+        </Typography>
+
+        <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 2 }}>
+          <NavbarPageViews />
+          <Button
+            onClick={() => document.getElementById('home')?.scrollIntoView({ behavior: 'smooth' })}
+            sx={getButtonStyles('home')}
+          >
             Home
           </Button>
-          <Button color="inherit" component={Link} to="/about">
+          <Button
+            onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
+            sx={getButtonStyles('about')}
+          >
             About
           </Button>
           <Button
-            color="inherit"
-            onClick={handleProjectsClick}
-            endIcon={<ExpandMore />}
+            onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
+            sx={getButtonStyles('projects')}
           >
             Projects
           </Button>
-          <Button color="inherit" component={Link} to="/contact">
+          <Button
+            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+            sx={getButtonStyles('contact')}
+          >
             Contact
           </Button>
         </Box>
 
         <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-          <IconButton color="inherit">
+          <IconButton color="inherit" onClick={handleMobileMenuToggle}>
             <MenuIcon />
           </IconButton>
         </Box>
 
-        <Menu
-          anchorEl={projectsAnchorEl}
-          open={Boolean(projectsAnchorEl)}
-          onClose={handleClose}
+        {/* Mobile Menu Drawer */}
+        <Drawer
+          anchor="right"
+          open={mobileMenuOpen}
+          onClose={handleMobileMenuToggle}
           PaperProps={{
             sx: {
-              mt: 1.5,
-              minWidth: 200,
+              backgroundColor: '#1b263b',
+              color: '#e0e1dd',
+              width: 200,
             },
           }}
         >
-          <MenuItem onClick={handleMacroKitClick}>
-            MacroKit
-            <ExpandMore sx={{ ml: 'auto' }} />
-          </MenuItem>
-          <MenuItem onClick={() => handleProjectNavigation('machine-learning')}>
-            Machine Learning Projects
-          </MenuItem>
-          <MenuItem onClick={() => handleProjectNavigation('web-projects')}>
-            Web Development Projects
-          </MenuItem>
-        </Menu>
+          <Box sx={{ p: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Typography variant="h6" sx={{ color: '#e0e1dd' }}>
+              Menu
+            </Typography>
+            <IconButton color="inherit" onClick={handleMobileMenuToggle}>
+              <Close />
+            </IconButton>
+          </Box>
+          <List>
+            <ListItem disablePadding>
+              <ListItemButton
+                onClick={() => handleMobileNavClick('home')}
+                sx={{
+                  backgroundColor: activeSection === 'home' ? 'rgba(224, 225, 221, 0.1)' : 'transparent'
+                }}
+              >
+                <ListItemText primary="Home" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton
+                onClick={() => handleMobileNavClick('about')}
+                sx={{
+                  backgroundColor: activeSection === 'about' ? 'rgba(224, 225, 221, 0.1)' : 'transparent'
+                }}
+              >
+                <ListItemText primary="About" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton
+                onClick={() => handleMobileNavClick('projects')}
+                sx={{
+                  backgroundColor: activeSection === 'projects' ? 'rgba(224, 225, 221, 0.1)' : 'transparent'
+                }}
+              >
+                <ListItemText primary="Projects" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton
+                onClick={() => handleMobileNavClick('contact')}
+                sx={{
+                  backgroundColor: activeSection === 'contact' ? 'rgba(224, 225, 221, 0.1)' : 'transparent'
+                }}
+              >
+                <ListItemText primary="Contact" />
+              </ListItemButton>
+            </ListItem>
+          </List>
+        </Drawer>
 
-        <Menu
-          anchorEl={macroKitAnchorEl}
-          open={Boolean(macroKitAnchorEl)}
-          onClose={handleClose}
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'left',
-          }}
-          PaperProps={{
-            sx: {
-              mt: 0,
-              ml: 1,
-              minWidth: 160,
-            },
-          }}
-        >
-          <MenuItem onClick={() => handleProjectNavigation('curlGUI')}>
-            curlGUI
-          </MenuItem>
-          <MenuItem onClick={() => handleProjectNavigation('MacroBoard')}>
-            MacroBoard
-          </MenuItem>
-        </Menu>
+
       </Toolbar>
     </AppBar>
   );
