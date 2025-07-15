@@ -116,26 +116,28 @@ const ProjectsParallax = () => {
         <Box sx={{
           display: 'flex',
           alignItems: 'center',
-          gap: 6,
-          height: '80vh',
-          flexDirection: { xs: 'column', lg: 'row' }
+          gap: { xs: 6, lg: 6 },
+          height: { xs: 'auto', lg: '80vh' },
+          flexDirection: { xs: 'column', lg: 'row' },
+          py: { xs: 3, lg: 0 }
         }}>
 
           {/* 3D Carousel */}
           <Box sx={{
-            flex: 1,
+            flex: { xs: 'none', lg: 1 },
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             position: 'relative',
-            height: { xs: '40vh', lg: '60vh' }
+            height: { xs: 'auto', lg: '60vh' },
+            width: '100%'
           }}>
             {/* Carousel Wrapper with Navigation */}
             <Box sx={{
               position: 'relative',
               display: 'flex',
               alignItems: 'center',
-              gap: 8
+              gap: { xs: 2, lg: 8 }
             }}>
               {/* Left Arrow */}
               <IconButton
@@ -145,6 +147,8 @@ const ProjectsParallax = () => {
                   backgroundColor: isAnimating ? 'rgba(224, 225, 221, 0.05)' : 'rgba(224, 225, 221, 0.1)',
                   color: isAnimating ? 'rgba(224, 225, 221, 0.5)' : '#e0e1dd',
                   cursor: isAnimating ? 'not-allowed' : 'pointer',
+                  width: { xs: 36, lg: 40 },
+                  height: { xs: 36, lg: 40 },
                   '&:hover': {
                     backgroundColor: isAnimating ? 'rgba(224, 225, 221, 0.05)' : 'rgba(224, 225, 221, 0.2)',
                     transform: isAnimating ? 'none' : 'scale(1.1)'
@@ -162,9 +166,9 @@ const ProjectsParallax = () => {
               {/* 3D Carousel Container */}
               <Box sx={{
                 position: 'relative',
-                width: 300,
-                height: 400,
-                perspective: '1000px'
+                width: { xs: 180, lg: 300 },
+                height: { xs: 240, lg: 400 },
+                perspective: '800px'
               }}>
                 <motion.div
                   style={{
@@ -172,7 +176,7 @@ const ProjectsParallax = () => {
                     width: '100%',
                     height: '100%',
                     transformStyle: 'preserve-3d',
-                    transform: 'translateZ(-200px)'
+                    transform: 'translateZ(-120px)'
                   }}
                   animate={{
                     rotateY: rotation
@@ -184,7 +188,7 @@ const ProjectsParallax = () => {
                 >
                   {projects.map((project, index) => {
                     const rotationY = index * 90;
-                    const translateZ = 200;
+                    const translateZ = 120;
 
                     return (
                       <motion.div
@@ -266,6 +270,8 @@ const ProjectsParallax = () => {
                   backgroundColor: isAnimating ? 'rgba(224, 225, 221, 0.05)' : 'rgba(224, 225, 221, 0.1)',
                   color: isAnimating ? 'rgba(224, 225, 221, 0.5)' : '#e0e1dd',
                   cursor: isAnimating ? 'not-allowed' : 'pointer',
+                  width: { xs: 36, lg: 40 },
+                  height: { xs: 36, lg: 40 },
                   '&:hover': {
                     backgroundColor: isAnimating ? 'rgba(224, 225, 221, 0.05)' : 'rgba(224, 225, 221, 0.2)',
                     transform: isAnimating ? 'none' : 'scale(1.1)'
@@ -283,7 +289,12 @@ const ProjectsParallax = () => {
           </Box>
 
           {/* Project Details */}
-          <Box sx={{ flex: 1, minHeight: { xs: 'auto', lg: '60vh' } }}>
+          <Box sx={{
+            flex: { xs: 'none', lg: 1 },
+            minHeight: { xs: 'auto', lg: '60vh' },
+            width: { xs: '100%', lg: 'auto' },
+            maxWidth: { xs: '100%', lg: 'none' }
+          }}>
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentProject}
@@ -298,10 +309,18 @@ const ProjectsParallax = () => {
                   border: '1px solid rgba(224, 225, 221, 0.1)',
                   height: '100%'
                 }}>
-                  <CardContent sx={{ p: 4 }}>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 3 }}>
+                  <CardContent sx={{ p: { xs: 1.5, lg: 4 } }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: { xs: 1.5, lg: 3 } }}>
                       <Box>
-                        <Typography variant="h4" sx={{ color: '#e0e1dd', fontWeight: 700, mb: 1 }}>
+                        <Typography
+                          variant="h4"
+                          sx={{
+                            color: '#e0e1dd',
+                            fontWeight: 700,
+                            mb: 1,
+                            fontSize: { xs: '1.25rem', lg: '2.125rem' }
+                          }}
+                        >
                           {projects[currentProject].title}
                         </Typography>
                         <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
@@ -311,7 +330,8 @@ const ProjectsParallax = () => {
                             sx={{
                               backgroundColor: projects[currentProject].color,
                               color: 'white',
-                              fontWeight: 600
+                              fontWeight: 600,
+                              fontSize: { xs: '0.7rem', lg: '0.8125rem' }
                             }}
                           />
                           <Chip
@@ -320,7 +340,8 @@ const ProjectsParallax = () => {
                             variant="outlined"
                             sx={{
                               borderColor: 'rgba(224, 225, 221, 0.3)',
-                              color: '#e0e1dd'
+                              color: '#e0e1dd',
+                              fontSize: { xs: '0.7rem', lg: '0.8125rem' }
                             }}
                           />
                         </Box>
@@ -329,17 +350,17 @@ const ProjectsParallax = () => {
 
                     <Typography variant="body1" sx={{
                       color: 'rgba(224, 225, 221, 0.9)',
-                      lineHeight: 1.7,
-                      fontSize: '1.1rem',
-                      mb: 4
+                      lineHeight: 1.6,
+                      fontSize: { xs: '0.85rem', lg: '1.1rem' },
+                      mb: { xs: 1.5, lg: 4 }
                     }}>
                       {projects[currentProject].description}
                     </Typography>
 
-                    <Typography variant="h6" sx={{ color: '#e0e1dd', mb: 2, fontWeight: 600 }}>
+                    <Typography variant="h6" sx={{ color: '#e0e1dd', mb: { xs: 1, lg: 2 }, fontWeight: 600, fontSize: { xs: '0.9rem', lg: '1.25rem' } }}>
                       Technologies
                     </Typography>
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 4 }}>
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: { xs: 1.5, lg: 4 } }}>
                       {projects[currentProject].technologies.map((tech, index) => (
                         <Chip
                           key={index}
@@ -349,6 +370,7 @@ const ProjectsParallax = () => {
                           sx={{
                             borderColor: 'rgba(224, 225, 221, 0.3)',
                             color: '#e0e1dd',
+                            fontSize: { xs: '0.7rem', lg: '0.8125rem' },
                             '&:hover': {
                               backgroundColor: 'rgba(224, 225, 221, 0.1)',
                             }
@@ -357,12 +379,14 @@ const ProjectsParallax = () => {
                       ))}
                     </Box>
 
-                    <Box sx={{ display: 'flex', gap: 2 }}>
+                    <Box sx={{ display: 'flex', gap: { xs: 1, lg: 2 }, flexDirection: { xs: 'column', sm: 'row' } }}>
                       <Button
                         variant="contained"
                         startIcon={<Launch />}
                         sx={{
                           backgroundColor: projects[currentProject].color,
+                          fontSize: { xs: '0.8rem', lg: '0.875rem' },
+                          py: { xs: 1, lg: 1.5 },
                           '&:hover': {
                             backgroundColor: projects[currentProject].color + 'dd'
                           }
@@ -376,6 +400,8 @@ const ProjectsParallax = () => {
                         sx={{
                           borderColor: 'rgba(224, 225, 221, 0.3)',
                           color: '#e0e1dd',
+                          fontSize: { xs: '0.8rem', lg: '0.875rem' },
+                          py: { xs: 1, lg: 1.5 },
                           '&:hover': {
                             backgroundColor: 'rgba(224, 225, 221, 0.1)',
                             borderColor: '#e0e1dd'
