@@ -52,14 +52,14 @@ const ProjectsParallax = () => {
 
   const nextProject = () => {
     const newProject = (currentProject + 1) % projects.length;
-    setRotation(prev => prev + 90);
     setCurrentProject(newProject);
+    setRotation(prev => prev - 90);
   };
 
   const prevProject = () => {
     const newProject = (currentProject - 1 + projects.length) % projects.length;
-    setRotation(prev => prev - 90);
     setCurrentProject(newProject);
+    setRotation(prev => prev + 90);
   };
 
   const handleCardClick = (targetIndex: number) => {
@@ -74,8 +74,8 @@ const ProjectsParallax = () => {
       diff += totalCards;
     }
 
-    setRotation(prev => prev + (diff * 90));
     setCurrentProject(targetIndex);
+    setRotation(prev => prev - (diff * 90));
   };
 
 
