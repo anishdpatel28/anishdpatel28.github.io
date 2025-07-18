@@ -21,22 +21,36 @@ const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      const sections = ['home', 'about', 'projects', 'contact'];
-      const scrollPosition = window.scrollY + 100; // 100px offset
-
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const element = document.getElementById(sections[i]);
-        if (element && scrollPosition >= element.offsetTop) {
-          setActiveSection(sections[i]);
-          break;
-        }
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const sections = ['home', 'about', 'projects', 'resume', 'contact'];
+          const scrollPosition = window.scrollY + 100;
+          let currentSection = 'home';
+          for (let i = 0; i < sections.length; i++) {
+            const section = document.getElementById(sections[i]);
+            if (section) {
+              const sectionTop = section.offsetTop;
+              const sectionHeight = section.offsetHeight;
+              const sectionBottom = sectionTop + sectionHeight;
+              if (scrollPosition >= sectionTop) {
+                currentSection = sections[i];
+              } else {
+                break;
+              }
+            }
+          }
+          setActiveSection(currentSection);
+          ticking = false;
+        });
+        ticking = true;
       }
     };
-
     window.addEventListener('scroll', handleScroll);
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [activeSection]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -44,7 +58,6 @@ const Navbar = () => {
         setMobileOpen(false);
       }
     };
-
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, [mobileOpen]);
@@ -103,7 +116,8 @@ const Navbar = () => {
     { id: 'home', label: 'Home', delay: 1.55 },
     { id: 'about', label: 'About', delay: 1.7 },
     { id: 'projects', label: 'Projects', delay: 1.85 },
-    { id: 'contact', label: 'Contact', delay: 2.0 }
+    { id: 'resume', label: 'Resume', delay: 2.0 },
+    { id: 'contact', label: 'Contact', delay: 2.15 }
   ];
 
   return (
@@ -141,11 +155,10 @@ const Navbar = () => {
                 Anish Patel
               </Typography>
             </motion.div>
-
             <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1, alignItems: 'center' }}>
               {navItems.map((item, index) => (
                 <React.Fragment key={item.id}>
-                  {index === 0 && <NavbarPageViews />}
+                  {index === 0 && <NavbarPageViews activeSection={activeSection} />}
                   <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -161,7 +174,6 @@ const Navbar = () => {
                 </React.Fragment>
               ))}
             </Box>
-
             <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
               <motion.div
                 initial={{ opacity: 0, y: -20 }}
@@ -181,8 +193,6 @@ const Navbar = () => {
           </Toolbar>
         </Box>
       </AppBar>
-
-      {/* Mobile Menu Drawer */}
       <Drawer
         anchor="right"
         open={mobileOpen}
@@ -232,6 +242,16 @@ const Navbar = () => {
               }}
             >
               <ListItemText primary="Projects" />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton
+              onClick={() => handleMobileNavClick('resume')}
+              sx={{
+                backgroundColor: activeSection === 'resume' ? 'rgba(224, 225, 221, 0.1)' : 'transparent'
+              }}
+            >
+              <ListItemText primary="Resume" />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
