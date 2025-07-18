@@ -6,7 +6,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 const ProjectsParallax = () => {
   const [currentProject, setCurrentProject] = useState(0);
   const [rotation, setRotation] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(false);
 
   const projects = [
     {
@@ -52,39 +51,23 @@ const ProjectsParallax = () => {
   ];
 
   const nextProject = () => {
-    if (isAnimating) return;
-
-    setIsAnimating(true);
     const newProject = (currentProject + 1) % projects.length;
     setRotation(prev => prev + 90);
     setCurrentProject(newProject);
-
-    // Reset animation state after transition completes
-    setTimeout(() => setIsAnimating(false), 800);
   };
 
   const prevProject = () => {
-    if (isAnimating) return;
-
-    setIsAnimating(true);
     const newProject = (currentProject - 1 + projects.length) % projects.length;
     setRotation(prev => prev - 90);
     setCurrentProject(newProject);
-
-    // Reset animation state after transition completes
-    setTimeout(() => setIsAnimating(false), 800);
   };
 
   const handleCardClick = (targetIndex: number) => {
-    if (targetIndex === currentProject || isAnimating) return;
+    if (targetIndex === currentProject) return;
 
-    setIsAnimating(true);
-
-    // Calculate the shortest rotation direction
     const totalCards = projects.length;
     let diff = targetIndex - currentProject;
 
-    // Normalize the difference to [-2, 2] for a 4-card carousel
     if (diff > totalCards / 2) {
       diff -= totalCards;
     } else if (diff < -totalCards / 2) {
@@ -93,9 +76,6 @@ const ProjectsParallax = () => {
 
     setRotation(prev => prev + (diff * 90));
     setCurrentProject(targetIndex);
-
-    // Reset animation state after transition completes
-    setTimeout(() => setIsAnimating(false), 800);
   };
 
 
@@ -137,24 +117,19 @@ const ProjectsParallax = () => {
               position: 'relative',
               display: 'flex',
               alignItems: 'center',
-              gap: { xs: 2, lg: 8 }
+              gap: { xs: 6, lg: 8 }
             }}>
               {/* Left Arrow */}
               <IconButton
                 onClick={prevProject}
-                disabled={isAnimating}
                 sx={{
-                  backgroundColor: isAnimating ? 'rgba(224, 225, 221, 0.05)' : 'rgba(224, 225, 221, 0.1)',
-                  color: isAnimating ? 'rgba(224, 225, 221, 0.5)' : '#e0e1dd',
-                  cursor: isAnimating ? 'not-allowed' : 'pointer',
+                  backgroundColor: 'rgba(224, 225, 221, 0.1)',
+                  color: '#e0e1dd',
                   width: { xs: 36, lg: 40 },
                   height: { xs: 36, lg: 40 },
                   '&:hover': {
-                    backgroundColor: isAnimating ? 'rgba(224, 225, 221, 0.05)' : 'rgba(224, 225, 221, 0.2)',
-                    transform: isAnimating ? 'none' : 'scale(1.1)'
-                  },
-                  '&:disabled': {
-                    color: 'rgba(224, 225, 221, 0.5)'
+                    backgroundColor: 'rgba(224, 225, 221, 0.2)',
+                    transform: 'scale(1.1)'
                   },
                   transition: 'all 0.2s ease',
                   zIndex: 10
@@ -176,7 +151,7 @@ const ProjectsParallax = () => {
                     width: '100%',
                     height: '100%',
                     transformStyle: 'preserve-3d',
-                    transform: 'translateZ(-120px)'
+                    transform: 'translateZ(-200px)'
                   }}
                   animate={{
                     rotateY: rotation
@@ -188,7 +163,7 @@ const ProjectsParallax = () => {
                 >
                   {projects.map((project, index) => {
                     const rotationY = index * 90;
-                    const translateZ = 120;
+                    const translateZ = 200;
 
                     return (
                       <motion.div
@@ -265,19 +240,14 @@ const ProjectsParallax = () => {
               {/* Right Arrow */}
               <IconButton
                 onClick={nextProject}
-                disabled={isAnimating}
                 sx={{
-                  backgroundColor: isAnimating ? 'rgba(224, 225, 221, 0.05)' : 'rgba(224, 225, 221, 0.1)',
-                  color: isAnimating ? 'rgba(224, 225, 221, 0.5)' : '#e0e1dd',
-                  cursor: isAnimating ? 'not-allowed' : 'pointer',
+                  backgroundColor: 'rgba(224, 225, 221, 0.1)',
+                  color: '#e0e1dd',
                   width: { xs: 36, lg: 40 },
                   height: { xs: 36, lg: 40 },
                   '&:hover': {
-                    backgroundColor: isAnimating ? 'rgba(224, 225, 221, 0.05)' : 'rgba(224, 225, 221, 0.2)',
-                    transform: isAnimating ? 'none' : 'scale(1.1)'
-                  },
-                  '&:disabled': {
-                    color: 'rgba(224, 225, 221, 0.5)'
+                    backgroundColor: 'rgba(224, 225, 221, 0.2)',
+                    transform: 'scale(1.1)'
                   },
                   transition: 'all 0.2s ease',
                   zIndex: 10
