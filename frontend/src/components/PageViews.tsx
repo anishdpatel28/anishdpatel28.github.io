@@ -18,14 +18,12 @@ const PageViews = () => {
         console.error('Error fetching page views:', error);
       }
     };
-
     fetchPageViews();
   }, []);
 
   useEffect(() => {
     const sessionKey = 'portfolio_visited';
     const hasVisited = sessionStorage.getItem(sessionKey);
-
     if (!hasVisited && !hasIncremented) {
       const incrementViews = async () => {
         try {
@@ -33,7 +31,6 @@ const PageViews = () => {
           setPageViews(prev => prev + 1);
           setHasIncremented(true);
           sessionStorage.setItem(sessionKey, 'true');
-
           controls.start({
             scale: [1, 1.2, 1],
             transition: { duration: 0.6, ease: "easeOut" }
@@ -42,7 +39,6 @@ const PageViews = () => {
           console.error('Error incrementing page views:', error);
         }
       };
-
       incrementViews();
     }
   }, [hasIncremented, controls]);
