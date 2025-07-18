@@ -16,8 +16,8 @@ function App() {
             display: 'none',
           },
           '*': {
-            '-ms-overflow-style': 'none',
-            'scrollbar-width': 'none',
+            msOverflowStyle: 'none', // Changed from '-ms-overflow-style'
+            scrollbarWidth: 'none', // Changed from 'scrollbar-width'
           },
           'html, body': {
             overflow: 'auto',

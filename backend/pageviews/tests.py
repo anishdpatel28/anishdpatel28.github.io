@@ -6,9 +6,6 @@ from rest_framework.test import APITestCase
 
 from .models import PageView
 
-# Create your tests here.
-
-
 class PageViewModelTest(TestCase):
     def test_get_count_creates_instance(self):
         count = PageView.get_count()
@@ -23,7 +20,6 @@ class PageViewModelTest(TestCase):
     def test_string_representation(self):
         pageview = PageView(count=42)
         self.assertEqual(str(pageview), "Page Views: 42")
-
 
 class PageViewAPITest(APITestCase):
     def test_get_page_views(self):
@@ -43,11 +39,7 @@ class PageViewAPITest(APITestCase):
     def test_multiple_increments(self):
         increment_url = reverse("increment_page_views")
         get_url = reverse("get_page_views")
-
-        # Increment twice
         self.client.post(increment_url)
         self.client.post(increment_url)
-
-        # Check count
         response = self.client.get(get_url)
         self.assertEqual(response.data["count"], 2)
