@@ -1,84 +1,75 @@
-import { useState, useEffect, useRef } from 'react';
-import { Box, Typography, Chip } from '@mui/material';
-import { Visibility } from '@mui/icons-material';
+import { useEffect, useState } from 'react';
+import { Box, Typography } from '@mui/material';
 import { gsap } from 'gsap';
-import { pageViewsAPI } from '@/services/api';
+import { pageAnalyticsAPI } from '@/services/api';
 
 const PageViews = () => {
-  const [pageViews, setPageViews] = useState<number>(0);
-  const [hasIncremented, setHasIncremented] = useState(false);
-  const chipRef = useRef<HTMLDivElement>(null);
+  const [analytics, setAnalytics] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchPageViews = async () => {
+    const fetchAnalytics = async () => {
       try {
-        const views = await pageViewsAPI.getPageViews();
-        setPageViews(views);
+        const data = await pageAnalyticsAPI.getAnalytics();
+        setAnalytics(data);
       } catch (error) {
-        console.error('Error fetching page views:', error);
+        console.error('Error fetching analytics:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
-    fetchPageViews();
+
+    fetchAnalytics();
   }, []);
 
   useEffect(() => {
-    const sessionKey = 'portfolio_visited';
-    const hasVisited = sessionStorage.getItem(sessionKey);
-    if (!hasVisited && !hasIncremented) {
-      const incrementViews = async () => {
-        try {
-          await pageViewsAPI.incrementPageViews();
-          setPageViews(prev => prev + 1);
-          setHasIncremented(true);
-          sessionStorage.setItem(sessionKey, 'true');
-
-          // Scale animation
-          if (chipRef.current) {
-            gsap.to(chipRef.current, {
-              scale: 1.2,
-              duration: 0.3,
-              ease: "power2.out",
-              yoyo: true,
-              repeat: 1
-            });
-          }
-        } catch (error) {
-          console.error('Error incrementing page views:', error);
-        }
-      };
-      incrementViews();
+    if (analytics) {
+      const element = document.querySelector('.page-views-number');
+      if (element) {
+        gsap.fromTo(element,
+          { scale: 0.8, opacity: 0 },
+          { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.7)" }
+        );
+      }
     }
-  }, [hasIncremented]);
+  }, [analytics]);
+
+  if (isLoading) {
+    return (
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+        <Typography variant="body2" sx={{ color: 'rgba(224, 225, 221, 0.7)' }}>
+          Loading...
+        </Typography>
+      </Box>
+    );
+  }
+
+  if (!analytics) {
+    return (
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+        <Typography variant="body2" sx={{ color: 'rgba(224, 225, 221, 0.7)' }}>
+          Analytics unavailable
+        </Typography>
+      </Box>
+    );
+  }
 
   return (
-    <Box sx={{
-      position: 'fixed',
-      top: 16,
-      right: 16,
-      zIndex: 1000,
-      display: 'flex',
-      alignItems: 'center',
-      gap: 1
-    }}>
-      <div ref={chipRef}>
-        <Chip
-          icon={<Visibility />}
-          label={
-            <Typography variant="body2" sx={{ fontWeight: 600 }}>
-              {pageViews.toLocaleString()} views
-            </Typography>
-          }
-          color="primary"
-          variant="outlined"
-          sx={{
-            backgroundColor: 'rgba(65, 90, 119, 0.1)',
-            borderColor: 'primary.main',
-            '& .MuiChip-icon': {
-              color: 'primary.main',
-            },
-          }}
-        />
-      </div>
+    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+      <Typography variant="body2" sx={{ color: 'rgba(224, 225, 221, 0.7)' }}>
+        Views:
+      </Typography>
+      <Typography
+        className="page-views-number"
+        variant="body2"
+        sx={{
+          color: '#e0e1dd',
+          fontWeight: 600,
+          fontFamily: 'monospace'
+        }}
+      >
+        {analytics.page_views || 0}
+      </Typography>
     </Box>
   );
 };
