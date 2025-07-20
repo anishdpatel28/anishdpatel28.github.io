@@ -8,7 +8,9 @@ services:
     depends_on:
       - backend
     environment:
-      - VITE_API_URL=${BACKEND_URL}
+      - VITE_API_URL=${VITE_API_URL}
+      - VITE_POSTHOG_API_KEY=${VITE_POSTHOG_API_KEY}
+      - VITE_POSTHOG_HOST=${VITE_POSTHOG_HOST}
 
   backend:
     build: ./backend
@@ -16,8 +18,11 @@ services:
       - "8000:8000"
     environment:
       - DATABASE_URL=${DATABASE_URL}
-      - SECRET_KEY=${SECRET_KEY}
+      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
       - DEBUG=${DEBUG}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
+      - POSTHOG_API_KEY=${POSTHOG_API_KEY}
+      - POSTHOG_HOST=${POSTHOG_HOST}
     volumes:
       - ./backend:/app
     command: >

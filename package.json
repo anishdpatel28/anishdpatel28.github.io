@@ -34,7 +34,16 @@
   "devDependencies": {
     "concurrently": "^8.2.2"
   },
-  "keywords": ["portfolio", "react", "django", "typescript"],
+  "keywords": [
+    "portfolio",
+    "react",
+    "django",
+    "typescript"
+  ],
   "author": "Anish Patel",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "posthog-js": "^1.257.0",
+    "recharts": "^3.1.0"
+  }
 }
