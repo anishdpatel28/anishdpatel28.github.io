@@ -184,19 +184,40 @@ const ProjectsParallax = () => {
                   {projects.map((project, index) => {
                     const rotationY = index * 90;
                     const translateZ = 200;
+                    // Always render all cards, but show the back card (opposite side) with opacity 1
+                    const isBack = (index + 2) % projects.length === currentProject;
+                    const isVisible = Math.abs(index - currentProject) <= 1 || Math.abs(index - currentProject) === projects.length - 1 || isBack;
+                    const baseWidth = window.innerWidth < 600 ? 220 : 300;
+                    const baseHeight = window.innerWidth < 600 ? 280 : 400;
+                    const cardStyle: React.CSSProperties = {
+                      width: baseWidth,
+                      height: baseHeight,
+                      transform: `rotateY(${rotationY}deg) translateZ(${translateZ}px)`,
+                      transition: 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)',
+                      position: 'absolute',
+                      left: '50%',
+                      top: '50%',
+                      transformOrigin: 'center center',
+                      translate: '-50% -50%',
+                      borderRadius: 16,
+                      cursor: 'pointer',
+                      boxShadow: index === currentProject ? '0 8px 32px rgba(0,0,0,0.25)' : '0 2px 8px rgba(0,0,0,0.10)',
+                      zIndex: index === currentProject ? 2 : 1,
+                      background: '#222e3a',
+                      color: '#e0e1dd',
+                      overflow: 'hidden',
+                      display: 'flex',
+                      flexDirection: 'column' as React.CSSProperties['flexDirection'],
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      opacity: isVisible ? 1 : 0,
+                      pointerEvents: isVisible ? 'auto' : 'none',
+                    };
 
                     return (
                       <div
                         key={project.id}
-                        style={{
-                          position: 'absolute',
-                          width: '100%',
-                          height: '100%',
-                          borderRadius: '16px',
-                          cursor: 'pointer',
-                          transformStyle: 'preserve-3d',
-                          transform: `rotateY(${rotationY}deg) translateZ(${translateZ}px)`
-                        }}
+                        style={cardStyle}
                         onClick={() => index !== currentProject && handleCardClick(index)}
                       >
                         <Card sx={{
