@@ -3,7 +3,6 @@ import { CssBaseline, GlobalStyles } from '@mui/material';
 import { theme } from './themes/theme';
 import TimelineNavbar from './components/TimelineNavbar';
 import Home from './pages/Home';
-import CustomScrollbar from './components/CustomScrollbar';
 
 function App() {
   return (
@@ -11,16 +10,21 @@ function App() {
       <CssBaseline />
       <GlobalStyles
         styles={{
-          // Hide default scrollbar
+          // Hide default scrollbar but keep scrolling
           '*::-webkit-scrollbar': {
             display: 'none',
           },
           '*': {
-            msOverflowStyle: 'none', // Changed from '-ms-overflow-style'
-            scrollbarWidth: 'none', // Changed from 'scrollbar-width'
+            msOverflowStyle: 'none',
+            scrollbarWidth: 'none',
           },
           'html, body': {
             overflow: 'auto',
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+          },
+          'html::-webkit-scrollbar, body::-webkit-scrollbar': {
+            display: 'none',
           },
           '@keyframes pulse': {
             '0%': {
@@ -37,7 +41,6 @@ function App() {
       />
       <TimelineNavbar />
       <Home />
-      <CustomScrollbar />
     </ThemeProvider>
   );
 }

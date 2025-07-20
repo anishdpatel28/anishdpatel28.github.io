@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Box, Typography, Container, Card, CardContent, Chip, IconButton, Button } from '@mui/material';
 import { ArrowBack, ArrowForward, Launch, GitHub } from '@mui/icons-material';
-import { motion, AnimatePresence } from 'framer-motion';
+import { gsap } from 'gsap';
+import { sectionBackgrounds } from '@/themes/theme';
 
 const ProjectsParallax = () => {
   const [currentProject, setCurrentProject] = useState(0);
   const [rotation, setRotation] = useState(0);
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const infoRef = useRef<HTMLDivElement>(null);
 
   const projects = [
     {
@@ -78,6 +81,29 @@ const ProjectsParallax = () => {
     setRotation(prev => prev - (diff * 90));
   };
 
+  useEffect(() => {
+    // Animate carousel rotation
+    if (carouselRef.current) {
+      gsap.to(carouselRef.current, {
+        rotateY: rotation,
+        duration: 0.8,
+        ease: "power2.out"
+      });
+    }
+
+    // Animate info panel
+    if (infoRef.current) {
+      gsap.fromTo(infoRef.current,
+        { opacity: 0, x: 50 },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.4,
+          ease: "power2.out"
+        }
+      );
+    }
+  }, [currentProject, rotation]);
 
   return (
     <Box
@@ -87,7 +113,7 @@ const ProjectsParallax = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: 'linear-gradient(135deg, #0d1b2a 0%, #1b263b 50%, #2c3e50 100%)',
+        background: sectionBackgrounds.projects,
         position: 'relative',
         overflow: 'hidden',
       }}
@@ -145,7 +171,8 @@ const ProjectsParallax = () => {
                 height: { xs: 240, lg: 400 },
                 perspective: '800px'
               }}>
-                <motion.div
+                <div
+                  ref={carouselRef}
                   style={{
                     position: 'relative',
                     width: '100%',
@@ -153,20 +180,13 @@ const ProjectsParallax = () => {
                     transformStyle: 'preserve-3d',
                     transform: 'translateZ(-200px)'
                   }}
-                  animate={{
-                    rotateY: rotation
-                  }}
-                  transition={{
-                    duration: 0.8,
-                    ease: [0.25, 0.1, 0.25, 1]
-                  }}
                 >
                   {projects.map((project, index) => {
                     const rotationY = index * 90;
                     const translateZ = 200;
 
                     return (
-                      <motion.div
+                      <div
                         key={project.id}
                         style={{
                           position: 'absolute',
@@ -231,10 +251,10 @@ const ProjectsParallax = () => {
                             />
                           </CardContent>
                         </Card>
-                      </motion.div>
+                      </div>
                     );
                   })}
-                </motion.div>
+                </div>
               </Box>
 
               {/* Right Arrow */}
@@ -265,126 +285,118 @@ const ProjectsParallax = () => {
             width: { xs: '100%', lg: 'auto' },
             maxWidth: { xs: '100%', lg: 'none' }
           }}>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentProject}
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -50 }}
-                transition={{ duration: 0.4 }}
-              >
-                <Card sx={{
-                  backgroundColor: 'rgba(224, 225, 221, 0.05)',
-                  backdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(224, 225, 221, 0.1)',
-                  height: '100%'
-                }}>
-                  <CardContent sx={{ p: { xs: 1.5, lg: 4 } }}>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: { xs: 1.5, lg: 3 } }}>
-                      <Box>
-                        <Typography
-                          variant="h4"
-                          sx={{
-                            color: '#e0e1dd',
-                            fontWeight: 700,
-                            mb: 1,
-                            fontSize: { xs: '1.25rem', lg: '2.125rem' }
-                          }}
-                        >
-                          {projects[currentProject].title}
-                        </Typography>
-                        <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
-                          <Chip
-                            label={projects[currentProject].status}
-                            size="small"
-                            sx={{
-                              backgroundColor: projects[currentProject].color,
-                              color: 'white',
-                              fontWeight: 600,
-                              fontSize: { xs: '0.7rem', lg: '0.8125rem' }
-                            }}
-                          />
-                          <Chip
-                            label={projects[currentProject].year}
-                            size="small"
-                            variant="outlined"
-                            sx={{
-                              borderColor: 'rgba(224, 225, 221, 0.3)',
-                              color: '#e0e1dd',
-                              fontSize: { xs: '0.7rem', lg: '0.8125rem' }
-                            }}
-                          />
-                        </Box>
-                      </Box>
-                    </Box>
-
-                    <Typography variant="body1" sx={{
-                      color: 'rgba(224, 225, 221, 0.9)',
-                      lineHeight: 1.6,
-                      fontSize: { xs: '0.85rem', lg: '1.1rem' },
-                      mb: { xs: 1.5, lg: 4 }
-                    }}>
-                      {projects[currentProject].description}
-                    </Typography>
-
-                    <Typography variant="h6" sx={{ color: '#e0e1dd', mb: { xs: 1, lg: 2 }, fontWeight: 600, fontSize: { xs: '0.9rem', lg: '1.25rem' } }}>
-                      Technologies
-                    </Typography>
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: { xs: 1.5, lg: 4 } }}>
-                      {projects[currentProject].technologies.map((tech, index) => (
+            <div ref={infoRef}>
+              <Card sx={{
+                backgroundColor: 'rgba(224, 225, 221, 0.05)',
+                backdropFilter: 'blur(20px)',
+                border: '1px solid rgba(224, 225, 221, 0.1)',
+                height: '100%'
+              }}>
+                <CardContent sx={{ p: { xs: 1.5, lg: 4 } }}>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: { xs: 1.5, lg: 3 } }}>
+                    <Box>
+                      <Typography
+                        variant="h4"
+                        sx={{
+                          color: '#e0e1dd',
+                          fontWeight: 700,
+                          mb: 1,
+                          fontSize: { xs: '1.25rem', lg: '2.125rem' }
+                        }}
+                      >
+                        {projects[currentProject].title}
+                      </Typography>
+                      <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
                         <Chip
-                          key={index}
-                          label={tech}
-                          variant="outlined"
+                          label={projects[currentProject].status}
                           size="small"
+                          sx={{
+                            backgroundColor: projects[currentProject].color,
+                            color: 'white',
+                            fontWeight: 600,
+                            fontSize: { xs: '0.7rem', lg: '0.8125rem' }
+                          }}
+                        />
+                        <Chip
+                          label={projects[currentProject].year}
+                          size="small"
+                          variant="outlined"
                           sx={{
                             borderColor: 'rgba(224, 225, 221, 0.3)',
                             color: '#e0e1dd',
-                            fontSize: { xs: '0.7rem', lg: '0.8125rem' },
-                            '&:hover': {
-                              backgroundColor: 'rgba(224, 225, 221, 0.1)',
-                            }
+                            fontSize: { xs: '0.7rem', lg: '0.8125rem' }
                           }}
                         />
-                      ))}
+                      </Box>
                     </Box>
+                  </Box>
 
-                    <Box sx={{ display: 'flex', gap: { xs: 1, lg: 2 }, flexDirection: { xs: 'column', sm: 'row' } }}>
-                      <Button
-                        variant="contained"
-                        startIcon={<Launch />}
-                        sx={{
-                          backgroundColor: projects[currentProject].color,
-                          fontSize: { xs: '0.8rem', lg: '0.875rem' },
-                          py: { xs: 1, lg: 1.5 },
-                          '&:hover': {
-                            backgroundColor: projects[currentProject].color + 'dd'
-                          }
-                        }}
-                      >
-                        View Live
-                      </Button>
-                      <Button
+                  <Typography variant="body1" sx={{
+                    color: 'rgba(224, 225, 221, 0.9)',
+                    lineHeight: 1.6,
+                    fontSize: { xs: '0.85rem', lg: '1.1rem' },
+                    mb: { xs: 1.5, lg: 4 }
+                  }}>
+                    {projects[currentProject].description}
+                  </Typography>
+
+                  <Typography variant="h6" sx={{ color: '#e0e1dd', mb: { xs: 1, lg: 2 }, fontWeight: 600, fontSize: { xs: '0.9rem', lg: '1.25rem' } }}>
+                    Technologies
+                  </Typography>
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: { xs: 1.5, lg: 4 } }}>
+                    {projects[currentProject].technologies.map((tech, index) => (
+                      <Chip
+                        key={index}
+                        label={tech}
                         variant="outlined"
-                        startIcon={<GitHub />}
+                        size="small"
                         sx={{
                           borderColor: 'rgba(224, 225, 221, 0.3)',
                           color: '#e0e1dd',
-                          fontSize: { xs: '0.8rem', lg: '0.875rem' },
-                          py: { xs: 1, lg: 1.5 },
+                          fontSize: { xs: '0.7rem', lg: '0.8125rem' },
                           '&:hover': {
                             backgroundColor: 'rgba(224, 225, 221, 0.1)',
-                            borderColor: '#e0e1dd'
                           }
                         }}
-                      >
-                        Source Code
-                      </Button>
-                    </Box>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            </AnimatePresence>
+                      />
+                    ))}
+                  </Box>
+
+                  <Box sx={{ display: 'flex', gap: { xs: 1, lg: 2 }, flexDirection: { xs: 'column', sm: 'row' } }}>
+                    <Button
+                      variant="contained"
+                      startIcon={<Launch />}
+                      sx={{
+                        backgroundColor: projects[currentProject].color,
+                        fontSize: { xs: '0.8rem', lg: '0.875rem' },
+                        py: { xs: 1, lg: 1.5 },
+                        '&:hover': {
+                          backgroundColor: projects[currentProject].color + 'dd'
+                        }
+                      }}
+                    >
+                      View Live
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      startIcon={<GitHub />}
+                      sx={{
+                        borderColor: 'rgba(224, 225, 221, 0.3)',
+                        color: '#e0e1dd',
+                        fontSize: { xs: '0.8rem', lg: '0.875rem' },
+                        py: { xs: 1, lg: 1.5 },
+                        '&:hover': {
+                          backgroundColor: 'rgba(224, 225, 221, 0.1)',
+                          borderColor: '#e0e1dd'
+                        }
+                      }}
+                    >
+                      Source Code
+                    </Button>
+                  </Box>
+                </CardContent>
+              </Card>
+            </div>
           </Box>
         </Box>
       </Container>

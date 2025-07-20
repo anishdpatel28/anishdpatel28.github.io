@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Box } from '@mui/material';
-import { motion, AnimatePresence } from 'framer-motion';
+import { gsap } from 'gsap';
 
 const CustomScrollbar = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -8,6 +8,7 @@ const CustomScrollbar = () => {
   const [isDragging, setIsDragging] = useState(false);
   const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const scrollbarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,7 +18,15 @@ const CustomScrollbar = () => {
       setScrollPercentage(Math.min(Math.max(scrolled, 0), 100));
 
       // Show scrollbar when scrolling
-      setIsVisible(true);
+      if (!isVisible) {
+        setIsVisible(true);
+        if (scrollbarRef.current) {
+          gsap.fromTo(scrollbarRef.current,
+            { opacity: 0, x: 10 },
+            { opacity: 1, x: 0, duration: 0.2, ease: "power2.out" }
+          );
+        }
+      }
 
       // Clear existing timeout
       if (hideTimeoutRef.current) {
@@ -27,13 +36,20 @@ const CustomScrollbar = () => {
       // Hide after 2 seconds of no scrolling
       if (!isDragging) {
         hideTimeoutRef.current = setTimeout(() => {
-          setIsVisible(false);
+          if (scrollbarRef.current) {
+            gsap.to(scrollbarRef.current, {
+              opacity: 0,
+              x: 10,
+              duration: 0.2,
+              ease: "power2.in",
+              onComplete: () => setIsVisible(false)
+            });
+          }
         }, 2000);
       }
     };
 
     window.addEventListener('scroll', handleScroll);
-
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -41,7 +57,7 @@ const CustomScrollbar = () => {
         clearTimeout(hideTimeoutRef.current);
       }
     };
-  }, [isDragging]);
+  }, [isDragging, isVisible]);
 
   const handleTrackClick = (e: React.MouseEvent) => {
     if (!trackRef.current) return;
@@ -93,7 +109,15 @@ const CustomScrollbar = () => {
 
       // Hide after drag ends
       hideTimeoutRef.current = setTimeout(() => {
-        setIsVisible(false);
+        if (scrollbarRef.current) {
+          gsap.to(scrollbarRef.current, {
+            opacity: 0,
+            x: 10,
+            duration: 0.2,
+            ease: "power2.in",
+            onComplete: () => setIsVisible(false)
+          });
+        }
       }, 2000);
     };
 
@@ -101,79 +125,88 @@ const CustomScrollbar = () => {
     document.addEventListener('mouseup', handleMouseUp);
   };
 
+  const handleMouseEnter = () => {
+    setIsVisible(true);
+    if (hideTimeoutRef.current) {
+      clearTimeout(hideTimeoutRef.current);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (!isDragging) {
+      hideTimeoutRef.current = setTimeout(() => {
+        if (scrollbarRef.current) {
+          gsap.to(scrollbarRef.current, {
+            opacity: 0,
+            x: 10,
+            duration: 0.2,
+            ease: "power2.in",
+            onComplete: () => setIsVisible(false)
+          });
+        }
+      }, 1000);
+    }
+  };
+
   const trackHeight = window.innerHeight; // Full viewport height
   const thumbHeight = Math.max(trackHeight * 0.2, 30); // Minimum 30px
   const thumbTop = (scrollPercentage / 100) * (trackHeight - thumbHeight);
 
+  if (!isVisible) {
+    return null;
+  }
+
   return (
-    <AnimatePresence>
-      {isVisible && (
-        <motion.div
-          initial={{ opacity: 0, x: 10 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: 10 }}
-          transition={{ duration: 0.2 }}
-          style={{
-            position: 'fixed',
-            right: 0,
-            top: 0,
-            height: '100%',
-            width: 8,
-            zIndex: 1200,
-            pointerEvents: 'auto',
-          }}
-          onMouseEnter={() => {
-            setIsVisible(true);
-            if (hideTimeoutRef.current) {
-              clearTimeout(hideTimeoutRef.current);
+    <div
+      ref={scrollbarRef}
+      style={{
+        position: 'fixed',
+        right: 0,
+        top: 0,
+        height: '100%',
+        width: 8,
+        zIndex: 1200,
+        pointerEvents: 'auto',
+      }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      {/* Track */}
+      <Box
+        ref={trackRef}
+        onClick={handleTrackClick}
+        sx={{
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'rgba(224, 225, 221, 0.1)',
+          borderRadius: 0,
+          position: 'relative',
+          cursor: 'pointer',
+          '&:hover': {
+            backgroundColor: 'rgba(224, 225, 221, 0.15)',
+          }
+        }}
+      >
+        {/* Thumb */}
+        <Box
+          onMouseDown={handleMouseDown}
+          sx={{
+            position: 'absolute',
+            left: 0,
+            width: '100%',
+            height: `${Math.max((thumbHeight / trackHeight) * 100, 5)}%`,
+            backgroundColor: 'rgba(224, 225, 221, 0.6)',
+            borderRadius: 0,
+            cursor: isDragging ? 'grabbing' : 'grab',
+            transform: `translateY(${thumbTop}px)`,
+            transition: isDragging ? 'none' : 'background-color 0.2s ease',
+            '&:hover': {
+              backgroundColor: 'rgba(224, 225, 221, 0.8)',
             }
           }}
-          onMouseLeave={() => {
-            if (!isDragging) {
-              hideTimeoutRef.current = setTimeout(() => {
-                setIsVisible(false);
-              }, 1000);
-            }
-          }}
-        >
-          {/* Track */}
-          <Box
-            ref={trackRef}
-            onClick={handleTrackClick}
-            sx={{
-              width: '100%',
-              height: '100%',
-              backgroundColor: 'rgba(224, 225, 221, 0.1)',
-              borderRadius: 0,
-              position: 'relative',
-              cursor: 'pointer',
-              '&:hover': {
-                backgroundColor: 'rgba(224, 225, 221, 0.15)',
-              }
-            }}
-          >
-            {/* Thumb */}
-            <Box
-              onMouseDown={handleMouseDown}
-              sx={{
-                position: 'absolute',
-                left: 0,
-                width: '100%',
-                height: `${Math.max((thumbHeight / trackHeight) * 100, 5)}%`,
-                backgroundColor: 'rgba(224, 225, 221, 0.6)',
-                borderRadius: 0,
-                cursor: isDragging ? 'grabbing' : 'grab',
-                transform: `translateY(${thumbTop}px)`,
-                transition: isDragging ? 'none' : 'background-color 0.2s ease',
-                '&:hover': {
-                  backgroundColor: 'rgba(224, 225, 221, 0.8)',
-                }
-              }}
-            />
-          </Box>
-        </motion.div>
-      )}
-    </AnimatePresence>
+        />
+      </Box>
+    </div>
   );
 };
 

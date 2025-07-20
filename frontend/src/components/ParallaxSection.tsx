@@ -1,6 +1,10 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Box } from '@mui/material';
-import { motion, useTransform, useScroll } from 'framer-motion';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+// Register ScrollTrigger plugin
+gsap.registerPlugin(ScrollTrigger);
 
 interface ParallaxSectionProps {
   children: React.ReactNode;
@@ -20,12 +24,26 @@ const ParallaxSection: React.FC<ParallaxSectionProps> = ({
   height = '100vh'
 }) => {
   const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"]
-  });
+  const backgroundRef = useRef<HTMLDivElement>(null);
 
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", `${speed * 100}%`]);
+  useEffect(() => {
+    if (backgroundRef.current) {
+      gsap.to(backgroundRef.current, {
+        yPercent: speed * 100,
+        ease: "none",
+        scrollTrigger: {
+          trigger: ref.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true
+        }
+      });
+    }
+
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
+  }, [speed]);
 
   return (
     <Box
@@ -41,14 +59,14 @@ const ParallaxSection: React.FC<ParallaxSectionProps> = ({
       }}
     >
       {/* Background Layer */}
-      <motion.div
+      <div
+        ref={backgroundRef}
         style={{
           position: 'absolute',
           top: 0,
           left: 0,
           right: 0,
           bottom: 0,
-          y,
           zIndex: -1,
           backgroundImage: backgroundImage ? `url(${backgroundImage})` : 'none',
           backgroundColor,

@@ -1,22 +1,36 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Box } from '@mui/material';
-import { motion } from 'framer-motion';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+// Register ScrollTrigger plugin
+gsap.registerPlugin(ScrollTrigger);
 
 const ScrollProgress = () => {
-  const [scrollYProgress, setScrollYProgress] = useState(0);
+  const progressRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const scrollPercent = scrollTop / docHeight;
-      setScrollYProgress(scrollPercent);
+    if (progressRef.current) {
+      gsap.to(progressRef.current, {
+        scaleX: 1,
+        ease: "none",
+        scrollTrigger: {
+          trigger: "body",
+          start: "top top",
+          end: "bottom bottom",
+          scrub: true,
+          onUpdate: (self) => {
+            if (progressRef.current) {
+              progressRef.current.style.transform = `scaleX(${self.progress})`;
+            }
+          }
+        }
+      });
+    }
+
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
-
-    window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Check initial position
-
-    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
@@ -31,17 +45,13 @@ const ScrollProgress = () => {
         zIndex: 1200,
       }}
     >
-      <motion.div
+      <div
+        ref={progressRef}
         style={{
           height: '100%',
           backgroundColor: '#e0e1dd',
           transformOrigin: 'left',
-        }}
-        initial={{ scaleX: 0 }}
-        animate={{ scaleX: scrollYProgress }}
-        transition={{
-          duration: 0.3,
-          ease: [0.25, 0.46, 0.45, 0.94] // Custom cubic bezier for smooth easing
+          transform: 'scaleX(0)',
         }}
       />
     </Box>

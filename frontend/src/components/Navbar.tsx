@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -13,12 +13,15 @@ import {
   ListItemText,
 } from '@mui/material';
 import { Menu as MenuIcon, Close } from '@mui/icons-material';
-import { motion } from 'framer-motion';
+import { gsap } from 'gsap';
 import NavbarPageViews from './NavbarPageViews';
 
 const Navbar = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [mobileOpen, setMobileOpen] = useState(false);
+  const logoRef = useRef<HTMLDivElement>(null);
+  const navButtonsRef = useRef<HTMLDivElement>(null);
+  const mobileButtonRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let ticking = false;
@@ -61,6 +64,40 @@ const Navbar = () => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, [mobileOpen]);
+
+  useEffect(() => {
+    // Animate logo
+    if (logoRef.current) {
+      gsap.fromTo(logoRef.current,
+        { opacity: 0, y: -20 },
+        { opacity: 1, y: 0, duration: 0.8, ease: "power2.out", delay: 1.4 }
+      );
+    }
+
+    // Animate nav buttons
+    if (navButtonsRef.current) {
+      const buttons = navButtonsRef.current.querySelectorAll('.nav-button');
+      gsap.fromTo(buttons,
+        { opacity: 0, y: -20 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power2.out",
+          stagger: 0.15,
+          delay: 1.55
+        }
+      );
+    }
+
+    // Animate mobile button
+    if (mobileButtonRef.current) {
+      gsap.fromTo(mobileButtonRef.current,
+        { opacity: 0, y: -20 },
+        { opacity: 1, y: 0, duration: 0.8, ease: "power2.out", delay: 1.4 }
+      );
+    }
+  }, []);
 
   const handleMobileMenuToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -113,11 +150,11 @@ const Navbar = () => {
   };
 
   const navItems = [
-    { id: 'home', label: 'Home', delay: 1.55 },
-    { id: 'about', label: 'About', delay: 1.7 },
-    { id: 'projects', label: 'Projects', delay: 1.85 },
-    { id: 'resume', label: 'Resume', delay: 2.0 },
-    { id: 'contact', label: 'Contact', delay: 2.15 }
+    { id: 'home', label: 'Home' },
+    { id: 'about', label: 'About' },
+    { id: 'projects', label: 'Projects' },
+    { id: 'resume', label: 'Resume' },
+    { id: 'contact', label: 'Contact' }
   ];
 
   return (
@@ -133,11 +170,7 @@ const Navbar = () => {
       >
         <Box sx={{ maxWidth: '1000px', width: '100%', mx: 'auto' }}>
           <Toolbar sx={{ justifyContent: 'space-between', px: { xs: 2, md: 3 } }}>
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1.4 }}
-            >
+            <div ref={logoRef}>
               <Typography
                 variant="h6"
                 component="div"
@@ -154,41 +187,31 @@ const Navbar = () => {
               >
                 Anish Patel
               </Typography>
-            </motion.div>
-            <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1, alignItems: 'center' }}>
+            </div>
+            <Box ref={navButtonsRef} sx={{ display: { xs: 'none', md: 'flex' }, gap: 1, alignItems: 'center' }}>
               {navItems.map((item, index) => (
                 <React.Fragment key={item.id}>
                   {index === 0 && <NavbarPageViews activeSection={activeSection} />}
-                  <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: item.delay }}
-                  >
+                  <div className="nav-button">
                     <Button
                       onClick={() => document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' })}
                       sx={getButtonStyles(item.id)}
                     >
                       {item.label}
                     </Button>
-                  </motion.div>
+                  </div>
                 </React.Fragment>
               ))}
             </Box>
-            <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-              <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 1.4 }}
+            <Box ref={mobileButtonRef} sx={{ display: { xs: 'flex', md: 'none' } }}>
+              <IconButton
+                color="inherit"
+                aria-label="menu"
+                onClick={handleMobileMenuToggle}
+                sx={{ color: '#e0e1dd' }}
               >
-                <IconButton
-                  color="inherit"
-                  aria-label="menu"
-                  onClick={handleMobileMenuToggle}
-                  sx={{ color: '#e0e1dd' }}
-                >
-                  {mobileOpen ? <Close /> : <MenuIcon />}
-                </IconButton>
-              </motion.div>
+                {mobileOpen ? <Close /> : <MenuIcon />}
+              </IconButton>
             </Box>
           </Toolbar>
         </Box>

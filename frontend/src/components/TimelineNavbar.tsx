@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import {
   Box,
   IconButton,
@@ -6,7 +6,7 @@ import {
   Paper,
   Tooltip
 } from '@mui/material';
-import { motion } from 'framer-motion';
+import { gsap } from 'gsap';
 import HomeIcon from '@mui/icons-material/Home';
 import PersonIcon from '@mui/icons-material/Person';
 import BuildIcon from '@mui/icons-material/Build';
@@ -28,11 +28,22 @@ const sectionIcons = [
 const TimelineNavbar = () => {
   const [activeSection, setActiveSection] = useState('home');
   const theme = useTheme();
-  const [showNavbar, setShowNavbar] = useState(false);
+  const navbarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const timeout = setTimeout(() => setShowNavbar(true), 2700);
-    return () => clearTimeout(timeout);
+    // Fade in animation after hero animation
+    if (navbarRef.current) {
+      gsap.fromTo(navbarRef.current,
+        { opacity: 0, y: -32 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          ease: "power2.out",
+          delay: 2.7
+        }
+      );
+    }
   }, []);
 
   useEffect(() => {
@@ -59,10 +70,8 @@ const TimelineNavbar = () => {
   }, [activeSection]);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: -32 }}
-      animate={{ opacity: showNavbar ? 1 : 0, y: showNavbar ? 0 : -32 }}
-      transition={{ duration: 0.7, ease: 'easeOut' }}
+    <div
+      ref={navbarRef}
       style={{
         position: 'fixed',
         top: 32,
@@ -123,7 +132,7 @@ const TimelineNavbar = () => {
           </Tooltip>
         ))}
       </Paper>
-    </motion.div>
+    </div>
   );
 };
 

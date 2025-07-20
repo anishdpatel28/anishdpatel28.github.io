@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Box, Typography, Chip } from '@mui/material';
 import { Visibility } from '@mui/icons-material';
-import { motion, useAnimation } from 'framer-motion';
+import { gsap } from 'gsap';
 import { pageViewsAPI } from '@/services/api';
 
 const PageViews = () => {
   const [pageViews, setPageViews] = useState<number>(0);
   const [hasIncremented, setHasIncremented] = useState(false);
-  const controls = useAnimation();
+  const chipRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchPageViews = async () => {
@@ -31,17 +31,24 @@ const PageViews = () => {
           setPageViews(prev => prev + 1);
           setHasIncremented(true);
           sessionStorage.setItem(sessionKey, 'true');
-          controls.start({
-            scale: [1, 1.2, 1],
-            transition: { duration: 0.6, ease: "easeOut" }
-          });
+
+          // Scale animation
+          if (chipRef.current) {
+            gsap.to(chipRef.current, {
+              scale: 1.2,
+              duration: 0.3,
+              ease: "power2.out",
+              yoyo: true,
+              repeat: 1
+            });
+          }
         } catch (error) {
           console.error('Error incrementing page views:', error);
         }
       };
       incrementViews();
     }
-  }, [hasIncremented, controls]);
+  }, [hasIncremented]);
 
   return (
     <Box sx={{
@@ -53,7 +60,7 @@ const PageViews = () => {
       alignItems: 'center',
       gap: 1
     }}>
-      <motion.div animate={controls}>
+      <div ref={chipRef}>
         <Chip
           icon={<Visibility />}
           label={
@@ -71,7 +78,7 @@ const PageViews = () => {
             },
           }}
         />
-      </motion.div>
+      </div>
     </Box>
   );
 };

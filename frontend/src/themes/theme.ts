@@ -6,6 +6,11 @@ const colors = {
   slate: '#415a77',
   grayBlue: '#778da9',
   lightGray: '#e0e1dd',
+  // Additional colors for alternating backgrounds
+  darkTeal: '#1a2a3a',
+  deepPurple: '#2a1b3a',
+  darkGreen: '#1a3a2a',
+  charcoal: '#2a2a2a',
 };
 
 export const theme = createTheme({
@@ -85,4 +90,14 @@ export const theme = createTheme({
       },
     },
   },
-}); 
+});
+
+// Export section background colors for easy access
+export const sectionBackgrounds = {
+  home: `linear-gradient(135deg, ${colors.darkBlue} 0%, ${colors.navy} 100%)`,
+  about: `linear-gradient(135deg, ${colors.darkTeal} 0%, ${colors.slate} 100%)`,
+  skills: `linear-gradient(135deg, ${colors.deepPurple} 0%, ${colors.darkBlue} 100%)`,
+  projects: `linear-gradient(135deg, ${colors.darkBlue} 0%, ${colors.navy} 50%, ${colors.slate} 100%)`,
+  resume: `linear-gradient(135deg, ${colors.darkGreen} 0%, ${colors.darkTeal} 100%)`,
+  contact: `linear-gradient(135deg, ${colors.charcoal} 0%, ${colors.darkBlue} 100%)`,
+}; 

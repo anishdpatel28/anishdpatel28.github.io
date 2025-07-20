@@ -1,13 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Typography, Box, Chip } from '@mui/material';
-import { motion, useAnimation } from 'framer-motion';
+import { gsap } from 'gsap';
 import { pageViewsAPI } from '@/services/api';
 
 const NavbarPageViews = ({ activeSection }: { activeSection: string; }) => {
   const [displayViews, setDisplayViews] = useState<number>(0);
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasAnimated, setHasAnimated] = useState(false);
-  const controls = useAnimation();
+  const viewsRef = useRef<HTMLSpanElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -15,17 +16,22 @@ const NavbarPageViews = ({ activeSection }: { activeSection: string; }) => {
     const hasVisited = sessionStorage.getItem(sessionKey);
 
     const animateToActualViews = (targetViews: number) => {
-      controls.start({
-        rotateX: [0, -90, 0],
-        transition: {
-          duration: 0.6,
-          ease: "easeInOut",
-          times: [0, 0.5, 1]
-        }
-      });
-      setTimeout(() => {
-        setDisplayViews(targetViews);
-      }, 300);
+      if (viewsRef.current) {
+        gsap.to(viewsRef.current, {
+          rotateX: -90,
+          duration: 0.3,
+          ease: "power2.in",
+          onComplete: () => {
+            setDisplayViews(targetViews);
+            gsap.to(viewsRef.current, {
+              rotateX: 0,
+              duration: 0.3,
+              ease: "power2.out",
+              delay: 0.1
+            });
+          }
+        });
+      }
     };
 
     const fetchAndHandlePageViews = async () => {
@@ -60,7 +66,18 @@ const NavbarPageViews = ({ activeSection }: { activeSection: string; }) => {
       isMounted = false;
       clearTimeout(delayedStart);
     };
-  }, [hasAnimated, controls]);
+  }, [hasAnimated]);
+
+  useEffect(() => {
+    // Fade in/out based on active section
+    if (containerRef.current) {
+      gsap.to(containerRef.current, {
+        opacity: activeSection === 'home' ? 1 : 0,
+        duration: 0.5,
+        ease: "power2.out"
+      });
+    }
+  }, [activeSection]);
 
   if (!isLoaded) {
     return null;
@@ -68,10 +85,7 @@ const NavbarPageViews = ({ activeSection }: { activeSection: string; }) => {
 
   return (
     <Box
-      component={motion.div}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: activeSection === 'home' ? 1 : 0 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
+      ref={containerRef}
       sx={{
         position: 'fixed',
         top: 16,
@@ -87,8 +101,8 @@ const NavbarPageViews = ({ activeSection }: { activeSection: string; }) => {
       <Chip
         label={
           <Typography variant="body2" sx={{ fontWeight: 600 }}>
-            <motion.span
-              animate={controls}
+            <span
+              ref={viewsRef}
               style={{
                 display: 'inline-block',
                 transformOrigin: 'center',
@@ -96,7 +110,7 @@ const NavbarPageViews = ({ activeSection }: { activeSection: string; }) => {
               }}
             >
               {displayViews.toLocaleString()}
-            </motion.span>
+            </span>
             {' views'}
           </Typography>
         }
