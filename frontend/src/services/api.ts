@@ -1,8 +1,7 @@
 import axios from 'axios';
+import posthogService from './posthog';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
-
-console.log('API Base URL:', API_BASE_URL);
 
 export const api = axios.create({
   baseURL: API_BASE_URL,
@@ -11,28 +10,55 @@ export const api = axios.create({
   },
 });
 
-export const pageViewsAPI = {
-  getPageViews: async (): Promise<number> => {
-    console.log('Making GET request to:', `${API_BASE_URL}/page-views/`);
+export const pageAnalyticsAPI = {
+  getAnalytics: async (): Promise<any> => {
     const response = await api.get('/page-views/');
-    console.log('GET response:', response.data);
-    return response.data.count;
+    // Track analytics viewed in PostHog
+    posthogService.captureAnalyticsViewed();
+    return response.data;
   },
   
   incrementPageViews: async (): Promise<void> => {
-    console.log('Making POST request to:', `${API_BASE_URL}/page-views/increment/`);
     const response = await api.post('/page-views/increment/');
-    console.log('POST response:', response.data);
+    // Track page view in PostHog
+    posthogService.capturePageView({
+      total_page_views: response.data.page_views
+    });
+  },
+
+  updateSectionTime: async (section: string, timeSpent: number): Promise<void> => {
+    await api.post('/page-views/update-time/', {
+      section,
+      time_spent: timeSpent
+    });
+    // Track section time in PostHog
+    posthogService.captureSectionTime(section, timeSpent);
+  },
+
+  captureEggClick: async (): Promise<void> => {
+    await api.post('/page-views/egg-click/');
+    // Track egg click in PostHog
+    posthogService.captureEggClicked();
+  },
+};
+
+// Legacy compatibility
+export const pageViewsAPI = {
+  getPageViews: async (): Promise<number> => {
+    const analytics = await pageAnalyticsAPI.getAnalytics();
+    return analytics.page_views;
+  },
+  
+  incrementPageViews: async (): Promise<void> => {
+    await pageAnalyticsAPI.incrementPageViews();
   },
 };
 
 api.interceptors.response.use(
   (response) => {
-    console.log('API Response:', response.config.url, response.status, response.data);
     return response;
   },
   (error) => {
-    console.error('API Error:', error.config?.url, error.response?.status, error.response?.data);
     return Promise.reject(error);
   }
 ); 
