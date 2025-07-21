@@ -60,7 +60,7 @@ npm start
 The application uses PostgreSQL with the following schema for analytics:
 
 ```sql
-CREATE TABLE pageviews_pageanalytics (
+CREATE TABLE page_analytics (
     id SERIAL PRIMARY KEY,
     page_views INTEGER NOT NULL DEFAULT 0,
     time_spent_home INTEGER NOT NULL DEFAULT 0,
