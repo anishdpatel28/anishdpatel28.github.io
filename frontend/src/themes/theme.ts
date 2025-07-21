@@ -90,7 +90,7 @@ export const theme = createTheme({
       },
     },
   },
-});
+}); 
 
 // Export section background colors for easy access
 export const sectionBackgrounds = {

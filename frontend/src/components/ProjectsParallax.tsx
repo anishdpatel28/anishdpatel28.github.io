@@ -7,7 +7,6 @@ import { sectionBackgrounds } from '@/themes/theme';
 const ProjectsParallax = () => {
   const [currentProject, setCurrentProject] = useState(0);
   const [rotation, setRotation] = useState(0);
-  const [isTransitioningFromMobile, setIsTransitioningFromMobile] = useState(false);
   const carouselRef = useRef<HTMLDivElement>(null);
   const infoRef = useRef<HTMLDivElement>(null);
   const theme = useTheme();
@@ -89,55 +88,27 @@ const ProjectsParallax = () => {
   };
 
   useEffect(() => {
-    const handleResize = () => {
-      const isMobile = window.innerWidth <= 768;
-
-      if (!isMobile && carouselRef.current) {
-        const currentRotation = -currentProject * (360 / projects.length);
-        gsap.set(carouselRef.current, { rotationY: currentRotation });
-        setRotation(-currentProject * (360 / projects.length));
-        setIsTransitioningFromMobile(true);
-      }
-    };
-
-    window.addEventListener('resize', handleResize);
-    handleResize(); // Initial check
-
-    return () => window.removeEventListener('resize', handleResize);
-  }, [currentProject, projects.length]);
-
-  // Animation useEffect
-  useEffect(() => {
-    console.log('Animation useEffect triggered:', { currentProject, rotation, isMobile, isTransitioningFromMobile });
-
     if (isMobile) {
       // Mobile: Animate info panel only
       if (infoRef.current) {
         gsap.fromTo(infoRef.current,
-          { opacity: 0 },
+          { opacity: 0, y: 30 },
           {
             opacity: 1,
+            y: 0,
             duration: 0.4,
-            ease: "power1.out"
+            ease: "power2.out"
           }
         );
       }
     } else {
+      // Desktop: Animate carousel rotation
       if (carouselRef.current) {
-        const currentRotation = -currentProject * (360 / projects.length);
-        const isResize = Math.abs(rotation - currentRotation) > 1;
-
-        if (isResize || isTransitioningFromMobile) {
-          gsap.set(carouselRef.current, { rotateY: currentRotation });
-          setRotation(currentRotation);
-          setIsTransitioningFromMobile(false);
-        } else {
-          gsap.to(carouselRef.current, {
-            rotateY: rotation,
-            duration: 0.8,
-            ease: "power2.out"
-          });
-        }
+        gsap.to(carouselRef.current, {
+          rotateY: rotation,
+          duration: 0.8,
+          ease: "power2.out"
+        });
       }
 
       // Animate info panel
@@ -152,7 +123,7 @@ const ProjectsParallax = () => {
         );
       }
     }
-  }, [currentProject, rotation, isMobile, projects.length, isTransitioningFromMobile]);
+  }, [currentProject, rotation, isMobile]);
 
   // Mobile Layout Component
   const MobileLayout = () => (
