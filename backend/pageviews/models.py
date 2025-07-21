@@ -83,3 +83,4 @@ class PageAnalytics(models.Model):
     class Meta:
         verbose_name = "Page Analytics"
         verbose_name_plural = "Page Analytics"
+        db_table = "page_analytics"
