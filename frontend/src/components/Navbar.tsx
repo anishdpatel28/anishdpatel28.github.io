@@ -14,7 +14,6 @@ import {
 } from '@mui/material';
 import { Menu as MenuIcon, Close } from '@mui/icons-material';
 import { gsap } from 'gsap';
-import NavbarPageViews from './NavbarPageViews';
 
 const Navbar = () => {
   const [activeSection, setActiveSection] = useState('home');
@@ -64,7 +63,7 @@ const Navbar = () => {
   }, [mobileOpen]);
 
   useEffect(() => {
-    // Animate logo
+    // animate logo
     if (logoRef.current) {
       gsap.fromTo(logoRef.current,
         { opacity: 0, y: -20 },
@@ -72,7 +71,7 @@ const Navbar = () => {
       );
     }
 
-    // Animate nav buttons
+    // animate nav buttons
     if (navButtonsRef.current) {
       const buttons = navButtonsRef.current.querySelectorAll('.nav-button');
       gsap.fromTo(buttons,
@@ -88,7 +87,7 @@ const Navbar = () => {
       );
     }
 
-    // Animate mobile button
+    // animate mobile button
     if (mobileButtonRef.current) {
       gsap.fromTo(mobileButtonRef.current,
         { opacity: 0, y: -20 },
@@ -187,9 +186,8 @@ const Navbar = () => {
               </Typography>
             </div>
             <Box ref={navButtonsRef} sx={{ display: { xs: 'none', md: 'flex' }, gap: 1, alignItems: 'center' }}>
-              {navItems.map((item, index) => (
+              {navItems.map((item) => (
                 <React.Fragment key={item.id}>
-                  {index === 0 && <NavbarPageViews activeSection={activeSection} />}
                   <div className="nav-button">
                     <Button
                       onClick={() => document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' })}
