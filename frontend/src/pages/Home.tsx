@@ -11,7 +11,6 @@ import { sectionBackgrounds } from '@/themes/theme';
 import { pageAnalyticsAPI } from '@/services/api';
 import { BarChart, Bar, XAxis, YAxis, Tooltip as RechartsTooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
 
-// Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
 const Home = () => {
@@ -20,8 +19,7 @@ const Home = () => {
   const [hasClickedAnalytics, setHasClickedAnalytics] = useState(false);
   const [analytics, setAnalytics] = useState<Record<string, unknown> | null>(null);
   const [showEgg, setShowEgg] = useState(false);
-  // Internship index state moved to main scope
-  const [internshipIdx, setInternshipIdx] = useState(2); // default to latest (index 2)
+  const [internshipIdx, setInternshipIdx] = useState(2);
   const lastSectionRef = useRef<string>('home');
   const lastSectionStartRef = useRef<number>(Date.now());
   const heroRef = useRef<HTMLDivElement>(null);
@@ -29,10 +27,9 @@ const Home = () => {
   const skillsRef = useRef<HTMLDivElement>(null);
   const resumeRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
-  // Ref for the analytics button
   const analyticsBtnRef = useRef<HTMLButtonElement>(null);
 
-  // Track time spent in sections
+  // track time spent in sections
   useEffect(() => {
     const handleScroll = () => {
       const sections = ['home', 'about', 'skills', 'projects', 'resume', 'contact'];
@@ -49,7 +46,6 @@ const Home = () => {
         }
       }
       if (newActiveSection !== lastSectionRef.current) {
-        // Section changed, record time for previous section
         const now = Date.now();
         const timeSpent = Math.floor((now - lastSectionStartRef.current) / 1000);
         if (timeSpent > 0) {
@@ -57,16 +53,13 @@ const Home = () => {
         }
         lastSectionRef.current = newActiveSection;
         lastSectionStartRef.current = now;
-        // setActiveSection(newActiveSection); // Removed as per edit hint
       }
     };
     window.addEventListener('scroll', handleScroll);
-    // Initialize first section timing
     lastSectionRef.current = 'home';
     lastSectionStartRef.current = Date.now();
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      // Record final section time when component unmounts
       const now = Date.now();
       const timeSpent = Math.floor((now - lastSectionStartRef.current) / 1000);
       if (timeSpent > 0) {
@@ -75,7 +68,7 @@ const Home = () => {
     };
   }, []);
 
-  // Increment page views on first load
+  // increment page views on first load
   useEffect(() => {
     const sessionKey = 'portfolio_visited';
     const hasVisited = sessionStorage.getItem(sessionKey);
@@ -87,15 +80,26 @@ const Home = () => {
     }
   }, []);
 
-  // Fetch analytics every time the dialog is opened
+  // fetch analytics every time the dialog is opened
   useEffect(() => {
     if (showAnalytics) {
       pageAnalyticsAPI.getAnalytics().then(setAnalytics);
     }
   }, [showAnalytics]);
 
+  // always remove scroll lock when dialog closes
+  const handleAnalyticsClose = () => {
+    setShowAnalytics(false);
+    document.body.classList.remove('no-scroll');
+  };
+
   useEffect(() => {
-    // Hero animations
+    if (showAnalytics) {
+      document.body.classList.add('no-scroll');
+    }
+  }, [showAnalytics]);
+
+  useEffect(() => {
     const heroTl = gsap.timeline({ delay: 0.5 });
     const heroTitle = heroRef.current?.querySelector('.hero-title');
     const heroSubtitle = heroRef.current?.querySelector('.hero-subtitle');
@@ -134,7 +138,7 @@ const Home = () => {
       );
     }
 
-    // About section animations with staggered reveals
+    // About section animations
     const aboutSections = aboutRef.current?.querySelectorAll('.about-section');
     if (aboutSections && aboutSections.length > 0) {
       gsap.fromTo(aboutSections,
@@ -301,26 +305,7 @@ const Home = () => {
     return `${remainingSeconds}s`;
   };
 
-  // Prevent background scroll when analytics dialog is open
-  useEffect(() => {
-    if (showAnalytics) {
-      document.body.style.overflow = 'hidden';
-      document.body.style.position = 'fixed';
-      document.body.style.width = '100vw';
-    } else {
-      document.body.style.overflow = '';
-      document.body.style.position = '';
-      document.body.style.width = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-      document.body.style.position = '';
-      document.body.style.width = '';
-    };
-  }, [showAnalytics]);
-
-  // Remove focus highlight from analytics button when dialog closes
-  useEffect(() => {
+  useEffect(() => { // remove analytics button highlight on close
     if (!showAnalytics && analyticsBtnRef.current) {
       analyticsBtnRef.current.blur();
     }
@@ -329,9 +314,7 @@ const Home = () => {
   return (
     <Box>
       <ScrollProgress />
-      {/* Removed NavbarPageViews (page views display) */}
-
-      {/* Easter Egg Analytics Button */}
+      {/* Analytics Button (unclicked) */}
       <Box sx={{
         position: 'fixed',
         top: 16,
@@ -342,7 +325,8 @@ const Home = () => {
       }}>
         <IconButton
           ref={analyticsBtnRef}
-          onClick={handleAnalyticsClick}
+          type="button"
+          onClick={e => { e.stopPropagation(); handleAnalyticsClick(); }}
           sx={{
             color: '#e0e1dd',
             backgroundColor: hasClickedAnalytics ? 'rgba(27, 38, 59, 0.8)' : 'transparent',
@@ -370,12 +354,11 @@ const Home = () => {
       {/* Analytics Dialog */}
       <Dialog
         open={showAnalytics}
-        onClose={() => setShowAnalytics(false)}
+        onClose={handleAnalyticsClose}
         maxWidth="md"
         fullWidth
-        scroll="body"
+        scroll="paper"
         PaperProps={{ sx: { overflow: 'visible' } }}
-        disableScrollLock={true}
       >
         <DialogTitle sx={{ color: '#e0e1dd', bgcolor: '#1b263b' }}>
           Page Analytics
