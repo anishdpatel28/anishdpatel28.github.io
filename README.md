@@ -80,19 +80,19 @@ CREATE TABLE pageviews_pageanalytics (
 
 ```text
 anishdpatel28.github.io/
-├── frontend/                 # React TypeScript frontend
+├── frontend/
 │   ├── src/
-│   │   ├── components/       # Reusable components
-│   │   ├── pages/            # Page components
-│   │   ├── services/         # API services
-│   │   ├── themes/           # Material UI themes
-│   └── dist/                 # Build output
-├── backend/                  # Django backend
-│   ├── portfolio_backend/    # Django project settings
-│   ├── pageviews/            # Analytics app
-│   └── venv/                 # Python virtual environment
-├── docker-compose.yml        # Docker configuration
-├── setup.sh                  # One-command setup script
-├── package.json              # Root scripts and dependencies
-└── README.md                 # Project documentation
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   ├── themes/
+│   └── dist/
+├── backend/
+│   ├── portfolio_backend/
+│   ├── pageviews/
+│   └── venv/
+├── docker-compose.yml
+├── setup.sh
+├── package.json
+└── README.md
 ```
