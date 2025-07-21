@@ -1,8 +1,6 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
-  Box,
   IconButton,
-  useTheme,
   Paper,
   Tooltip
 } from '@mui/material';
@@ -27,7 +25,6 @@ const sectionIcons = [
 
 const TimelineNavbar = () => {
   const [activeSection, setActiveSection] = useState('home');
-  const theme = useTheme();
   const navbarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -99,7 +96,7 @@ const TimelineNavbar = () => {
           transform: 'translateZ(0)', // Prevent layout shifts during scroll
         }}
       >
-        {sectionIcons.map((section, idx) => (
+        {sectionIcons.map((section) => (
           <Tooltip key={section.id} title={section.id.charAt(0).toUpperCase() + section.id.slice(1)} arrow>
             <IconButton
               onClick={() => {

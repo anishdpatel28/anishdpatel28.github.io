@@ -11,7 +11,7 @@ export const api = axios.create({
 });
 
 export const pageAnalyticsAPI = {
-  getAnalytics: async (): Promise<any> => {
+  getAnalytics: async (): Promise<Record<string, unknown>> => {
     const response = await api.get('/page-views/');
     // Track analytics viewed in PostHog
     posthogService.captureAnalyticsViewed();
@@ -46,7 +46,7 @@ export const pageAnalyticsAPI = {
 export const pageViewsAPI = {
   getPageViews: async (): Promise<number> => {
     const analytics = await pageAnalyticsAPI.getAnalytics();
-    return analytics.page_views;
+    return typeof analytics.page_views === 'number' ? analytics.page_views : 0;
   },
   
   incrementPageViews: async (): Promise<void> => {

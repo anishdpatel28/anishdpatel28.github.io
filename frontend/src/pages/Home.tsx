@@ -1,14 +1,12 @@
-import { Box, Typography, Container, Card, CardContent, Avatar, Chip, Tooltip, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Button, ButtonGroup } from '@mui/material';
-import { Description, FileDownload, School, Work, Build, EmojiEvents, Email, LinkedIn, GitHub, Visibility, Analytics, ArrowBack, ArrowForward } from '@mui/icons-material';
+import { Box, Typography, Container, Card, CardContent, Avatar, Tooltip, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
+import { Description, FileDownload, School, Work, Build, EmojiEvents, Email, LinkedIn, GitHub, Analytics, ArrowBack, ArrowForward } from '@mui/icons-material';
 import { useEffect, useRef, useState } from 'react';
-import { useTheme } from '@mui/material/styles';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import ScrollProgress from '@/components/ScrollProgress';
 import ParallaxSection from '@/components/ParallaxSection';
 import ProjectsParallax from '@/components/ProjectsParallax';
 import TimelineNavbar from '@/components/TimelineNavbar';
-import NavbarPageViews from '@/components/NavbarPageViews';
 import { sectionBackgrounds } from '@/themes/theme';
 import { pageAnalyticsAPI } from '@/services/api';
 import { BarChart, Bar, XAxis, YAxis, Tooltip as RechartsTooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
@@ -17,12 +15,12 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip as RechartsTooltip, ResponsiveCont
 gsap.registerPlugin(ScrollTrigger);
 
 const Home = () => {
-  const [activeSection, setActiveSection] = useState('home');
   const [showAnalytics, setShowAnalytics] = useState(false);
   const [hasClickedAnalytics, setHasClickedAnalytics] = useState(false);
-  const [analytics, setAnalytics] = useState<any>(null);
-  const [sectionStartTimes, setSectionStartTimes] = useState<Record<string, number>>({});
+  const [analytics, setAnalytics] = useState<Record<string, unknown> | null>(null);
   const [showEgg, setShowEgg] = useState(false);
+  // Internship index state moved to main scope
+  const [internshipIdx, setInternshipIdx] = useState(2); // default to latest (index 2)
   const lastSectionRef = useRef<string>('home');
   const lastSectionStartRef = useRef<number>(Date.now());
   const heroRef = useRef<HTMLDivElement>(null);
@@ -58,7 +56,7 @@ const Home = () => {
         }
         lastSectionRef.current = newActiveSection;
         lastSectionStartRef.current = now;
-        setActiveSection(newActiveSection);
+        // setActiveSection(newActiveSection); // Removed as per edit hint
       }
     };
     window.addEventListener('scroll', handleScroll);
@@ -82,7 +80,6 @@ const Home = () => {
     const hasVisited = sessionStorage.getItem(sessionKey);
     if (!hasVisited) {
       pageAnalyticsAPI.incrementPageViews().then(() => {
-        // Fetch analytics again to update UI
         pageAnalyticsAPI.getAnalytics().then(setAnalytics);
       }).catch(console.error);
       sessionStorage.setItem(sessionKey, 'true');
@@ -382,47 +379,50 @@ const Home = () => {
         <DialogContent sx={{ bgcolor: '#1b263b', color: '#e0e1dd' }}>
           <Box sx={{ p: 2 }}>
             <Typography variant="h6" sx={{ mb: 2 }}>
-              Page Views: {analytics?.page_views || 0}
+              Page Views: {typeof analytics?.page_views === 'number' ? analytics.page_views : 0}
             </Typography>
             <Typography variant="body1" sx={{ mb: 2 }}>
               Time spent per section:
             </Typography>
             {/* Analytics Bar Graph */}
-            {/* @ts-ignore */}
             <Box sx={{ width: '100%', height: 240, mb: 2, mt: 3 }}>
               <ResponsiveContainer width="100%" height={240}>
                 <BarChart
                   data={[{
-                    section: 'Home', time: analytics?.time_spent_home || 0
+                    section: 'Home', time: typeof analytics?.time_spent_home === 'number' ? analytics.time_spent_home : 0
                   }, {
-                    section: 'About', time: analytics?.time_spent_about || 0
+                    section: 'About', time: typeof analytics?.time_spent_about === 'number' ? analytics.time_spent_about : 0
                   }, {
-                    section: 'Skills', time: analytics?.time_spent_skills || 0
+                    section: 'Skills', time: typeof analytics?.time_spent_skills === 'number' ? analytics.time_spent_skills : 0
                   }, {
-                    section: 'Projects', time: analytics?.time_spent_projects || 0
+                    section: 'Projects', time: typeof analytics?.time_spent_projects === 'number' ? analytics.time_spent_projects : 0
                   }, {
-                    section: 'Resume', time: analytics?.time_spent_resume || 0
+                    section: 'Resume', time: typeof analytics?.time_spent_resume === 'number' ? analytics.time_spent_resume : 0
                   }, {
-                    section: 'Contact', time: analytics?.time_spent_contact || 0
+                    section: 'Contact', time: typeof analytics?.time_spent_contact === 'number' ? analytics.time_spent_contact : 0
                   }]}
                   margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
                 >
                   <CartesianGrid strokeDasharray="3 3" stroke="#2c3e50" />
-                  {/* @ts-ignore */}
+                  {/* @ts-expect-error recharts types */}
                   <XAxis dataKey="section" stroke="#e0e1dd" tick={{ fill: '#e0e1dd', fontSize: 14 }} />
-                  {/* @ts-ignore */}
+                  {/* @ts-expect-error recharts types */}
                   <YAxis stroke="#e0e1dd" tick={{ fill: '#e0e1dd', fontSize: 12 }} tickFormatter={formatYAxisTick} />
                   <RechartsTooltip formatter={(v: number) => formatTime(v)} contentStyle={{ background: '#222e3a', color: '#e0e1dd', border: 'none' }} />
-                  {/* @ts-ignore */}
+                  {/* @ts-expect-error recharts types */}
                   <Bar dataKey="time" fill="#4fc3f7" radius={[8, 8, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </Box>
             <Typography variant="body1" sx={{ mb: 1 }}>
-              Most viewed section: {analytics?.most_viewed_section ? analytics.most_viewed_section.charAt(0).toUpperCase() + analytics.most_viewed_section.slice(1) : 'Home'}
+              Most viewed section: {
+                typeof analytics?.most_viewed_section === 'string' && analytics.most_viewed_section.length > 0
+                  ? analytics.most_viewed_section.charAt(0).toUpperCase() + analytics.most_viewed_section.slice(1)
+                  : 'Home'
+              }
             </Typography>
             <Typography variant="body1">
-              Average session duration: {formatTime(analytics?.average_session_duration || 0)}
+              Average session duration: {formatTime(typeof analytics?.average_session_duration === 'number' ? analytics.average_session_duration : 0)}
             </Typography>
           </Box>
         </DialogContent>
@@ -587,7 +587,7 @@ const Home = () => {
                     Minor in Information Technology & Web Science
                   </Typography>
                   <Typography variant="body2" sx={{ color: 'rgba(224, 225, 221, 0.7)' }}>
-                    Dean's List, Honors Program
+                    Dean&apos;s List, Honors Program
                   </Typography>
                 </CardContent>
               </Card>
@@ -620,7 +620,6 @@ const Home = () => {
                         description: 'Worked on cloud platform and full-stack development, building scalable microservices and user-facing features for financial products.'
                       }
                     ];
-                    const [internshipIdx, setInternshipIdx] = useState(internships.length - 1);
                     return (
                       <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
                         <IconButton

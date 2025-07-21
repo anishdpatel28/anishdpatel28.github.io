@@ -35,8 +35,6 @@ const Navbar = () => {
             const section = document.getElementById(sections[i]);
             if (section) {
               const sectionTop = section.offsetTop;
-              const sectionHeight = section.offsetHeight;
-              const sectionBottom = sectionTop + sectionHeight;
               if (scrollPosition >= sectionTop) {
                 currentSection = sections[i];
               } else {

@@ -5,22 +5,24 @@ from urllib.parse import parse_qsl, urlparse
 from dotenv import load_dotenv
 
 # Load environment variables from root .env file
-load_dotenv(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), '.env'))
+load_dotenv(
+    os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), ".env")
+)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-your-secret-key-here')
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "django-insecure-your-secret-key-here")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
+DEBUG = os.getenv("DEBUG", "True").lower() == "true"
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 
 # PostHog Configuration
-POSTHOG_API_KEY = os.getenv('POSTHOG_API_KEY')
-POSTHOG_HOST = os.getenv('POSTHOG_HOST', 'https://app.posthog.com')
+POSTHOG_API_KEY = os.getenv("POSTHOG_API_KEY")
+POSTHOG_HOST = os.getenv("POSTHOG_HOST", "https://app.posthog.com")
 
 # Application definition
 INSTALLED_APPS = [

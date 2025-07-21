@@ -4,7 +4,7 @@ import { gsap } from 'gsap';
 import { pageAnalyticsAPI } from '@/services/api';
 
 const PageViews = () => {
-  const [analytics, setAnalytics] = useState<any>(null);
+  const [analytics, setAnalytics] = useState<Record<string, unknown> | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -68,7 +68,7 @@ const PageViews = () => {
           fontFamily: 'monospace'
         }}
       >
-        {analytics.page_views || 0}
+        {typeof analytics.page_views === 'number' ? analytics.page_views : 0}
       </Typography>
     </Box>
   );

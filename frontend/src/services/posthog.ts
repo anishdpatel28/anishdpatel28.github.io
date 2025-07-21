@@ -17,7 +17,7 @@ if (POSTHOG_API_KEY && POSTHOG_HOST) {
 
 export const posthogService = {
   // Page view tracking
-  capturePageView: (properties?: Record<string, any>) => {
+  capturePageView: (properties?: Record<string, unknown>) => {
     if (POSTHOG_API_KEY) {
       posthog.capture('page_viewed', properties)
     }
@@ -48,14 +48,14 @@ export const posthogService = {
   },
 
   // User identification
-  identify: (userId: string, properties?: Record<string, any>) => {
+  identify: (userId: string, properties?: Record<string, unknown>) => {
     if (POSTHOG_API_KEY) {
       posthog.identify(userId, properties)
     }
   },
 
   // Set user properties
-  setUserProperties: (properties: Record<string, any>) => {
+  setUserProperties: (properties: Record<string, unknown>) => {
     if (POSTHOG_API_KEY) {
       posthog.setPersonProperties(properties)
     }
@@ -67,6 +67,20 @@ export const posthogService = {
       return posthog.get_distinct_id()
     }
     return undefined
+  },
+
+  capture: (event: string, properties?: Record<string, unknown>) => {
+    if (POSTHOG_API_KEY) {
+      posthog.capture(event, properties)
+    }
+  },
+
+  people: {
+    set: (properties: Record<string, unknown>) => {
+      if (POSTHOG_API_KEY) {
+        posthog.people.set(properties)
+      }
+    }
   }
 }
 
