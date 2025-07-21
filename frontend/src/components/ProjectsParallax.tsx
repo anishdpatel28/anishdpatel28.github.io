@@ -11,6 +11,7 @@ const ProjectsParallax = () => {
   const infoRef = useRef<HTMLDivElement>(null);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const prevIsMobile = useRef(isMobile);
 
   const projects = [
     {
@@ -88,6 +89,17 @@ const ProjectsParallax = () => {
   };
 
   useEffect(() => {
+    if (prevIsMobile.current !== isMobile) {
+      if (!isMobile && carouselRef.current) {
+        gsap.set(carouselRef.current, { rotateY: rotation });
+      }
+      if (infoRef.current) {
+        gsap.set(infoRef.current, { opacity: 1, y: 0 });
+      }
+      prevIsMobile.current = isMobile;
+      return;
+    }
+
     if (isMobile) {
       // Mobile: Animate info panel only
       if (infoRef.current) {
