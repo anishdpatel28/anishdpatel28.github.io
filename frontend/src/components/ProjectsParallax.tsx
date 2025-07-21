@@ -7,6 +7,7 @@ import { sectionBackgrounds } from '@/themes/theme';
 const ProjectsParallax = () => {
   const [currentProject, setCurrentProject] = useState(0);
   const [rotation, setRotation] = useState(0);
+  const [isTransitioningFromMobile, setIsTransitioningFromMobile] = useState(false);
   const carouselRef = useRef<HTMLDivElement>(null);
   const infoRef = useRef<HTMLDivElement>(null);
   const theme = useTheme();
@@ -92,11 +93,10 @@ const ProjectsParallax = () => {
       const isMobile = window.innerWidth <= 768;
 
       if (!isMobile && carouselRef.current) {
-        // Reset carousel to current project position without animation
         const currentRotation = -currentProject * (360 / projects.length);
         gsap.set(carouselRef.current, { rotationY: currentRotation });
-        // Also reset the rotation state to match the current position
         setRotation(-currentProject * (360 / projects.length));
+        setIsTransitioningFromMobile(true);
       }
     };
 
@@ -108,6 +108,8 @@ const ProjectsParallax = () => {
 
   // Animation useEffect
   useEffect(() => {
+    console.log('Animation useEffect triggered:', { currentProject, rotation, isMobile, isTransitioningFromMobile });
+
     if (isMobile) {
       // Mobile: Animate info panel only
       if (infoRef.current) {
@@ -121,13 +123,21 @@ const ProjectsParallax = () => {
         );
       }
     } else {
-      // Desktop: Animate carousel rotation
       if (carouselRef.current) {
-        gsap.to(carouselRef.current, {
-          rotateY: rotation,
-          duration: 0.8,
-          ease: "power2.out"
-        });
+        const currentRotation = -currentProject * (360 / projects.length);
+        const isResize = Math.abs(rotation - currentRotation) > 1;
+
+        if (isResize || isTransitioningFromMobile) {
+          gsap.set(carouselRef.current, { rotateY: currentRotation });
+          setRotation(currentRotation);
+          setIsTransitioningFromMobile(false);
+        } else {
+          gsap.to(carouselRef.current, {
+            rotateY: rotation,
+            duration: 0.8,
+            ease: "power2.out"
+          });
+        }
       }
 
       // Animate info panel
@@ -142,7 +152,7 @@ const ProjectsParallax = () => {
         );
       }
     }
-  }, [currentProject, rotation, isMobile]);
+  }, [currentProject, rotation, isMobile, projects.length, isTransitioningFromMobile]);
 
   // Mobile Layout Component
   const MobileLayout = () => (
