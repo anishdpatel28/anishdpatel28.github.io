@@ -37,12 +37,14 @@ VITE_POSTHOG_HOST=https://app.posthog.com
 ### 3. Install Dependencies
 
 **Backend:**
+
 ```bash
 cd backend
 pip install -r requirements.txt
 ```
 
 **Frontend:**
+
 ```bash
 cd frontend
 npm install
@@ -97,6 +99,7 @@ Once configured, you can view analytics in your PostHog dashboard:
 ### Adding New Events
 
 **Backend:**
+
 ```python
 # In posthog_service.py
 def capture_custom_event(self, event_name: str, properties: Dict[str, Any], user_id: Optional[str] = None):
@@ -112,6 +115,7 @@ def capture_custom_event(self, event_name: str, properties: Dict[str, Any], user
 ```
 
 **Frontend:**
+
 ```typescript
 // In posthog.ts
 captureCustomEvent: (eventName: string, properties?: Record<string, any>) => {
@@ -124,6 +128,7 @@ captureCustomEvent: (eventName: string, properties?: Record<string, any>) => {
 ### Environment Variables
 
 All environment variables are centralized in the root `.env` file:
+
 - Backend reads from root `.env`
 - Frontend uses Vite's environment variable system
 - No duplicate configuration files
@@ -147,4 +152,4 @@ All environment variables are centralized in the root `.env` file:
 
 1. Restart development server
 2. Clear browser cache
-3. Check Vite environment variables 
+3. Check Vite environment variables
