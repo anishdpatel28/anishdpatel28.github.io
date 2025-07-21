@@ -28,7 +28,6 @@ const TimelineNavbar = () => {
   const navbarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Fade in animation after hero animation
     if (navbarRef.current) {
       gsap.fromTo(navbarRef.current,
         { opacity: 0, y: -32 },
@@ -36,8 +35,7 @@ const TimelineNavbar = () => {
           opacity: 1,
           y: 0,
           duration: 0.7,
-          ease: "power2.out",
-          delay: 2.7
+          ease: "power2.out"
         }
       );
     }

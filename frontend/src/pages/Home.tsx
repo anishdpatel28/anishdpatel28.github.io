@@ -15,6 +15,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip as RechartsTooltip, ResponsiveCont
 gsap.registerPlugin(ScrollTrigger);
 
 const Home = () => {
+  const [showNavbar, setShowNavbar] = useState(false);
   const [showAnalytics, setShowAnalytics] = useState(false);
   const [hasClickedAnalytics, setHasClickedAnalytics] = useState(false);
   const [analytics, setAnalytics] = useState<Record<string, unknown> | null>(null);
@@ -110,24 +111,28 @@ const Home = () => {
     if (heroSubtitle) {
       heroTl.fromTo(heroSubtitle,
         { opacity: 0, y: -30 },
-        { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }, "-=0.3"
+        { opacity: 1, y: 0, duration: 0.6, ease: "power2.out", onStart: () => setShowNavbar(true) }, "-=0.6"
       );
     }
     if (heroDescription) {
       heroTl.fromTo(heroDescription,
         { opacity: 0, y: -30 },
-        { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }, "-=0.3"
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: "power2.out",
+          onStart: () => setShowNavbar(true)
+        },
+        "-=0.3"
       );
     }
     if (heroImage) {
       heroTl.fromTo(heroImage,
         { opacity: 0 },
-        { opacity: 1, duration: 0.8, ease: "power2.out" }, "-=0.5"
+        { opacity: 1, duration: 0.8, ease: "power2.out", onComplete: () => setShowEgg(true) }, "-=0.5"
       );
     }
-
-    // Show egg after hero animations complete
-    heroTl.to({}, { duration: 0.5, onComplete: () => setShowEgg(true) });
 
     // About section animations with staggered reveals
     const aboutSections = aboutRef.current?.querySelectorAll('.about-section');
@@ -324,7 +329,6 @@ const Home = () => {
   return (
     <Box>
       <ScrollProgress />
-      <TimelineNavbar />
       {/* Removed NavbarPageViews (page views display) */}
 
       {/* Easter Egg Analytics Button */}
@@ -488,6 +492,7 @@ const Home = () => {
                 >
                   I love creating innovative digital experiences and bring ideas to life.
                 </Typography>
+                {showNavbar && <TimelineNavbar />}
               </Box>
             </Box>
 

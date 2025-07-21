@@ -1,7 +1,7 @@
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline, GlobalStyles } from '@mui/material';
 import { theme } from './themes/theme';
-import TimelineNavbar from './components/TimelineNavbar';
+
 import Home from './pages/Home';
 
 function App() {
@@ -10,7 +10,6 @@ function App() {
       <CssBaseline />
       <GlobalStyles
         styles={{
-          // Hide default scrollbar but keep scrolling
           '*::-webkit-scrollbar': {
             display: 'none',
           },
@@ -39,7 +38,6 @@ function App() {
           }
         }}
       />
-      <TimelineNavbar />
       <Home />
     </ThemeProvider>
   );

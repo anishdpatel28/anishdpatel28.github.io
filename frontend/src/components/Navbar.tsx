@@ -68,7 +68,7 @@ const Navbar = () => {
     if (logoRef.current) {
       gsap.fromTo(logoRef.current,
         { opacity: 0, y: -20 },
-        { opacity: 1, y: 0, duration: 0.8, ease: "power2.out", delay: 1.4 }
+        { opacity: 1, y: 0, duration: 0.8, ease: "power2.out", delay: 1.2 }
       );
     }
 
@@ -83,7 +83,7 @@ const Navbar = () => {
           duration: 0.8,
           ease: "power2.out",
           stagger: 0.15,
-          delay: 1.55
+          delay: 1.2
         }
       );
     }
@@ -92,7 +92,7 @@ const Navbar = () => {
     if (mobileButtonRef.current) {
       gsap.fromTo(mobileButtonRef.current,
         { opacity: 0, y: -20 },
-        { opacity: 1, y: 0, duration: 0.8, ease: "power2.out", delay: 1.4 }
+        { opacity: 1, y: 0, duration: 0.8, ease: "power2.out", delay: 1.2 }
       );
     }
   }, []);
