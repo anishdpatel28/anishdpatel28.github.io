@@ -18,7 +18,6 @@ function App() {
             scrollbarWidth: 'none',
           },
           'html, body': {
-            overflow: 'auto',
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
           },
@@ -35,7 +34,11 @@ function App() {
             '100%': {
               opacity: 1,
             }
-          }
+          },
+          'body.no-scroll': {
+            overflow: 'hidden !important',
+            position: 'relative !important',
+          },
         }}
       />
       <Home />
