@@ -623,11 +623,13 @@ const Home = () => {
                     const [internshipIdx, setInternshipIdx] = useState(internships.length - 1);
                     return (
                       <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-                        {internshipIdx > 0 && (
-                          <IconButton onClick={() => setInternshipIdx((internshipIdx - 1 + internships.length) % internships.length)} size="small" sx={{ mr: 2 }}>
-                            <ArrowBack fontSize="small" />
-                          </IconButton>
-                        )}
+                        <IconButton
+                          onClick={() => setInternshipIdx((internshipIdx - 1 + internships.length) % internships.length)}
+                          size="small"
+                          sx={{ mr: 2, visibility: internshipIdx > 0 ? 'visible' : 'hidden' }}
+                        >
+                          <ArrowBack fontSize="small" />
+                        </IconButton>
                         <Box sx={{ flex: 1 }}>
                           <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                             <Work sx={{ mr: 2, color: '#e0e1dd', fontSize: 28 }} />
@@ -642,11 +644,13 @@ const Home = () => {
                             {internships[internshipIdx].description}
                           </Typography>
                         </Box>
-                        {internshipIdx < internships.length - 1 && (
-                          <IconButton onClick={() => setInternshipIdx((internshipIdx + 1) % internships.length)} size="small" sx={{ ml: 2 }}>
-                            <ArrowForward fontSize="small" />
-                          </IconButton>
-                        )}
+                        <IconButton
+                          onClick={() => setInternshipIdx((internshipIdx + 1) % internships.length)}
+                          size="small"
+                          sx={{ ml: 2, visibility: internshipIdx < internships.length - 1 ? 'visible' : 'hidden' }}
+                        >
+                          <ArrowForward fontSize="small" />
+                        </IconButton>
                       </Box>
                     );
                   })()}
