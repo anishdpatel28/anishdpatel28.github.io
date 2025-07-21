@@ -1,5 +1,5 @@
-import { Box, Typography, Container, Card, CardContent, Avatar, Chip, Tooltip, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
-import { Description, FileDownload, School, Work, Build, EmojiEvents, Email, LinkedIn, GitHub, Visibility, Analytics } from '@mui/icons-material';
+import { Box, Typography, Container, Card, CardContent, Avatar, Chip, Tooltip, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Button, ButtonGroup } from '@mui/material';
+import { Description, FileDownload, School, Work, Build, EmojiEvents, Email, LinkedIn, GitHub, Visibility, Analytics, ArrowBack, ArrowForward } from '@mui/icons-material';
 import { useEffect, useRef, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { gsap } from 'gsap';
@@ -565,48 +565,91 @@ const Home = () => {
                 backgroundColor: 'rgba(224, 225, 221, 0.05)',
                 backdropFilter: 'blur(20px)',
                 border: '1px solid rgba(224, 225, 221, 0.1)',
+                minHeight: 0,
               }}>
-                <CardContent sx={{ p: 3 }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                    <School sx={{ mr: 2, color: '#e0e1dd', fontSize: 28 }} />
+                <CardContent sx={{ p: 2 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                    <School sx={{ mr: 2, color: '#e0e1dd', fontSize: 24 }} />
                     <Typography variant="h6" sx={{ color: '#e0e1dd', fontWeight: 600 }}>
                       Education
                     </Typography>
                   </Box>
-                  <Typography variant="subtitle1" sx={{ color: '#e0e1dd', fontWeight: 500, mb: 1 }}>
-                    RPI, B.S. Computer Science (2022–2026)
+                  <Typography variant="subtitle1" sx={{ color: '#e0e1dd', fontWeight: 500, mb: 0.5 }}>
+                    Rensselaer Polytechnic Institute, Troy, NY
                   </Typography>
-                  <Typography variant="body2" sx={{ color: 'rgba(224, 225, 221, 0.8)' }}>
-                    Minors: Cognitive Science of AI, Info Tech & Web Science
+                  <Typography variant="body2" sx={{ color: 'rgba(224, 225, 221, 0.8)', mb: 0.5 }}>
+                    B.S. in Computer Science (2022–2026)
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: 'rgba(224, 225, 221, 0.8)', mb: 0.2 }}>
+                    Minor in Cognitive Science of AI
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: 'rgba(224, 225, 221, 0.8)', mb: 0.2 }}>
+                    Minor in Information Technology & Web Science
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: 'rgba(224, 225, 221, 0.7)' }}>
+                    Dean's List, Honors Program
                   </Typography>
                 </CardContent>
               </Card>
 
-              {/* Work Experience */}
+              {/* Work Experience (Internships with Arrows) */}
               <Card className="about-section" sx={{
                 backgroundColor: 'rgba(224, 225, 221, 0.05)',
                 backdropFilter: 'blur(20px)',
                 border: '1px solid rgba(224, 225, 221, 0.1)',
               }}>
-                <CardContent sx={{ p: 3 }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                    <Work sx={{ mr: 2, color: '#e0e1dd', fontSize: 28 }} />
-                    <Typography variant="h6" sx={{ color: '#e0e1dd', fontWeight: 600 }}>
-                      Work Experience
-                    </Typography>
-                  </Box>
-                  <Typography variant="subtitle1" sx={{ color: '#e0e1dd', fontWeight: 500, mb: 1 }}>
-                    Analog Devices, SWE Intern (2024)
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: 'rgba(224, 225, 221, 0.8)', mb: 2 }}>
-                    Modernized software packaging app.
-                  </Typography>
-                  <Typography variant="subtitle1" sx={{ color: '#e0e1dd', fontWeight: 500, mb: 1 }}>
-                    Intuit Credit Karma, SWE Intern (2023)
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: 'rgba(224, 225, 221, 0.8)' }}>
-                    Built SecOps portal for security alerts.
-                  </Typography>
+                <CardContent sx={{ p: 3, display: 'flex', alignItems: 'center' }}>
+                  {(() => {
+                    const internships = [
+                      {
+                        company: 'Intuit Credit Karma',
+                        title: 'SWE Intern',
+                        year: '2023',
+                        description: 'Developed a SecOps portal for real-time security alerting and automated incident response. Collaborated with cross-functional teams to enhance platform security.'
+                      },
+                      {
+                        company: 'Analog Devices',
+                        title: 'SWE Intern',
+                        year: '2024',
+                        description: 'Modernized a legacy software packaging application, implemented CI/CD pipelines, and improved deployment reliability for engineering teams.'
+                      },
+                      {
+                        company: 'Intuit Credit Karma',
+                        title: 'SWE Intern',
+                        year: '2025',
+                        description: 'Worked on cloud platform and full-stack development, building scalable microservices and user-facing features for financial products.'
+                      }
+                    ];
+                    const [internshipIdx, setInternshipIdx] = useState(internships.length - 1);
+                    return (
+                      <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+                        {internshipIdx > 0 && (
+                          <IconButton onClick={() => setInternshipIdx((internshipIdx - 1 + internships.length) % internships.length)} size="small" sx={{ mr: 2 }}>
+                            <ArrowBack fontSize="small" />
+                          </IconButton>
+                        )}
+                        <Box sx={{ flex: 1 }}>
+                          <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                            <Work sx={{ mr: 2, color: '#e0e1dd', fontSize: 28 }} />
+                            <Typography variant="h6" sx={{ color: '#e0e1dd', fontWeight: 600 }}>
+                              Work Experience
+                            </Typography>
+                          </Box>
+                          <Typography variant="subtitle1" sx={{ color: '#e0e1dd', fontWeight: 500, mb: 1 }}>
+                            {internships[internshipIdx].company}, {internships[internshipIdx].title} ({internships[internshipIdx].year})
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: 'rgba(224, 225, 221, 0.8)' }}>
+                            {internships[internshipIdx].description}
+                          </Typography>
+                        </Box>
+                        {internshipIdx < internships.length - 1 && (
+                          <IconButton onClick={() => setInternshipIdx((internshipIdx + 1) % internships.length)} size="small" sx={{ ml: 2 }}>
+                            <ArrowForward fontSize="small" />
+                          </IconButton>
+                        )}
+                      </Box>
+                    );
+                  })()}
                 </CardContent>
               </Card>
 
@@ -642,9 +685,11 @@ const Home = () => {
                       Certifications
                     </Typography>
                   </Box>
-                  <Typography variant="body2" sx={{ color: 'rgba(224, 225, 221, 0.8)' }}>
-                    AWS Solutions Architect, Google Cloud Professional, Oracle Certified Foundations Associate
-                  </Typography>
+                  <ul style={{ margin: 0, paddingLeft: 18, color: 'rgba(224, 225, 221, 0.8)', fontSize: '0.92rem', lineHeight: 1.5 }}>
+                    <li>Oracle Certified Foundations Associate – Oracle University</li>
+                    <li>PCEP-Certified Entry-Level Python Programmer – Python Institute</li>
+                    <li>Recipient of the President’s Volunteer Service Award</li>
+                  </ul>
                 </CardContent>
               </Card>
             </Box>
