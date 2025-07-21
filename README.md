@@ -32,7 +32,7 @@ cd anishdpatel28.github.io
 
 ### 2. Set Up Environment Variables
 
-Create a `.env` file in the root directory and set the required environment variables. (Contact the maintainer for the correct values.)
+Create a `.env` file in the root directory and set the required environment variables.
 
 ### 3. Install Dependencies and Set Up
 
