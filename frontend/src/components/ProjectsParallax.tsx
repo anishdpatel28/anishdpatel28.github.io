@@ -114,12 +114,11 @@ const ProjectsParallax = () => {
       // Animate info panel
       if (infoRef.current) {
         gsap.fromTo(infoRef.current,
-          { opacity: 0, x: 50 },
+          { opacity: 0 },
           {
             opacity: 1,
-            x: 0,
             duration: 0.4,
-            ease: "power2.out"
+            ease: "power1.out"
           }
         );
       }
