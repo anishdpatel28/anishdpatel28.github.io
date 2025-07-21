@@ -5,7 +5,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import ScrollProgress from '@/components/ScrollProgress';
 import ParallaxSection from '@/components/ParallaxSection';
-import ProjectsParallax from '@/components/ProjectsParallax';
+import ProjectsCarousel from '@/components/ProjectsCarousel';
 import TimelineNavbar from '@/components/TimelineNavbar';
 import { sectionBackgrounds } from '@/themes/theme';
 import { pageAnalyticsAPI } from '@/services/api';
@@ -845,7 +845,7 @@ const Home = () => {
       </Box>
 
       {/* Projects Section */}
-      <ProjectsParallax />
+      <ProjectsCarousel />
 
       {/* Resume Section */}
       <Box
