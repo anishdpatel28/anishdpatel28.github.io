@@ -88,16 +88,35 @@ const ProjectsParallax = () => {
   };
 
   useEffect(() => {
+    const handleResize = () => {
+      const isMobile = window.innerWidth <= 768;
+
+      if (!isMobile && carouselRef.current) {
+        // Reset carousel to current project position without animation
+        const currentRotation = -currentProject * (360 / projects.length);
+        gsap.set(carouselRef.current, { rotationY: currentRotation });
+        // Also reset the rotation state to match the current position
+        setRotation(-currentProject * (360 / projects.length));
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Initial check
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, [currentProject, projects.length]);
+
+  // Animation useEffect
+  useEffect(() => {
     if (isMobile) {
       // Mobile: Animate info panel only
       if (infoRef.current) {
         gsap.fromTo(infoRef.current,
-          { opacity: 0, y: 30 },
+          { opacity: 0 },
           {
             opacity: 1,
-            y: 0,
             duration: 0.4,
-            ease: "power2.out"
+            ease: "power1.out"
           }
         );
       }
