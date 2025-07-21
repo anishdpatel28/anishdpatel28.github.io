@@ -962,40 +962,34 @@ const Home = () => {
             <Typography variant="h6" sx={{ color: 'rgba(224, 225, 221, 0.9)', mb: 6, maxWidth: 600, mx: 'auto' }}>
               I&apos;m always interested in new opportunities and collaborations. Feel free to reach out!
             </Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'center' }}>
-              <Box className="contact-item" sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            <Box sx={{ display: 'flex', gap: 4, alignItems: 'center', justifyContent: 'center', mt: 4 }}>
+              <Tooltip title="Email" arrow>
                 <IconButton
                   onClick={() => window.open('mailto:anish.patel@example.com', '_blank')}
-                  sx={{ color: '#e0e1dd', p: 0 }}
+                  sx={{ color: '#e0e1dd', p: 2, fontSize: 40 }}
+                  aria-label="Email"
                 >
-                  <Email sx={{ fontSize: 32 }} />
+                  <Email sx={{ fontSize: 40 }} />
                 </IconButton>
-                <Typography variant="h6" sx={{ color: '#e0e1dd', fontWeight: 500 }}>
-                  <a href="mailto:anish.patel@example.com" style={{ color: '#e0e1dd', textDecoration: 'none' }}>Email</a>
-                </Typography>
-              </Box>
-              <Box className="contact-item" sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              </Tooltip>
+              <Tooltip title="LinkedIn" arrow>
                 <IconButton
                   onClick={() => window.open('https://linkedin.com/in/anishpatel', '_blank')}
-                  sx={{ color: '#e0e1dd', p: 0 }}
+                  sx={{ color: '#e0e1dd', p: 2, fontSize: 40 }}
+                  aria-label="LinkedIn"
                 >
-                  <LinkedIn sx={{ fontSize: 32 }} />
+                  <LinkedIn sx={{ fontSize: 40 }} />
                 </IconButton>
-                <Typography variant="h6" sx={{ color: '#e0e1dd', fontWeight: 500 }}>
-                  <a href="https://linkedin.com/in/anishpatel" target="_blank" rel="noopener noreferrer" style={{ color: '#e0e1dd', textDecoration: 'none' }}>LinkedIn</a>
-                </Typography>
-              </Box>
-              <Box className="contact-item" sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              </Tooltip>
+              <Tooltip title="GitHub" arrow>
                 <IconButton
                   onClick={() => window.open('https://github.com/anishpatel', '_blank')}
-                  sx={{ color: '#e0e1dd', p: 0 }}
+                  sx={{ color: '#e0e1dd', p: 2, fontSize: 40 }}
+                  aria-label="GitHub"
                 >
-                  <GitHub sx={{ fontSize: 32 }} />
+                  <GitHub sx={{ fontSize: 40 }} />
                 </IconButton>
-                <Typography variant="h6" sx={{ color: '#e0e1dd', fontWeight: 500 }}>
-                  <a href="https://github.com/anishpatel" target="_blank" rel="noopener noreferrer" style={{ color: '#e0e1dd', textDecoration: 'none' }}>GitHub</a>
-                </Typography>
-              </Box>
+              </Tooltip>
             </Box>
           </Box>
         </Container>
