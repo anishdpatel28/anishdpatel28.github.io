@@ -91,7 +91,7 @@ const TimelineNavbar = () => {
           gap: { xs: 0.5, md: 1.5 },
           minHeight: NAVBAR_HEIGHT,
           pointerEvents: 'auto',
-          transform: 'translateZ(0)', // Prevent layout shifts during scroll
+          transform: 'translateZ(0)',
         }}
       >
         {sectionIcons.map((section) => (

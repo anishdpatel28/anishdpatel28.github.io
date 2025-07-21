@@ -22,7 +22,7 @@ def get_page_analytics(request):
     try:
         analytics = PageAnalytics.get_analytics()
 
-        # Capture analytics viewed event
+        # capture analytics viewed event
         user_id = get_user_id(request)
         posthog_service.capture_analytics_viewed(user_id)
 
@@ -36,7 +36,7 @@ def increment_page_views(request):
     try:
         page_views = PageAnalytics.increment_page_views()
 
-        # Capture page view event in PostHog
+        # capture page view event in PostHog
         user_id = get_user_id(request)
         posthog_service.capture_page_view(
             user_id,
@@ -65,7 +65,7 @@ def update_section_time(request):
 
         PageAnalytics.update_section_time(section, time_spent)
 
-        # Capture section time event in PostHog
+        # capture section time event in PostHog
         user_id = get_user_id(request)
         posthog_service.capture_section_time(section, time_spent, user_id)
 

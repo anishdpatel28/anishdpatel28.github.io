@@ -60,7 +60,7 @@ class PageAnalytics(models.Model):
         elif section == "contact":
             obj.time_spent_contact += time_spent
 
-        # Update most viewed section
+        # update most viewed section
         times = {
             "home": obj.time_spent_home,
             "about": obj.time_spent_about,
@@ -71,7 +71,7 @@ class PageAnalytics(models.Model):
         }
         obj.most_viewed_section = max(times.items(), key=lambda x: x[1])[0]
 
-        # Calculate average session duration
+        # calculate average session duration
         total_time = sum(times.values())
         if obj.page_views > 0:
             obj.average_session_duration = total_time // obj.page_views
