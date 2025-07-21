@@ -10,20 +10,18 @@ if (POSTHOG_API_KEY && POSTHOG_HOST) {
     loaded: (posthog) => {
       if (process.env.NODE_ENV === 'development') posthog.debug()
     },
-    capture_pageview: false, // We'll handle this manually
-    capture_pageleave: false, // We'll handle this manually
+    capture_pageview: false,
+    capture_pageleave: false,
   })
 }
 
 export const posthogService = {
-  // Page view tracking
   capturePageView: (properties?: Record<string, unknown>) => {
     if (POSTHOG_API_KEY) {
       posthog.capture('page_viewed', properties)
     }
   },
 
-  // Section time tracking
   captureSectionTime: (section: string, timeSpent: number) => {
     if (POSTHOG_API_KEY) {
       posthog.capture('section_time_spent', {
@@ -33,35 +31,30 @@ export const posthogService = {
     }
   },
 
-  // Analytics dialog viewed
   captureAnalyticsViewed: () => {
     if (POSTHOG_API_KEY) {
       posthog.capture('analytics_viewed')
     }
   },
 
-  // Easter egg clicked
   captureEggClicked: () => {
     if (POSTHOG_API_KEY) {
       posthog.capture('easter_egg_clicked')
     }
   },
 
-  // User identification
   identify: (userId: string, properties?: Record<string, unknown>) => {
     if (POSTHOG_API_KEY) {
       posthog.identify(userId, properties)
     }
   },
 
-  // Set user properties
   setUserProperties: (properties: Record<string, unknown>) => {
     if (POSTHOG_API_KEY) {
       posthog.setPersonProperties(properties)
     }
   },
 
-  // Get distinct ID
   getDistinctId: (): string | undefined => {
     if (POSTHOG_API_KEY) {
       return posthog.get_distinct_id()

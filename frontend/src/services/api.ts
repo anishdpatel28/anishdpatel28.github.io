@@ -13,14 +13,12 @@ export const api = axios.create({
 export const pageAnalyticsAPI = {
   getAnalytics: async (): Promise<Record<string, unknown>> => {
     const response = await api.get('/page-views/');
-    // Track analytics viewed in PostHog
     posthogService.captureAnalyticsViewed();
     return response.data;
   },
   
   incrementPageViews: async (): Promise<void> => {
     const response = await api.post('/page-views/increment/');
-    // Track page view in PostHog
     posthogService.capturePageView({
       total_page_views: response.data.page_views
     });
@@ -31,18 +29,15 @@ export const pageAnalyticsAPI = {
       section,
       time_spent: timeSpent
     });
-    // Track section time in PostHog
     posthogService.captureSectionTime(section, timeSpent);
   },
 
   captureEggClick: async (): Promise<void> => {
     await api.post('/page-views/egg-click/');
-    // Track egg click in PostHog
     posthogService.captureEggClicked();
   },
 };
 
-// Legacy compatibility
 export const pageViewsAPI = {
   getPageViews: async (): Promise<number> => {
     const analytics = await pageAnalyticsAPI.getAnalytics();
