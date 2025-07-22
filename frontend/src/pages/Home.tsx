@@ -8,6 +8,7 @@ import TimelineNavbar from '@/components/TimelineNavbar';
 import { sectionBackgrounds } from '@/themes/theme';
 import { pageAnalyticsAPI } from '@/services/api';
 import { BarChart, Bar, XAxis, YAxis, Tooltip as RechartsTooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
+import easterEgg from '@/assets/images/icons/easter-egg.svg';
 
 const Home = () => {
   const [showNavbar, setShowNavbar] = useState(false);
@@ -350,7 +351,13 @@ const Home = () => {
             })
           }}
         >
-          {hasClickedAnalytics ? <Analytics /> : '🥚'}
+          {hasClickedAnalytics ? <Analytics /> : (
+            <img
+              src={easterEgg}
+              alt="Easter Egg"
+              style={{ width: 24, height: 24, display: 'block' }}
+            />
+          )}
         </IconButton>
       </Box>
 
@@ -807,6 +814,7 @@ const Home = () => {
                     { name: 'PostgreSQL' },
                     { name: 'SQL' },
                     { name: 'Docker' },
+                    { name: 'Git' },
                     { name: 'GitHub' },
                     { name: 'CircleCI' },
                     { name: 'VS Code' },
