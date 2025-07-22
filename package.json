@@ -29,7 +29,12 @@
     "frontend:test:watch": "cd frontend && npm run test:watch",
     "frontend:test:coverage": "cd frontend && npm run test:coverage",
     "build": "npm run frontend:build",
-    "clean": "rm -rf frontend/node_modules frontend/dist backend/venv backend/__pycache__ backend/pageviews/__pycache__ backend/portfolio_backend/__pycache__"
+    "clean": "rm -rf frontend/node_modules frontend/dist backend/venv backend/__pycache__ backend/pageviews/__pycache__ backend/portfolio_backend/__pycache__",
+    "docker:build": "docker compose build",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f",
+    "docker:ps": "docker compose ps"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.6.3",
