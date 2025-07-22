@@ -41,9 +41,6 @@ const ParallaxSection: React.FC<ParallaxSectionProps> = ({
         });
       }
     })();
-    return () => {
-      // No-op in test mode
-    };
   }, [speed]);
 
   return (

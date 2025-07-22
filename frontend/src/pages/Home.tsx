@@ -140,7 +140,7 @@ const Home = () => {
         );
       }
 
-      // About section animations
+      // about section animations
       const aboutSections = aboutRef.current?.querySelectorAll('.about-section');
       if (aboutSections && aboutSections.length > 0) {
         gsap.fromTo(aboutSections,
@@ -160,7 +160,7 @@ const Home = () => {
         );
       }
 
-      // Skills section animations
+      // skills section animations
       const skillsTitle = skillsRef.current?.querySelector('.skills-title');
       const skillCategories = skillsRef.current?.querySelectorAll('.skill-category');
 
@@ -199,7 +199,7 @@ const Home = () => {
         );
       }
 
-      // Resume section animations
+      // resume section animations
       const resumeTitle = resumeRef.current?.querySelector('.resume-title');
       const resumeButtons = resumeRef.current?.querySelectorAll('.resume-button');
 
@@ -238,7 +238,7 @@ const Home = () => {
         );
       }
 
-      // Contact section animations
+      // contact section animations
       const contactTitle = contactRef.current?.querySelector('.contact-title');
       const contactItems = contactRef.current?.querySelectorAll('.contact-item');
 
@@ -287,7 +287,6 @@ const Home = () => {
   const handleAnalyticsClick = () => {
     if (!hasClickedAnalytics) {
       setHasClickedAnalytics(true);
-      // Track egg click in PostHog
       pageAnalyticsAPI.captureEggClick().catch(console.error);
     }
     setShowAnalytics(true);
@@ -299,7 +298,7 @@ const Home = () => {
     return `${minutes}m ${remainingSeconds}s`;
   };
 
-  // Custom Y-axis tick formatter for graph
+  // custom Y-axis tick formatter for graph
   const formatYAxisTick = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;

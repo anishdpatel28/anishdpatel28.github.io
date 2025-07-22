@@ -1,6 +1,5 @@
 import posthog from 'posthog-js'
 
-// Initialize PostHog
 const POSTHOG_API_KEY = import.meta.env.VITE_POSTHOG_API_KEY
 const POSTHOG_HOST = import.meta.env.VITE_POSTHOG_HOST
 
