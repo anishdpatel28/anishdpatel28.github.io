@@ -401,12 +401,9 @@ const Home = () => {
                   margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
                 >
                   <CartesianGrid strokeDasharray="3 3" stroke="#2c3e50" />
-                  {/* @ts-expect-error recharts types */}
                   <XAxis dataKey="section" stroke="#e0e1dd" tick={{ fill: '#e0e1dd', fontSize: 14 }} />
-                  {/* @ts-expect-error recharts types */}
                   <YAxis stroke="#e0e1dd" tick={{ fill: '#e0e1dd', fontSize: 12 }} tickFormatter={formatYAxisTick} />
                   <RechartsTooltip formatter={(v: number) => formatTime(v)} contentStyle={{ background: '#222e3a', color: '#e0e1dd', border: 'none' }} />
-                  {/* @ts-expect-error recharts types */}
                   <Bar dataKey="time" fill="#4fc3f7" radius={[8, 8, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
@@ -525,7 +522,7 @@ const Home = () => {
         </Container>
       </ParallaxSection>
 
-      {/* About Section - Structured with Components */}
+      {/* About */}
       <Box
         id="about"
         ref={aboutRef}
