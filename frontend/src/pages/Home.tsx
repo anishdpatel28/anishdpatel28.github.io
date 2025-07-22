@@ -730,13 +730,69 @@ const Home = () => {
                 </Typography>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
                   {[
-                    { name: 'Python' },
-                    { name: 'JavaScript' },
-                    { name: 'Java' },
-                    { name: 'C' },
-                    { name: 'C++' },
-                    { name: 'CSS' },
-                    { name: 'HTML5' }
+                    {
+                      name: 'Python', icon: (
+                        <img
+                          src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg"
+                          alt="Python"
+                          style={{ width: 40, height: 40, display: 'block' }}
+                        />
+                      )
+                    },
+                    {
+                      name: 'JavaScript', icon: (
+                        <img
+                          src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg"
+                          alt="JavaScript"
+                          style={{ width: 40, height: 40, display: 'block' }}
+                        />
+                      )
+                    },
+                    {
+                      name: 'Java', icon: (
+                        <img
+                          src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg"
+                          alt="Java"
+                          style={{ width: 40, height: 40, display: 'block' }}
+                        />
+                      )
+                    },
+                    {
+                      name: 'C', icon: (
+                        <img
+                          src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/c/c-original.svg"
+                          alt="C"
+                          style={{ width: 40, height: 40, display: 'block' }}
+                        />
+                      )
+                    },
+                    {
+                      name: 'C++', icon: (
+                        <img
+                          src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg"
+                          alt="C++"
+                          style={{ width: 40, height: 40, display: 'block' }}
+                        />
+                      )
+                    },
+                    {
+                      name: 'HTML5', icon: (
+                        <img
+                          src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg"
+                          alt="HTML5"
+                          style={{ width: 40, height: 40, display: 'block' }}
+                        />
+                      )
+                    },
+                    {
+                      name: 'CSS', icon: (
+                        <img
+                          src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg"
+                          alt="CSS"
+                          style={{ width: 40, height: 40, display: 'block' }}
+                        />
+                      )
+                    }
                   ].map((skill) => (
                     <Tooltip key={skill.name} title={skill.name} arrow>
                       <Box sx={{
@@ -757,8 +813,9 @@ const Home = () => {
                           backgroundColor: 'rgba(224, 225, 221, 0.18)',
                         }
                       }}>
-                        {/* Empty image placeholder */}
-                        <Box sx={{ width: 40, height: 40, background: 'rgba(224,225,221,0.15)', borderRadius: 1 }} />
+                        {skill.icon ? skill.icon : (
+                          <Box sx={{ width: 40, height: 40, background: 'rgba(224,225,221,0.15)', borderRadius: 1 }} />
+                        )}
                       </Box>
                     </Tooltip>
                   ))}
@@ -772,10 +829,42 @@ const Home = () => {
                 </Typography>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
                   {[
-                    { name: 'React' },
-                    { name: 'Django' },
-                    { name: 'NodeJS' },
-                    { name: 'OpenAPI' }
+                    {
+                      name: 'React', icon: (
+                        <img
+                          src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg"
+                          alt="React"
+                          style={{ width: 40, height: 40, display: 'block' }}
+                        />
+                      )
+                    },
+                    {
+                      name: 'Django', icon: (
+                        <img
+                          src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/django/django-plain.svg"
+                          alt="Django"
+                          style={{ width: 40, height: 40, display: 'block' }}
+                        />
+                      )
+                    },
+                    {
+                      name: 'NodeJS', icon: (
+                        <img
+                          src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg"
+                          alt="NodeJS"
+                          style={{ width: 40, height: 40, display: 'block' }}
+                        />
+                      )
+                    },
+                    {
+                      name: 'OpenAPI', icon: (
+                        <img
+                          src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/openapi/openapi-original.svg"
+                          alt="OpenAPI"
+                          style={{ width: 40, height: 40, display: 'block' }}
+                        />
+                      )
+                    }
                   ].map((skill) => (
                     <Tooltip key={skill.name} title={skill.name} arrow>
                       <Box sx={{
@@ -796,8 +885,9 @@ const Home = () => {
                           backgroundColor: 'rgba(224, 225, 221, 0.18)',
                         }
                       }}>
-                        {/* Empty image placeholder */}
-                        <Box sx={{ width: 40, height: 40, background: 'rgba(224,225,221,0.15)', borderRadius: 1 }} />
+                        {skill.icon ? skill.icon : (
+                          <Box sx={{ width: 40, height: 40, background: 'rgba(224,225,221,0.15)', borderRadius: 1 }} />
+                        )}
                       </Box>
                     </Tooltip>
                   ))}
@@ -811,16 +901,96 @@ const Home = () => {
                 </Typography>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
                   {[
-                    { name: 'PostgreSQL' },
-                    { name: 'SQL' },
-                    { name: 'Docker' },
-                    { name: 'Git' },
-                    { name: 'GitHub' },
-                    { name: 'CircleCI' },
-                    { name: 'VS Code' },
-                    { name: 'Jira' },
-                    { name: 'Figma' },
-                    { name: 'Postman' },
+                    {
+                      name: 'PostgreSQL', icon: (
+                        <img
+                          src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg"
+                          alt="PostgreSQL"
+                          style={{ width: 40, height: 40, display: 'block' }}
+                        />
+                      )
+                    },
+                    {
+                      name: 'SQL', icon: (
+                        <img
+                          src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/azuresqldatabase/azuresqldatabase-original.svg"
+                          alt="SQL"
+                          style={{ width: 40, height: 40, display: 'block' }}
+                        />
+                      )
+                    },
+                    {
+                      name: 'Docker', icon: (
+                        <img
+                          src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg"
+                          alt="Docker"
+                          style={{ width: 40, height: 40, display: 'block' }}
+                        />
+                      )
+                    },
+                    {
+                      name: 'Git', icon: (
+                        <img
+                          src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg"
+                          alt="Git"
+                          style={{ width: 40, height: 40, display: 'block' }}
+                        />
+                      )
+                    },
+                    {
+                      name: 'GitHub', icon: (
+                        <img
+                          src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg"
+                          alt="GitHub"
+                          style={{ width: 40, height: 40, display: 'block' }}
+                        />
+                      )
+                    },
+                    {
+                      name: 'CircleCI', icon: (
+                        <img
+                          src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/circleci/circleci-plain.svg"
+                          alt="CircleCI"
+                          style={{ width: 40, height: 40, display: 'block' }}
+                        />
+                      )
+                    },
+                    {
+                      name: 'VS Code', icon: (
+                        <img
+                          src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg"
+                          alt="VS Code"
+                          style={{ width: 40, height: 40, display: 'block' }}
+                        />
+                      )
+                    },
+                    {
+                      name: 'Jira', icon: (
+                        <img
+                          src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/jira/jira-original.svg"
+                          alt="Jira"
+                          style={{ width: 40, height: 40, display: 'block' }}
+                        />
+                      )
+                    },
+                    {
+                      name: 'Figma', icon: (
+                        <img
+                          src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg"
+                          alt="Figma"
+                          style={{ width: 40, height: 40, display: 'block' }}
+                        />
+                      )
+                    },
+                    {
+                      name: 'Postman', icon: (
+                        <img
+                          src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postman/postman-original.svg"
+                          alt="Postman"
+                          style={{ width: 40, height: 40, display: 'block' }}
+                        />
+                      )
+                    }
                   ].map((skill) => (
                     <Tooltip key={skill.name} title={skill.name} arrow>
                       <Box sx={{
@@ -841,8 +1011,9 @@ const Home = () => {
                           backgroundColor: 'rgba(224, 225, 221, 0.18)',
                         }
                       }}>
-                        {/* Empty image placeholder */}
-                        <Box sx={{ width: 40, height: 40, background: 'rgba(224,225,221,0.15)', borderRadius: 1 }} />
+                        {skill.icon ? skill.icon : (
+                          <Box sx={{ width: 40, height: 40, background: 'rgba(224,225,221,0.15)', borderRadius: 1 }} />
+                        )}
                       </Box>
                     </Tooltip>
                   ))}
