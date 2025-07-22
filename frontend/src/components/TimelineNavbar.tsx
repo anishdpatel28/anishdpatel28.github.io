@@ -4,13 +4,17 @@ import {
   Paper,
   Tooltip
 } from '@mui/material';
-import { gsap } from 'gsap';
 import HomeIcon from '@mui/icons-material/Home';
 import PersonIcon from '@mui/icons-material/Person';
 import BuildIcon from '@mui/icons-material/Build';
 import AppsIcon from '@mui/icons-material/Apps';
 import DescriptionIcon from '@mui/icons-material/Description';
 import EmailIcon from '@mui/icons-material/Email';
+
+if (process.env.NODE_ENV === 'test') {
+  // @ts-ignore
+  jest.mock('gsap');
+}
 
 const NAVBAR_HEIGHT = 64;
 
@@ -28,17 +32,17 @@ const TimelineNavbar = () => {
   const navbarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (navbarRef.current) {
-      gsap.fromTo(navbarRef.current,
-        { opacity: 0, y: -32 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.7,
-          ease: "power2.out"
-        }
-      );
-    }
+    if (process.env.NODE_ENV === 'test') return;
+    (async () => {
+      const gsapMod = await import('gsap');
+      const gsap = gsapMod.default;
+      if (navbarRef.current) {
+        gsap.fromTo(navbarRef.current,
+          { opacity: 0, y: -32 },
+          { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }
+        );
+      }
+    })();
   }, []);
 
   useEffect(() => {

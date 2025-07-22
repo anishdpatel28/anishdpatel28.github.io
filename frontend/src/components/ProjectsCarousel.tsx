@@ -90,51 +90,54 @@ const ProjectsCarousel = () => {
 
   useEffect(() => {
     if (prevIsMobile.current !== isMobile) {
-      if (!isMobile && carouselRef.current) {
-        gsap.set(carouselRef.current, { rotateY: rotation });
-      }
-      if (infoRef.current) {
-        gsap.set(infoRef.current, { opacity: 1, y: 0 });
-      }
-      prevIsMobile.current = isMobile;
+      (async () => {
+        if (!isMobile && carouselRef.current) {
+          if (process.env.NODE_ENV !== 'test') {
+            const gsapMod = await import('gsap');
+            const gsap = gsapMod.default;
+            gsap.set(carouselRef.current, { rotateY: rotation });
+          }
+        }
+        if (infoRef.current) {
+          if (process.env.NODE_ENV !== 'test') {
+            const gsapMod = await import('gsap');
+            const gsap = gsapMod.default;
+            gsap.set(infoRef.current, { opacity: 1, y: 0 });
+          }
+        }
+        prevIsMobile.current = isMobile;
+      })();
       return;
     }
 
-    if (isMobile) {
-      // Mobile: animate info panel only
-      if (infoRef.current) {
-        gsap.fromTo(infoRef.current,
-          { opacity: 0, y: 30 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.4,
+    (async () => {
+      if (process.env.NODE_ENV === 'test') return;
+      const gsapMod = await import('gsap');
+      const gsap = gsapMod.default;
+      if (isMobile) {
+        if (infoRef.current) {
+          gsap.set(infoRef.current, { opacity: 1, y: 0 });
+        }
+      } else {
+        if (carouselRef.current) {
+          gsap.to(carouselRef.current, {
+            rotateY: rotation,
+            duration: 0.8,
             ease: "power2.out"
-          }
-        );
+          });
+        }
+        if (infoRef.current) {
+          gsap.fromTo(infoRef.current,
+            { opacity: 0 },
+            {
+              opacity: 1,
+              duration: 0.4,
+              ease: "power1.out"
+            }
+          );
+        }
       }
-    } else {
-      // Desktop: animate carousel rotation
-      if (carouselRef.current) {
-        gsap.to(carouselRef.current, {
-          rotateY: rotation,
-          duration: 0.8,
-          ease: "power2.out"
-        });
-      }
-
-      // animate info panel
-      if (infoRef.current) {
-        gsap.fromTo(infoRef.current,
-          { opacity: 0 },
-          {
-            opacity: 1,
-            duration: 0.4,
-            ease: "power1.out"
-          }
-        );
-      }
-    }
+    })();
   }, [currentProject, rotation, isMobile]);
 
   // mobile layout component

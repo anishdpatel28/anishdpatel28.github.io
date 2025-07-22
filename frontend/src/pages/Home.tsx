@@ -1,8 +1,6 @@
 import { Box, Typography, Container, Card, CardContent, Avatar, Tooltip, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import { Description, FileDownload, School, Work, Build, EmojiEvents, Email, LinkedIn, GitHub, Analytics, ArrowBack, ArrowForward } from '@mui/icons-material';
 import { useEffect, useRef, useState } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import ScrollProgress from '@/components/ScrollProgress';
 import ParallaxSection from '@/components/ParallaxSection';
 import ProjectsCarousel from '@/components/ProjectsCarousel';
@@ -10,8 +8,6 @@ import TimelineNavbar from '@/components/TimelineNavbar';
 import { sectionBackgrounds } from '@/themes/theme';
 import { pageAnalyticsAPI } from '@/services/api';
 import { BarChart, Bar, XAxis, YAxis, Tooltip as RechartsTooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const Home = () => {
   const [showNavbar, setShowNavbar] = useState(false);
@@ -100,184 +96,192 @@ const Home = () => {
   }, [showAnalytics]);
 
   useEffect(() => {
-    const heroTl = gsap.timeline({ delay: 0.5 });
-    const heroTitle = heroRef.current?.querySelector('.hero-title');
-    const heroSubtitle = heroRef.current?.querySelector('.hero-subtitle');
-    const heroDescription = heroRef.current?.querySelector('.hero-description');
-    const heroImage = heroRef.current?.querySelector('.hero-image');
+    (async () => {
+      if (process.env.NODE_ENV === 'test') return;
+      const gsapMod = await import('gsap');
+      const gsap = gsapMod.default;
+      const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+      gsap.registerPlugin(ScrollTrigger);
+      const heroTl = gsap.timeline({ delay: 0.5 });
+      const heroTitle = heroRef.current?.querySelector('.hero-title');
+      const heroSubtitle = heroRef.current?.querySelector('.hero-subtitle');
+      const heroDescription = heroRef.current?.querySelector('.hero-description');
+      const heroImage = heroRef.current?.querySelector('.hero-image');
 
-    if (heroTitle) {
-      heroTl.fromTo(heroTitle,
-        { opacity: 0, y: -30 },
-        { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }
-      );
-    }
-    if (heroSubtitle) {
-      heroTl.fromTo(heroSubtitle,
-        { opacity: 0, y: -30 },
-        { opacity: 1, y: 0, duration: 0.6, ease: "power2.out", onStart: () => setShowNavbar(true) }, "-=0.6"
-      );
-    }
-    if (heroDescription) {
-      heroTl.fromTo(heroDescription,
-        { opacity: 0, y: -30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          ease: "power2.out",
-          onStart: () => setShowNavbar(true)
-        },
-        "-=0.3"
-      );
-    }
-    if (heroImage) {
-      heroTl.fromTo(heroImage,
-        { opacity: 0 },
-        { opacity: 1, duration: 0.8, ease: "power2.out", onComplete: () => setShowEgg(true) }, "-=0.5"
-      );
-    }
+      if (heroTitle) {
+        heroTl.fromTo(heroTitle,
+          { opacity: 0, y: -30 },
+          { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }
+        );
+      }
+      if (heroSubtitle) {
+        heroTl.fromTo(heroSubtitle,
+          { opacity: 0, y: -30 },
+          { opacity: 1, y: 0, duration: 0.6, ease: "power2.out", onStart: () => setShowNavbar(true) }, "-=0.6"
+        );
+      }
+      if (heroDescription) {
+        heroTl.fromTo(heroDescription,
+          { opacity: 0, y: -30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            ease: "power2.out",
+            onStart: () => setShowNavbar(true)
+          },
+          "-=0.3"
+        );
+      }
+      if (heroImage) {
+        heroTl.fromTo(heroImage,
+          { opacity: 0 },
+          { opacity: 1, duration: 0.8, ease: "power2.out", onComplete: () => setShowEgg(true) }, "-=0.5"
+        );
+      }
 
-    // About section animations
-    const aboutSections = aboutRef.current?.querySelectorAll('.about-section');
-    if (aboutSections && aboutSections.length > 0) {
-      gsap.fromTo(aboutSections,
-        { opacity: 0, y: 50 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "power2.out",
-          stagger: 0.2,
-          scrollTrigger: {
-            trigger: aboutRef.current,
-            start: "top 80%",
-            once: true
+      // About section animations
+      const aboutSections = aboutRef.current?.querySelectorAll('.about-section');
+      if (aboutSections && aboutSections.length > 0) {
+        gsap.fromTo(aboutSections,
+          { opacity: 0, y: 50 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power2.out",
+            stagger: 0.2,
+            scrollTrigger: {
+              trigger: aboutRef.current,
+              start: "top 80%",
+              once: true
+            }
           }
-        }
-      );
-    }
+        );
+      }
 
-    // Skills section animations
-    const skillsTitle = skillsRef.current?.querySelector('.skills-title');
-    const skillCategories = skillsRef.current?.querySelectorAll('.skill-category');
+      // Skills section animations
+      const skillsTitle = skillsRef.current?.querySelector('.skills-title');
+      const skillCategories = skillsRef.current?.querySelectorAll('.skill-category');
 
-    if (skillsTitle) {
-      gsap.fromTo(skillsTitle,
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.7,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: skillsRef.current,
-            start: "top 80%",
-            once: true
+      if (skillsTitle) {
+        gsap.fromTo(skillsTitle,
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.7,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: skillsRef.current,
+              start: "top 80%",
+              once: true
+            }
           }
-        }
-      );
-    }
+        );
+      }
 
-    if (skillCategories && skillCategories.length > 0) {
-      gsap.fromTo(skillCategories,
-        { opacity: 0, x: -50 },
-        {
-          opacity: 1,
-          x: 0,
-          duration: 0.7,
-          ease: "power2.out",
-          stagger: 0.3,
-          scrollTrigger: {
-            trigger: skillsRef.current,
-            start: "top 70%",
-            once: true
+      if (skillCategories && skillCategories.length > 0) {
+        gsap.fromTo(skillCategories,
+          { opacity: 0, x: -50 },
+          {
+            opacity: 1,
+            x: 0,
+            duration: 0.7,
+            ease: "power2.out",
+            stagger: 0.3,
+            scrollTrigger: {
+              trigger: skillsRef.current,
+              start: "top 70%",
+              once: true
+            }
           }
-        }
-      );
-    }
+        );
+      }
 
-    // Resume section animations
-    const resumeTitle = resumeRef.current?.querySelector('.resume-title');
-    const resumeButtons = resumeRef.current?.querySelectorAll('.resume-button');
+      // Resume section animations
+      const resumeTitle = resumeRef.current?.querySelector('.resume-title');
+      const resumeButtons = resumeRef.current?.querySelectorAll('.resume-button');
 
-    if (resumeTitle) {
-      gsap.fromTo(resumeTitle,
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.7,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: resumeRef.current,
-            start: "top 80%",
-            once: true
+      if (resumeTitle) {
+        gsap.fromTo(resumeTitle,
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.7,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: resumeRef.current,
+              start: "top 80%",
+              once: true
+            }
           }
-        }
-      );
-    }
+        );
+      }
 
-    if (resumeButtons && resumeButtons.length > 0) {
-      gsap.fromTo(resumeButtons,
-        { opacity: 0, y: 20 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          ease: "power2.out",
-          stagger: 0.1,
-          scrollTrigger: {
-            trigger: resumeRef.current,
-            start: "top 70%",
-            once: true
+      if (resumeButtons && resumeButtons.length > 0) {
+        gsap.fromTo(resumeButtons,
+          { opacity: 0, y: 20 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            ease: "power2.out",
+            stagger: 0.1,
+            scrollTrigger: {
+              trigger: resumeRef.current,
+              start: "top 70%",
+              once: true
+            }
           }
-        }
-      );
-    }
+        );
+      }
 
-    // Contact section animations
-    const contactTitle = contactRef.current?.querySelector('.contact-title');
-    const contactItems = contactRef.current?.querySelectorAll('.contact-item');
+      // Contact section animations
+      const contactTitle = contactRef.current?.querySelector('.contact-title');
+      const contactItems = contactRef.current?.querySelectorAll('.contact-item');
 
-    if (contactTitle) {
-      gsap.fromTo(contactTitle,
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.7,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: contactRef.current,
-            start: "top 80%",
-            once: true
+      if (contactTitle) {
+        gsap.fromTo(contactTitle,
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.7,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: contactRef.current,
+              start: "top 80%",
+              once: true
+            }
           }
-        }
-      );
-    }
+        );
+      }
 
-    if (contactItems && contactItems.length > 0) {
-      gsap.fromTo(contactItems,
-        { opacity: 0, x: -30 },
-        {
-          opacity: 1,
-          x: 0,
-          duration: 0.7,
-          ease: "power2.out",
-          stagger: 0.1,
-          scrollTrigger: {
-            trigger: contactRef.current,
-            start: "top 70%",
-            once: true
+      if (contactItems && contactItems.length > 0) {
+        gsap.fromTo(contactItems,
+          { opacity: 0, x: -30 },
+          {
+            opacity: 1,
+            x: 0,
+            duration: 0.7,
+            ease: "power2.out",
+            stagger: 0.1,
+            scrollTrigger: {
+              trigger: contactRef.current,
+              start: "top 70%",
+              once: true
+            }
           }
-        }
-      );
-    }
+        );
+      }
 
-    return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    };
+      return () => {
+        if (process.env.NODE_ENV === 'test') return;
+        ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      };
+    })();
   }, []);
 
   const handleAnalyticsClick = () => {

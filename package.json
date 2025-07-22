@@ -25,13 +25,15 @@
     "backend:format": "cd backend && source venv/bin/activate && black . && isort .",
     "test": "npm run frontend:test && npm run backend:test",
     "frontend:test": "cd frontend && npm run test",
-    "backend:test": "cd backend && source venv/bin/activate && python3 manage.py test",
+    "backend:test": "cd backend && source venv/bin/activate && python3 manage.py test --keepdb",
     "frontend:test:watch": "cd frontend && npm run test:watch",
     "frontend:test:coverage": "cd frontend && npm run test:coverage",
     "build": "npm run frontend:build",
     "clean": "rm -rf frontend/node_modules frontend/dist backend/venv backend/__pycache__ backend/pageviews/__pycache__ backend/portfolio_backend/__pycache__"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@types/jest": "^30.0.0",
     "concurrently": "^8.2.2"
   },
   "keywords": [

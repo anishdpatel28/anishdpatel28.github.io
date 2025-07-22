@@ -13,7 +13,11 @@ import {
   ListItemText,
 } from '@mui/material';
 import { Menu as MenuIcon, Close } from '@mui/icons-material';
-import { gsap } from 'gsap';
+
+if (process.env.NODE_ENV === 'test') {
+  // @ts-ignore
+  jest.mock('gsap');
+}
 
 const Navbar = () => {
   const [activeSection, setActiveSection] = useState('home');
@@ -63,37 +67,30 @@ const Navbar = () => {
   }, [mobileOpen]);
 
   useEffect(() => {
-    // animate logo
-    if (logoRef.current) {
-      gsap.fromTo(logoRef.current,
-        { opacity: 0, y: -20 },
-        { opacity: 1, y: 0, duration: 0.8, ease: "power2.out", delay: 1.2 }
-      );
-    }
-
-    // animate nav buttons
-    if (navButtonsRef.current) {
-      const buttons = navButtonsRef.current.querySelectorAll('.nav-button');
-      gsap.fromTo(buttons,
-        { opacity: 0, y: -20 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "power2.out",
-          stagger: 0.15,
-          delay: 1.2
-        }
-      );
-    }
-
-    // animate mobile button
-    if (mobileButtonRef.current) {
-      gsap.fromTo(mobileButtonRef.current,
-        { opacity: 0, y: -20 },
-        { opacity: 1, y: 0, duration: 0.8, ease: "power2.out", delay: 1.2 }
-      );
-    }
+    if (process.env.NODE_ENV === 'test') return;
+    (async () => {
+      const gsapMod = await import('gsap');
+      const gsap = gsapMod.default;
+      if (logoRef.current) {
+        gsap.fromTo(logoRef.current,
+          { opacity: 0, y: -20 },
+          { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out', delay: 1.2 }
+        );
+      }
+      if (navButtonsRef.current) {
+        const buttons = navButtonsRef.current.querySelectorAll('.nav-button');
+        gsap.fromTo(buttons,
+          { opacity: 0, y: -16 },
+          { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out', stagger: 0.1, delay: 0.5 }
+        );
+      }
+      if (mobileButtonRef.current) {
+        gsap.fromTo(mobileButtonRef.current,
+          { opacity: 0, y: -16 },
+          { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out', delay: 1.1 }
+        );
+      }
+    })();
   }, []);
 
   const handleMobileMenuToggle = () => {
