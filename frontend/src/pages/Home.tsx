@@ -806,7 +806,6 @@ const Home = () => {
                   {[
                     { name: 'PostgreSQL' },
                     { name: 'SQL' },
-                    { name: 'pgAdmin' },
                     { name: 'Docker' },
                     { name: 'GitHub' },
                     { name: 'CircleCI' },
@@ -814,7 +813,6 @@ const Home = () => {
                     { name: 'Jira' },
                     { name: 'Figma' },
                     { name: 'Postman' },
-                    { name: 'Backstage' }
                   ].map((skill) => (
                     <Tooltip key={skill.name} title={skill.name} arrow>
                       <Box sx={{
