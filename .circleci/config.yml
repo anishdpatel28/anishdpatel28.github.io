@@ -1,0 +1,35 @@
+version: 2.1
+
+jobs:
+  build_and_test:
+    docker:
+      - image: cimg/base:stable  # CircleCI base image with Docker
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.7
+      - run:
+          name: Build Docker images
+          command: docker compose build
+      - run:
+          name: Start services
+          command: docker compose up -d
+      - run:
+          name: Wait for backend to be ready
+          command: |
+            docker compose exec backend bash -c 'until nc -z localhost 8000; do sleep 1; done'
+      - run:
+          name: Run backend tests
+          command: docker compose exec backend python manage.py test --keepdb
+      - run:
+          name: Run frontend tests
+          command: docker compose exec frontend npm run test
+      - run:
+          name: Stop services
+          command: docker compose down
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build_and_test 
