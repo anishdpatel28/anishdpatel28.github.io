@@ -38,8 +38,8 @@ const TimelineNavbar = () => {
       const gsap = gsapMod.default;
       if (navbarRef.current) {
         gsap.fromTo(navbarRef.current,
-          { opacity: 0, y: -32 },
-          { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }
+          { opacity: 0, transform: 'translateY(-32px)' },
+          { opacity: 1, transform: 'translateY(0)', duration: 0.8, ease: 'power2.out' }
         );
       }
     })();
@@ -80,6 +80,8 @@ const TimelineNavbar = () => {
         display: 'flex',
         justifyContent: 'center',
         pointerEvents: 'none',
+        opacity: 0,
+        transform: 'translateY(-32px)',
       }}
     >
       <Paper
