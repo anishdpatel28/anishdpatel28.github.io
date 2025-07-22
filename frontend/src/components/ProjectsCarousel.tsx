@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Box, Typography, Container, Card, CardContent, Chip, IconButton, Button, useTheme, useMediaQuery } from '@mui/material';
 import { ArrowBack, ArrowForward, Launch, GitHub } from '@mui/icons-material';
-import { gsap } from 'gsap';
 import { sectionBackgrounds } from '@/themes/theme';
 
 const ProjectsCarousel = () => {

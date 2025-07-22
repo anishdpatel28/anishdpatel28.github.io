@@ -15,7 +15,6 @@ import {
 import { Menu as MenuIcon, Close } from '@mui/icons-material';
 
 if (process.env.NODE_ENV === 'test') {
-  // @ts-ignore
   jest.mock('gsap');
 }
 

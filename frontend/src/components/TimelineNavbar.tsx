@@ -12,7 +12,6 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import EmailIcon from '@mui/icons-material/Email';
 
 if (process.env.NODE_ENV === 'test') {
-  // @ts-ignore
   jest.mock('gsap');
 }
 

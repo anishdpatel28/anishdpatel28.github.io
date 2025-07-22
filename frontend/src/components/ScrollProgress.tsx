@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react';
 import { Box } from '@mui/material';
 
 if (process.env.NODE_ENV === 'test') {
-  // @ts-ignore
   jest.mock('gsap');
 }
 
