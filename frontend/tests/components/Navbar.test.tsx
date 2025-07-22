@@ -1,3 +1,7 @@
+import React from 'react';
+import { render, screen, fireEvent, waitForElementToBeRemoved } from '@testing-library/react';
+import Navbar from '../../src/components/Navbar';
+
 jest.mock('gsap', () => {
   const gsap = {
     fromTo: () => { },
@@ -6,10 +10,6 @@ jest.mock('gsap', () => {
   };
   return { ...gsap, default: gsap };
 });
-
-import React from 'react';
-import { render, screen, fireEvent, waitForElementToBeRemoved } from '@testing-library/react';
-import Navbar from '../../src/components/Navbar';
 
 describe('Navbar', () => {
   it('renders the logo', () => {

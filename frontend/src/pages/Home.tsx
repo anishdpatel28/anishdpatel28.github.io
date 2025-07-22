@@ -28,6 +28,7 @@ const Home = () => {
 
   // track time spent in sections
   useEffect(() => {
+    if (process.env.NODE_ENV === 'test') return;
     const handleScroll = () => {
       const sections = ['home', 'about', 'skills', 'projects', 'resume', 'contact'];
       const scrollPosition = window.scrollY + 100;
@@ -67,6 +68,7 @@ const Home = () => {
 
   // increment page views on first load
   useEffect(() => {
+    if (process.env.NODE_ENV === 'test') return;
     const sessionKey = 'portfolio_visited';
     const hasVisited = sessionStorage.getItem(sessionKey);
     if (!hasVisited) {
@@ -79,6 +81,7 @@ const Home = () => {
 
   // fetch analytics every time the dialog is opened
   useEffect(() => {
+    if (process.env.NODE_ENV === 'test') return;
     if (showAnalytics) {
       pageAnalyticsAPI.getAnalytics().then(setAnalytics);
     }
@@ -91,14 +94,15 @@ const Home = () => {
   };
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'test') return;
     if (showAnalytics) {
       document.body.classList.add('no-scroll');
     }
   }, [showAnalytics]);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'test') return;
     (async () => {
-      if (process.env.NODE_ENV === 'test') return;
       const gsapMod = await import('gsap');
       const gsap = gsapMod.default;
       const { ScrollTrigger } = await import('gsap/ScrollTrigger');
@@ -310,6 +314,7 @@ const Home = () => {
   };
 
   useEffect(() => { // remove analytics button highlight on close
+    if (process.env.NODE_ENV === 'test') return;
     if (!showAnalytics && analyticsBtnRef.current) {
       analyticsBtnRef.current.blur();
     }

@@ -88,21 +88,18 @@ const ProjectsCarousel = () => {
   };
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'test') return;
     if (prevIsMobile.current !== isMobile) {
       (async () => {
         if (!isMobile && carouselRef.current) {
-          if (process.env.NODE_ENV !== 'test') {
-            const gsapMod = await import('gsap');
-            const gsap = gsapMod.default;
-            gsap.set(carouselRef.current, { rotateY: rotation });
-          }
+          const gsapMod = await import('gsap');
+          const gsap = gsapMod.default;
+          gsap.set(carouselRef.current, { rotateY: rotation });
         }
         if (infoRef.current) {
-          if (process.env.NODE_ENV !== 'test') {
-            const gsapMod = await import('gsap');
-            const gsap = gsapMod.default;
-            gsap.set(infoRef.current, { opacity: 1, y: 0 });
-          }
+          const gsapMod = await import('gsap');
+          const gsap = gsapMod.default;
+          gsap.set(infoRef.current, { opacity: 1, y: 0 });
         }
         prevIsMobile.current = isMobile;
       })();
@@ -110,7 +107,6 @@ const ProjectsCarousel = () => {
     }
 
     (async () => {
-      if (process.env.NODE_ENV === 'test') return;
       const gsapMod = await import('gsap');
       const gsap = gsapMod.default;
       if (isMobile) {

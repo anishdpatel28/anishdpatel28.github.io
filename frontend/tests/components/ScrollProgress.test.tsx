@@ -1,3 +1,7 @@
+import React from 'react';
+import { render } from '@testing-library/react';
+import ScrollProgress from '../../src/components/ScrollProgress';
+
 jest.mock('gsap', () => {
   const gsap = {
     fromTo: () => { },
@@ -9,10 +13,6 @@ jest.mock('gsap', () => {
 jest.mock('gsap/ScrollTrigger', () => ({
   ScrollTrigger: { getAll: () => [] },
 }));
-
-import React from 'react';
-import { render } from '@testing-library/react';
-import ScrollProgress from '../../src/components/ScrollProgress';
 
 describe('ScrollProgress', () => {
   it('renders the progress bar', () => {

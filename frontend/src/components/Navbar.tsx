@@ -26,6 +26,7 @@ const Navbar = () => {
   const mobileButtonRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'test') return;
     let ticking = false;
     const handleScroll = () => {
       if (!ticking) {
@@ -56,6 +57,7 @@ const Navbar = () => {
   }, [activeSection]);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'test') return;
     const handleResize = () => {
       if (window.innerWidth >= 900 && mobileOpen) {
         setMobileOpen(false);

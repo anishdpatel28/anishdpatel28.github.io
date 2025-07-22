@@ -1,3 +1,7 @@
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import TimelineNavbar from '../../src/components/TimelineNavbar';
+
 jest.mock('gsap', () => {
   const gsap = {
     fromTo: () => { },
@@ -6,10 +10,6 @@ jest.mock('gsap', () => {
   };
   return { ...gsap, default: gsap };
 });
-
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import TimelineNavbar from '../../src/components/TimelineNavbar';
 
 describe('TimelineNavbar', () => {
   it('renders all section icons', () => {
