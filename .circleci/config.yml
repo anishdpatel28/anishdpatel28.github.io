@@ -25,7 +25,7 @@ jobs:
   test:
     resource_class: medium
     docker:
-      - image: cimg/base:stable
+      - image: cimg/python:3.10-node
         environment: *common-env
     steps:
       - checkout
