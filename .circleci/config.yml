@@ -1,9 +1,31 @@
 version: 2.1
 
 jobs:
-  build_and_test:
+  build:
     docker:
-      - image: cimg/base:stable  # CircleCI base image with Docker
+      - image: cimg/base:stable
+        environment:
+          POSTHOG_HOST: "https://us.posthog.com"
+          DEBUG: "False"
+          ALLOWED_HOSTS: "localhost,127.0.0.1"
+          VITE_API_URL: "http://localhost:8000/api"
+          VITE_POSTHOG_HOST: "https://us.posthog.com"
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build Docker images
+          command: docker compose build
+
+  test:
+    docker:
+      - image: cimg/base:stable
+        environment:
+          POSTHOG_HOST: "https://us.posthog.com"
+          DEBUG: "False"
+          ALLOWED_HOSTS: "localhost,127.0.0.1"
+          VITE_API_URL: "http://localhost:8000/api"
+          VITE_POSTHOG_HOST: "https://us.posthog.com"
     steps:
       - checkout
       - setup_remote_docker
@@ -27,8 +49,30 @@ jobs:
           name: Stop services
           command: docker compose down
 
+  lint:
+    docker:
+      - image: cimg/base:stable
+        environment:
+          POSTHOG_HOST: "https://us.posthog.com"
+          DEBUG: "False"
+          ALLOWED_HOSTS: "localhost,127.0.0.1"
+          VITE_API_URL: "http://localhost:8000/api"
+          VITE_POSTHOG_HOST: "https://us.posthog.com"
+    steps:
+      - checkout
+      - run:
+          name: Lint frontend
+          command: cd frontend && npm run lint
+      - run:
+          name: Lint backend
+          command: cd backend && source venv/bin/activate && npm run backend:lint
+
 workflows:
   version: 2
   build_and_test:
     jobs:
-      - build_and_test 
+      - build
+      - lint
+      - test:
+          requires:
+            - build 
