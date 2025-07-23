@@ -41,7 +41,10 @@ jobs:
           command: docker compose run --rm -e DATABASE_URL=$TEST_DATABASE_URL backend python manage.py test --keepdb
       - run:
           name: Run frontend tests
-          command: docker compose up --exit-code-from frontend frontend
+          command: |
+            cd frontend
+            npm ci
+            npm run test
       - run:
           name: Stop services
           command: docker compose down -v
