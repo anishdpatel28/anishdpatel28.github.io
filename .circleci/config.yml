@@ -34,17 +34,11 @@ jobs:
           name: Build Docker images (cache layer)
           command: docker compose build
       - run:
-          name: Start services
-          command: docker compose up -d
+          name: Backend tests
+          command: docker compose run --rm backend python manage.py test --keepdb
       - run:
-          name: Run backend tests
-          command: docker compose exec backend python manage.py test --keepdb
-      - run:
-          name: Run frontend tests
-          command: docker compose exec frontend npm run test
-      - run:
-          name: Stop services
-          command: docker compose down
+          name: Frontend tests
+          command: docker compose run --rm frontend npm run test
 
   lint:
     docker:
