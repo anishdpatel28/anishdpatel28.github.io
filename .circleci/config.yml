@@ -35,13 +35,13 @@ jobs:
           command: docker compose build
       - run:
           name: Apply migrations
-          command: docker compose run --rm backend python manage.py migrate --noinput
+          command: docker compose run --rm --workdir /app backend python manage.py migrate --noinput
       - run:
           name: Run backend tests
-          command: docker compose run --rm backend python manage.py test --keepdb
+          command: docker compose run --rm --workdir /app backend python manage.py test --keepdb
       - run:
           name: Run frontend tests
-          command: docker compose run --rm frontend npm run test
+          command: docker compose run --rm --workdir /app frontend npm run test
       - run:
           name: Stop services
           command: docker compose down -v
@@ -75,7 +75,9 @@ workflows:
   pipeline:
     jobs:
       - build
-      - lint
+      - lint:
+          requires:
+            - build
       - test:
           requires:
-            - build 
+            - lint 
