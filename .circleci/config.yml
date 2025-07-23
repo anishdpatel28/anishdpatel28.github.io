@@ -1,15 +1,20 @@
 version: 2.1
 
+env: &common-env
+  POSTHOG_HOST: "https://us.posthog.com"
+  DEBUG: "False"
+  ALLOWED_HOSTS: "localhost,127.0.0.1"
+  VITE_API_URL: "http://localhost:8000/api"
+  VITE_POSTHOG_HOST: "https://us.posthog.com"
+  DATABASE_URL: "sqlite:///db.sqlite3"
+  DJANGO_SECRET_KEY: "testsecret"
+
 jobs:
   build:
+    resource_class: medium
     docker:
       - image: cimg/base:stable
-        environment:
-          POSTHOG_HOST: "https://us.posthog.com"
-          DEBUG: "False"
-          ALLOWED_HOSTS: "localhost,127.0.0.1"
-          VITE_API_URL: "http://localhost:8000/api"
-          VITE_POSTHOG_HOST: "https://us.posthog.com"
+        environment: *common-env
     steps:
       - checkout
       - setup_remote_docker
@@ -18,27 +23,19 @@ jobs:
           command: docker compose build
 
   test:
+    resource_class: medium
     docker:
       - image: cimg/base:stable
-        environment:
-          POSTHOG_HOST: "https://us.posthog.com"
-          DEBUG: "False"
-          ALLOWED_HOSTS: "localhost,127.0.0.1"
-          VITE_API_URL: "http://localhost:8000/api"
-          VITE_POSTHOG_HOST: "https://us.posthog.com"
+        environment: *common-env
     steps:
       - checkout
       - setup_remote_docker
       - run:
-          name: Build Docker images
+          name: Build Docker images (cache layer)
           command: docker compose build
       - run:
           name: Start services
           command: docker compose up -d
-      - run:
-          name: Wait for backend to be ready
-          command: |
-            docker compose exec backend bash -c 'until nc -z localhost 8000; do sleep 1; done'
       - run:
           name: Run backend tests
           command: docker compose exec backend python manage.py test --keepdb
@@ -51,25 +48,26 @@ jobs:
 
   lint:
     docker:
-      - image: cimg/base:stable
-        environment:
-          POSTHOG_HOST: "https://us.posthog.com"
-          DEBUG: "False"
-          ALLOWED_HOSTS: "localhost,127.0.0.1"
-          VITE_API_URL: "http://localhost:8000/api"
-          VITE_POSTHOG_HOST: "https://us.posthog.com"
+      - image: cimg/python:3.10-node
+        environment: *common-env
     steps:
       - checkout
       - run:
-          name: Lint frontend
-          command: cd frontend && npm run lint
+          name: Install backend linters
+          command: pip install flake8 black isort mypy
       - run:
-          name: Lint backend
-          command: cd backend && source venv/bin/activate && npm run backend:lint
+          name: Backend lint
+          command: flake8 backend && black --check backend && isort --check-only backend && mypy backend
+      - run:
+          name: Install frontend dependencies
+          command: cd frontend && npm ci
+      - run:
+          name: Frontend lint
+          command: cd frontend && npm run lint
 
 workflows:
   version: 2
-  build_and_test:
+  pipeline:
     jobs:
       - build
       - lint
