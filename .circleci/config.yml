@@ -35,10 +35,10 @@ jobs:
           command: docker compose build
       - run:
           name: Apply migrations
-          command: docker compose run --rm backend python manage.py migrate --noinput
+          command: docker compose run --rm -e DATABASE_URL=$TEST_DATABASE_URL backend python manage.py migrate --noinput
       - run:
           name: Run backend tests
-          command: docker compose run --rm backend python manage.py test --noinput
+          command: docker compose run --rm -e DATABASE_URL=$TEST_DATABASE_URL backend python manage.py test --keepdb
       - run:
           name: Run frontend tests
           command: docker compose up --exit-code-from frontend frontend
