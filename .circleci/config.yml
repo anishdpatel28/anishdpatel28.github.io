@@ -34,11 +34,14 @@ jobs:
           name: Build Docker images
           command: docker compose build
       - run:
+          name: DEBUG - List files in /app
+          command: docker compose run --rm backend ls -la /app
+      - run:
           name: Apply migrations
-          command: docker compose run --rm backend bash -c "cd /app && python manage.py migrate --noinput"
+          command: docker compose run --rm backend python manage.py migrate --noinput
       - run:
           name: Run backend tests
-          command: docker compose run --rm backend bash -c "cd /app && python manage.py test --keepdb"
+          command: docker compose run --rm backend python manage.py test --keepdb
       - run:
           name: Run frontend tests
           command: docker compose run --rm --workdir /app frontend npm run test
