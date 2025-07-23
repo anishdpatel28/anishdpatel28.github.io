@@ -31,14 +31,23 @@ jobs:
       - checkout
       - setup_remote_docker
       - run:
-          name: Build Docker images (cache layer)
+          name: Build Docker images
           command: docker compose build
       - run:
-          name: Backend tests
-          command: docker compose run --rm backend python manage.py test --keepdb
+          name: Start backend & frontend containers
+          command: docker compose up -d backend frontend
       - run:
-          name: Frontend tests
-          command: docker compose run --rm frontend npm run test
+          name: Apply migrations
+          command: docker compose exec backend python manage.py migrate --noinput
+      - run:
+          name: Run backend tests
+          command: docker compose exec backend python manage.py test --keepdb
+      - run:
+          name: Run frontend tests
+          command: docker compose exec frontend npm run test
+      - run:
+          name: Stop services
+          command: docker compose down -v
 
   lint:
     docker:
