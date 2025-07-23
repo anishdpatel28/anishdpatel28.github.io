@@ -38,7 +38,7 @@ jobs:
           command: docker compose run --rm backend python manage.py migrate --noinput
       - run:
           name: Run backend tests
-          command: docker compose up --exit-code-from backend backend
+          command: docker compose run --rm backend python manage.py test
       - run:
           name: Run frontend tests
           command: docker compose up --exit-code-from frontend frontend
