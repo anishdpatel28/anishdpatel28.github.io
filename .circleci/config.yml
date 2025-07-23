@@ -35,10 +35,10 @@ jobs:
           command: docker compose build
       - run:
           name: Apply migrations
-          command: docker compose run --rm --workdir /app backend python manage.py migrate --noinput
+          command: docker compose run --rm --workdir /app backend python backend/manage.py migrate --noinput
       - run:
           name: Run backend tests
-          command: docker compose run --rm --workdir /app backend python manage.py test --keepdb
+          command: docker compose run --rm --workdir /app backend python backend/manage.py test --keepdb
       - run:
           name: Run frontend tests
           command: docker compose run --rm --workdir /app frontend npm run test
