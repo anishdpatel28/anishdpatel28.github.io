@@ -57,7 +57,12 @@ jobs:
           command: pip install flake8 black isort mypy
       - run:
           name: Backend lint
-          command: flake8 backend && black --check backend && isort --check-only backend && mypy backend
+          command: |
+            cd backend
+            flake8 .
+            black --check .
+            isort --check-only .
+            mypy .
       - run:
           name: Install frontend dependencies
           command: cd frontend && npm ci
