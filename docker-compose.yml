@@ -21,11 +21,6 @@ services:
       - ALLOWED_HOSTS=${ALLOWED_HOSTS}
       - POSTHOG_API_KEY=${POSTHOG_API_KEY}
       - POSTHOG_HOST=${POSTHOG_HOST}
-    volumes:
-      - ./backend:/app
     command: >
       sh -c "python manage.py migrate &&
-             python manage.py runserver 0.0.0.0:8000"
-
-volumes:
-  postgres_data: 
+             python manage.py runserver 0.0.0.0:8000" 
