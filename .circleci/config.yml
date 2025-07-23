@@ -41,7 +41,7 @@ jobs:
           command: docker compose run --rm backend python manage.py test --keepdb
       - run:
           name: Run frontend tests
-          command: docker compose run --rm frontend npm run test
+          command: docker compose run --rm --build-target builder frontend npm run test
       - run:
           name: Stop services
           command: docker compose down -v
