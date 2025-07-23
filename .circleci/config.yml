@@ -78,9 +78,8 @@ workflows:
   pipeline:
     jobs:
       - build
-      - lint:
-          requires:
-            - build
+      - lint
       - test:
           requires:
-            - lint 
+            - build
+            - lint
