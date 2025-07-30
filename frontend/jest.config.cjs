@@ -15,5 +15,9 @@ module.exports = {
     '^gsap/ScrollTrigger$': '<rootDir>/../__mocks__/gsap/ScrollTrigger.js',
     '^@/(.*)$': '<rootDir>/src/$1',
     '\\.(svg)$': '<rootDir>/__mocks__/svgMock.js',
+    '^@/services/(.*)$': '<rootDir>/__mocks__/servicesMock.ts',
+    '^@/services/posthog$': '<rootDir>/__mocks__/servicesMock.ts',
+    '^@/services/api$': '<rootDir>/__mocks__/servicesMock.ts',
+    '^@/services/env$': '<rootDir>/__mocks__/servicesMock.ts',
   },
 }; 
