@@ -1,5 +1,5 @@
 import { Box, Typography, Container, Card, CardContent, Avatar, Tooltip, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
-import { Description, FileDownload, School, Work, Build, EmojiEvents, Email, LinkedIn, GitHub, Analytics, ArrowBack, ArrowForward, Brightness4 } from '@mui/icons-material';
+import { Description, FileDownload, School, Work, Build, EmojiEvents, Email, LinkedIn, GitHub, Analytics, ArrowBack, ArrowForward, Brightness4, Brightness7 } from '@mui/icons-material';
 import { useEffect, useRef, useState, useContext } from 'react';
 import ScrollProgress from '@/components/ScrollProgress';
 import ParallaxSection from '@/components/ParallaxSection';
@@ -442,7 +442,7 @@ const Home = () => {
               }}
               size="large"
             >
-              <Brightness4 />
+              {mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
             </IconButton>
           </Tooltip>
           <Tooltip title="Analytics">
