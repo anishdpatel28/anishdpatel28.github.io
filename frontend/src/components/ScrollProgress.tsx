@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react';
-import { Box } from '@mui/material';
+import { useEffect, useRef, useState } from 'react';
+import { Box, useTheme } from '@mui/material';
 
 if (process.env.NODE_ENV === 'test') {
   jest.mock('gsap');
@@ -7,29 +7,29 @@ if (process.env.NODE_ENV === 'test') {
 
 const ScrollProgress = () => {
   const progressRef = useRef<HTMLDivElement>(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const theme = useTheme();
 
   useEffect(() => {
     if (process.env.NODE_ENV === 'test') return;
-    (async () => {
-      const gsapMod = await import('gsap');
-      const gsap = gsapMod.default;
-      const { ScrollTrigger } = await import('gsap/ScrollTrigger');
-      gsap.registerPlugin(ScrollTrigger);
-      if (progressRef.current) {
-        gsap.to(progressRef.current, {
-          scaleX: 1,
-          scrollTrigger: {
-            trigger: document.body,
-            start: 'top top',
-            end: 'bottom bottom',
-            scrub: true,
-          },
-        });
-      }
-    })();
+
+    const updateScrollProgress = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? scrollTop / docHeight : 0;
+      setScrollProgress(Math.min(progress, 1));
+    };
+
+    // Initial calculation
+    updateScrollProgress();
+
+    // Add event listener
+    window.addEventListener('scroll', updateScrollProgress, { passive: true });
+    window.addEventListener('resize', updateScrollProgress, { passive: true });
 
     return () => {
-      // ScrollTrigger.getAll().forEach(trigger => trigger.kill()); // This line is removed as per the new_code
+      window.removeEventListener('scroll', updateScrollProgress);
+      window.removeEventListener('resize', updateScrollProgress);
     };
   }, []);
 
@@ -49,9 +49,10 @@ const ScrollProgress = () => {
         ref={progressRef}
         style={{
           height: '100%',
-          backgroundColor: '#e0e1dd',
+          backgroundColor: theme.palette.mode === 'dark' ? '#e0e1dd' : '#1b263b',
           transformOrigin: 'left',
-          transform: 'scaleX(0)',
+          transform: `scaleX(${scrollProgress})`,
+          transition: 'transform 0.1s ease-out',
         }}
       />
     </Box>

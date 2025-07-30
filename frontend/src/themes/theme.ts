@@ -91,6 +91,85 @@ export const theme = createTheme({
   },
 }); 
 
+export const lightTheme = createTheme({
+  palette: {
+    mode: 'light',
+    primary: {
+      main: colors.navy,
+      light: colors.slate,
+      dark: colors.darkBlue,
+    },
+    secondary: {
+      main: colors.slate,
+      light: colors.grayBlue,
+      dark: colors.navy,
+    },
+    background: {
+      default: '#f5f6fa',
+      paper: '#fff',
+    },
+    text: {
+      primary: colors.navy,
+      secondary: colors.slate,
+    },
+    divider: colors.slate,
+  },
+  typography: {
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    h1: {
+      fontSize: '2.5rem',
+      fontWeight: 600,
+      color: colors.navy,
+    },
+    h2: {
+      fontSize: '2rem',
+      fontWeight: 600,
+      color: colors.navy,
+    },
+    h3: {
+      fontSize: '1.5rem',
+      fontWeight: 500,
+      color: colors.navy,
+    },
+    body1: {
+      fontSize: '1rem',
+      color: colors.navy,
+    },
+    body2: {
+      fontSize: '0.875rem',
+      color: colors.slate,
+    },
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: 'none',
+          borderRadius: '8px',
+          padding: '8px 16px',
+        },
+      },
+    },
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'rgba(224, 225, 221, 0.8)',
+          backdropFilter: 'blur(10px)',
+          borderBottom: 'none',
+        },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#fff',
+          border: `1px solid ${colors.slate}`,
+        },
+      },
+    },
+  },
+});
+
 export const sectionBackgrounds = {
   home: `linear-gradient(135deg, ${colors.darkBlue} 0%, ${colors.navy} 100%)`,
   about: `linear-gradient(135deg, ${colors.darkTeal} 0%, ${colors.slate} 100%)`,

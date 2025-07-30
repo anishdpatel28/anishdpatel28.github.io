@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -13,6 +13,7 @@ import {
   ListItemText,
 } from '@mui/material';
 import { Menu as MenuIcon, Close } from '@mui/icons-material';
+import { ThemeContext } from '../App';
 
 if (process.env.NODE_ENV === 'test') {
   jest.mock('gsap');
@@ -24,6 +25,7 @@ const Navbar = () => {
   const logoRef = useRef<HTMLDivElement>(null);
   const navButtonsRef = useRef<HTMLDivElement>(null);
   const mobileButtonRef = useRef<HTMLDivElement>(null);
+  const { mode } = useContext(ThemeContext);
 
   useEffect(() => {
     if (process.env.NODE_ENV === 'test') return;
@@ -104,7 +106,8 @@ const Navbar = () => {
   };
 
   const getButtonStyles = (section: string) => ({
-    color: 'white',
+    color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
+    backgroundColor: 'transparent',
     borderRadius: 1,
     px: 2,
     py: 1,
@@ -120,7 +123,7 @@ const Navbar = () => {
       left: 0,
       width: activeSection === section ? '100%' : 0,
       height: '2px',
-      backgroundColor: '#e0e1dd',
+      backgroundColor: mode === 'dark' ? '#e0e1dd' : '#1b263b',
       transition: 'width 0.3s ease',
     },
     '&::after': {
@@ -130,7 +133,7 @@ const Navbar = () => {
       left: 0,
       width: '100%',
       height: '100%',
-      backgroundColor: 'rgba(224, 225, 221, 0.1)',
+      backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.08)',
       opacity: 0,
       transition: 'opacity 0.3s ease',
       zIndex: -1,
@@ -158,9 +161,10 @@ const Navbar = () => {
         position="fixed"
         elevation={0}
         sx={{
-          backgroundColor: 'rgba(27, 38, 59, 0.4)',
+          backgroundColor: mode === 'dark' ? 'rgba(27, 38, 59, 0.4)' : 'rgba(255, 255, 255, 0.8)',
           backdropFilter: 'blur(10px)',
           boxShadow: 'none',
+          zIndex: 1200,
         }}
       >
         <Box sx={{ maxWidth: '1000px', width: '100%', mx: 'auto' }}>
@@ -172,7 +176,7 @@ const Navbar = () => {
                 onClick={scrollToTop}
                 sx={{
                   fontWeight: 600,
-                  color: '#e0e1dd',
+                  color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
                   cursor: 'pointer',
                   userSelect: 'none',
                   '&:hover': {
@@ -202,7 +206,7 @@ const Navbar = () => {
                 color="inherit"
                 aria-label="menu"
                 onClick={handleMobileMenuToggle}
-                sx={{ color: '#e0e1dd' }}
+                sx={{ color: mode === 'dark' ? '#e0e1dd' : '#1b263b' }}
               >
                 {mobileOpen ? <Close /> : <MenuIcon />}
               </IconButton>
@@ -216,14 +220,14 @@ const Navbar = () => {
         onClose={handleMobileMenuToggle}
         PaperProps={{
           sx: {
-            backgroundColor: '#1b263b',
-            color: '#e0e1dd',
+            backgroundColor: mode === 'dark' ? '#1b263b' : '#fff',
+            color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
             width: 200,
           },
         }}
       >
         <Box sx={{ p: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Typography variant="h6" sx={{ color: '#e0e1dd' }}>
+          <Typography variant="h6" sx={{ color: mode === 'dark' ? '#e0e1dd' : '#1b263b' }}>
             Menu
           </Typography>
           <IconButton color="inherit" onClick={handleMobileMenuToggle}>
@@ -235,7 +239,7 @@ const Navbar = () => {
             <ListItemButton
               onClick={() => handleMobileNavClick('home')}
               sx={{
-                backgroundColor: activeSection === 'home' ? 'rgba(224, 225, 221, 0.1)' : 'transparent'
+                backgroundColor: activeSection === 'home' ? (mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.1)') : 'transparent'
               }}
             >
               <ListItemText primary="Home" />
@@ -245,7 +249,7 @@ const Navbar = () => {
             <ListItemButton
               onClick={() => handleMobileNavClick('about')}
               sx={{
-                backgroundColor: activeSection === 'about' ? 'rgba(224, 225, 221, 0.1)' : 'transparent'
+                backgroundColor: activeSection === 'about' ? (mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.1)') : 'transparent'
               }}
             >
               <ListItemText primary="About" />
@@ -255,7 +259,7 @@ const Navbar = () => {
             <ListItemButton
               onClick={() => handleMobileNavClick('projects')}
               sx={{
-                backgroundColor: activeSection === 'projects' ? 'rgba(224, 225, 221, 0.1)' : 'transparent'
+                backgroundColor: activeSection === 'projects' ? (mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.1)') : 'transparent'
               }}
             >
               <ListItemText primary="Projects" />
@@ -265,7 +269,7 @@ const Navbar = () => {
             <ListItemButton
               onClick={() => handleMobileNavClick('resume')}
               sx={{
-                backgroundColor: activeSection === 'resume' ? 'rgba(224, 225, 221, 0.1)' : 'transparent'
+                backgroundColor: activeSection === 'resume' ? (mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.1)') : 'transparent'
               }}
             >
               <ListItemText primary="Resume" />
@@ -275,7 +279,7 @@ const Navbar = () => {
             <ListItemButton
               onClick={() => handleMobileNavClick('contact')}
               sx={{
-                backgroundColor: activeSection === 'contact' ? 'rgba(224, 225, 221, 0.1)' : 'transparent'
+                backgroundColor: activeSection === 'contact' ? (mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.1)') : 'transparent'
               }}
             >
               <ListItemText primary="Contact" />

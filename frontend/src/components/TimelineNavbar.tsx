@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 import {
   IconButton,
   Paper,
@@ -10,6 +10,7 @@ import BuildIcon from '@mui/icons-material/Build';
 import AppsIcon from '@mui/icons-material/Apps';
 import DescriptionIcon from '@mui/icons-material/Description';
 import EmailIcon from '@mui/icons-material/Email';
+import { ThemeContext } from '@/App';
 
 if (process.env.NODE_ENV === 'test') {
   jest.mock('gsap');
@@ -29,6 +30,7 @@ const sectionIcons = [
 const TimelineNavbar = () => {
   const [activeSection, setActiveSection] = useState('home');
   const navbarRef = useRef<HTMLDivElement>(null);
+  const { mode } = useContext(ThemeContext);
 
   useEffect(() => {
     if (process.env.NODE_ENV === 'test') return;
@@ -48,17 +50,23 @@ const TimelineNavbar = () => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY + 100;
       let newActiveSection = 'home';
-      for (let i = sectionIcons.length - 1; i >= 0; i--) {
+
+      // Check each section in order
+      for (let i = 0; i < sectionIcons.length; i++) {
         const section = sectionIcons[i];
         const element = document.getElementById(section.id);
         if (element) {
           const sectionTop = element.offsetTop;
-          if (scrollPosition >= sectionTop - 50) {
+          const sectionBottom = sectionTop + element.offsetHeight;
+
+          // Check if we're within this section
+          if (scrollPosition >= sectionTop - 100 && scrollPosition < sectionBottom - 100) {
             newActiveSection = section.id;
             break;
           }
         }
       }
+
       if (newActiveSection !== activeSection) {
         setActiveSection(newActiveSection);
       }
@@ -75,7 +83,7 @@ const TimelineNavbar = () => {
         top: 32,
         left: 0,
         right: 0,
-        zIndex: 1201,
+        zIndex: 1300,
         display: 'flex',
         justifyContent: 'center',
         pointerEvents: 'none',
@@ -86,10 +94,10 @@ const TimelineNavbar = () => {
       <Paper
         elevation={6}
         sx={{
-          borderRadius: 999,
+          borderRadius: 10,
           px: { xs: 1, md: 2 },
           py: 0.5,
-          bgcolor: 'rgba(27, 38, 59, 0.95)',
+          bgcolor: mode === 'dark' ? '#1b263b' : '#ffffff',
           boxShadow: '0 8px 32px 0 rgba(0,0,0,0.18)',
           display: 'flex',
           alignItems: 'center',
@@ -97,6 +105,8 @@ const TimelineNavbar = () => {
           minHeight: NAVBAR_HEIGHT,
           pointerEvents: 'auto',
           transform: 'translateZ(0)',
+          position: 'relative',
+          zIndex: 1300,
         }}
       >
         {sectionIcons.map((section) => (
@@ -109,19 +119,21 @@ const TimelineNavbar = () => {
                 }
               }}
               sx={{
-                color: activeSection === section.id ? '#e0e1dd' : 'rgba(224, 225, 221, 0.7)',
+                color: activeSection === section.id
+                  ? (mode === 'dark' ? '#e0e1dd' : '#1b263b')
+                  : (mode === 'dark' ? 'rgba(224, 225, 221, 0.7)' : 'rgba(27, 38, 59, 0.7)'),
                 backgroundColor: activeSection === section.id
-                  ? 'rgba(224, 225, 221, 0.18)'
+                  ? (mode === 'dark' ? 'rgba(224, 225, 221, 0.18)' : 'rgba(27, 38, 59, 0.18)')
                   : 'transparent',
                 border: activeSection === section.id
-                  ? '2px solid #e0e1dd'
+                  ? `2px solid ${mode === 'dark' ? '#e0e1dd' : '#1b263b'}`
                   : '2px solid transparent',
                 mx: { xs: 0.25, md: 0.5 },
                 transition: 'all 0.18s cubic-bezier(.4,0,.2,1)',
                 '&:hover': {
-                  backgroundColor: 'rgba(65, 90, 119, 0.3)',
-                  color: '#e0e1dd',
-                  border: '2px solid #e0e1dd',
+                  backgroundColor: mode === 'dark' ? 'rgba(65, 90, 119, 0.3)' : 'rgba(27, 38, 59, 0.3)',
+                  color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
+                  border: `2px solid ${mode === 'dark' ? '#e0e1dd' : '#1b263b'}`,
                 },
                 fontSize: 24,
                 p: { xs: 0.75, md: 1.1 },

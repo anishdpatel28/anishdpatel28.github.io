@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext, useCallback } from 'react';
 import { Box, Typography, Container, Card, CardContent, Chip, IconButton, Button, useTheme, useMediaQuery } from '@mui/material';
 import { ArrowBack, ArrowForward, Launch, GitHub } from '@mui/icons-material';
-import { sectionBackgrounds } from '@/themes/theme';
+import { ThemeContext } from '@/App';
 
 const ProjectsCarousel = () => {
   const [currentProject, setCurrentProject] = useState(0);
@@ -11,6 +11,7 @@ const ProjectsCarousel = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const prevIsMobile = useRef(isMobile);
+  const { mode } = useContext(ThemeContext);
 
   const projects = [
     {
@@ -55,37 +56,21 @@ const ProjectsCarousel = () => {
     }
   ];
 
-  const nextProject = () => {
+  const nextProject = useCallback(() => {
     const newProject = (currentProject + 1) % projects.length;
     setCurrentProject(newProject);
     if (!isMobile) {
       setRotation(prev => prev - 90);
     }
-  };
+  }, [currentProject, projects.length, isMobile]);
 
-  const prevProject = () => {
+  const prevProject = useCallback(() => {
     const newProject = (currentProject - 1 + projects.length) % projects.length;
     setCurrentProject(newProject);
     if (!isMobile) {
       setRotation(prev => prev + 90);
     }
-  };
-
-  const handleCardClick = (targetIndex: number) => {
-    if (targetIndex === currentProject || isMobile) return;
-
-    const totalCards = projects.length;
-    let diff = targetIndex - currentProject;
-
-    if (diff > totalCards / 2) {
-      diff -= totalCards;
-    } else if (diff < -totalCards / 2) {
-      diff += totalCards;
-    }
-
-    setCurrentProject(targetIndex);
-    setRotation(prev => prev - (diff * 90));
-  };
+  }, [currentProject, projects.length, isMobile]);
 
   useEffect(() => {
     if (process.env.NODE_ENV === 'test') return;
@@ -135,6 +120,37 @@ const ProjectsCarousel = () => {
     })();
   }, [currentProject, rotation, isMobile]);
 
+  // Restrict arrow key navigation to only when Projects section is in view
+  const projectsSectionRef = useRef<HTMLDivElement>(null);
+  const isSectionInView = useRef(false);
+
+  useEffect(() => {
+    if (!projectsSectionRef.current) return;
+    const observer = new window.IntersectionObserver(
+      ([entry]) => {
+        isSectionInView.current = entry.isIntersecting;
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(projectsSectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!isSectionInView.current) return;
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        prevProject();
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        nextProject();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [nextProject, prevProject]);
+
   // mobile layout component
   const MobileLayout = () => (
     <Box sx={{
@@ -179,7 +195,7 @@ const ProjectsCarousel = () => {
               textAlign: 'center',
               px: 2,
               position: 'relative',
-              zIndex: 2,
+              zIndex: 0,
               fontSize: '1.25rem'
             }}
           >
@@ -204,8 +220,8 @@ const ProjectsCarousel = () => {
               size="small"
               variant="outlined"
               sx={{
-                borderColor: 'rgba(224, 225, 221, 0.3)',
-                color: '#e0e1dd',
+                borderColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.3)' : 'rgba(27, 38, 59, 0.5)',
+                color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
                 fontSize: '0.7rem'
               }}
             />
@@ -214,15 +230,15 @@ const ProjectsCarousel = () => {
               size="small"
               variant="outlined"
               sx={{
-                borderColor: 'rgba(224, 225, 221, 0.3)',
-                color: '#e0e1dd',
+                borderColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.3)' : 'rgba(27, 38, 59, 0.5)',
+                color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
                 fontSize: '0.7rem'
               }}
             />
           </Box>
 
           <Typography variant="body2" sx={{
-            color: 'rgba(224, 225, 221, 0.9)',
+            color: mode === 'dark' ? 'rgba(224, 225, 221, 0.9)' : 'rgba(27, 38, 59, 0.9)',
             lineHeight: 1.6,
             fontSize: '0.85rem',
             mb: 2
@@ -231,7 +247,7 @@ const ProjectsCarousel = () => {
           </Typography>
 
           <Typography variant="subtitle2" sx={{
-            color: '#e0e1dd',
+            color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
             mb: 1,
             fontWeight: 600,
             fontSize: '0.9rem'
@@ -246,11 +262,11 @@ const ProjectsCarousel = () => {
                 variant="outlined"
                 size="small"
                 sx={{
-                  borderColor: 'rgba(224, 225, 221, 0.3)',
-                  color: '#e0e1dd',
+                  borderColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.3)' : 'rgba(27, 38, 59, 0.5)',
+                  color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
                   fontSize: '0.65rem',
                   '&:hover': {
-                    backgroundColor: 'rgba(224, 225, 221, 0.1)',
+                    backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.1)',
                   }
                 }}
               />
@@ -278,13 +294,13 @@ const ProjectsCarousel = () => {
               startIcon={<GitHub />}
               fullWidth
               sx={{
-                borderColor: 'rgba(224, 225, 221, 0.3)',
-                color: '#e0e1dd',
+                borderColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.3)' : 'rgba(27, 38, 59, 0.5)',
+                color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
                 fontSize: '0.8rem',
                 py: 1,
                 '&:hover': {
-                  backgroundColor: 'rgba(224, 225, 221, 0.1)',
-                  borderColor: '#e0e1dd'
+                  backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.1)',
+                  borderColor: mode === 'dark' ? '#e0e1dd' : '#1b263b'
                 }
               }}
             >
@@ -304,12 +320,13 @@ const ProjectsCarousel = () => {
         <IconButton
           onClick={prevProject}
           sx={{
-            backgroundColor: 'rgba(224, 225, 221, 0.1)',
-            color: '#e0e1dd',
+            backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.2)',
+            color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
             width: 48,
             height: 48,
+            zIndex: 1,
             '&:hover': {
-              backgroundColor: 'rgba(224, 225, 221, 0.2)',
+              backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.2)' : 'rgba(27, 38, 59, 0.3)',
               transform: 'scale(1.1)'
             },
             transition: 'all 0.2s ease'
@@ -341,12 +358,13 @@ const ProjectsCarousel = () => {
         <IconButton
           onClick={nextProject}
           sx={{
-            backgroundColor: 'rgba(224, 225, 221, 0.1)',
-            color: '#e0e1dd',
+            backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.2)',
+            color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
             width: 48,
             height: 48,
+            zIndex: 1,
             '&:hover': {
-              backgroundColor: 'rgba(224, 225, 221, 0.2)',
+              backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.2)' : 'rgba(27, 38, 59, 0.3)',
               transform: 'scale(1.1)'
             },
             transition: 'all 0.2s ease'
@@ -360,15 +378,16 @@ const ProjectsCarousel = () => {
 
   return (
     <Box
-      id="projects"
+      ref={projectsSectionRef}
       sx={{
         minHeight: '100vh',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: sectionBackgrounds.projects,
+        background: 'transparent',
         position: 'relative',
         overflow: 'hidden',
+        zIndex: 0,
       }}
     >
       <Container maxWidth="xl">
@@ -397,25 +416,30 @@ const ProjectsCarousel = () => {
                 position: 'relative',
                 display: 'flex',
                 alignItems: 'center',
-                gap: 8
+                gap: 12
               }}>
                 {/* Left Arrow */}
                 <IconButton
                   onClick={prevProject}
                   sx={{
-                    backgroundColor: 'rgba(224, 225, 221, 0.1)',
-                    color: '#e0e1dd',
-                    width: 40,
-                    height: 40,
+                    backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.2)',
+                    color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
+                    width: 44,
+                    height: 44,
                     '&:hover': {
-                      backgroundColor: 'rgba(224, 225, 221, 0.2)',
+                      backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.2)' : 'rgba(27, 38, 59, 0.3)',
                       transform: 'scale(1.1)'
                     },
                     transition: 'all 0.2s ease',
-                    zIndex: 10
+                    zIndex: 1,
+                    border: `2px solid ${mode === 'dark' ? 'rgba(224, 225, 221, 0.2)' : 'rgba(27, 38, 59, 0.3)'}`,
+                    '&:active': {
+                      transform: 'scale(0.95)'
+                    }
                   }}
+                  aria-label="Previous project"
                 >
-                  <ArrowBack />
+                  <ArrowBack sx={{ fontSize: 22 }} />
                 </IconButton>
 
                 {/* 3D Carousel Container */}
@@ -453,7 +477,7 @@ const ProjectsCarousel = () => {
                         borderRadius: 16,
                         cursor: 'pointer',
                         boxShadow: index === currentProject ? '0 8px 32px rgba(0,0,0,0.25)' : '0 2px 8px rgba(0,0,0,0.10)',
-                        zIndex: index === currentProject ? 2 : 1,
+                        zIndex: 0,
                         background: '#222e3a',
                         color: '#e0e1dd',
                         overflow: 'hidden',
@@ -469,7 +493,6 @@ const ProjectsCarousel = () => {
                         <div
                           key={project.id}
                           style={cardStyle}
-                          onClick={() => index !== currentProject && handleCardClick(index)}
                         >
                           <Card sx={{
                             width: '100%',
@@ -488,6 +511,7 @@ const ProjectsCarousel = () => {
                             overflow: 'hidden',
                             transform: 'translateZ(0)',
                             backfaceVisibility: 'hidden',
+                            cursor: 'default',
                             '&::before': {
                               content: '""',
                               position: 'absolute',
@@ -509,7 +533,14 @@ const ProjectsCarousel = () => {
                               background: 'rgba(0, 0, 0, 0.3)',
                               backdropFilter: 'blur(10px)'
                             }} />
-                            <CardContent sx={{ position: 'relative', zIndex: 2, color: 'white' }}>
+                            <CardContent
+                              sx={{
+                                position: 'relative',
+                                zIndex: 0,
+                                color: 'white',
+                                cursor: 'default',
+                              }}
+                            >
                               <Typography variant="h5" sx={{ fontWeight: 700, mb: 2 }}>
                                 {project.title}
                               </Typography>
@@ -533,19 +564,24 @@ const ProjectsCarousel = () => {
                 <IconButton
                   onClick={nextProject}
                   sx={{
-                    backgroundColor: 'rgba(224, 225, 221, 0.1)',
-                    color: '#e0e1dd',
-                    width: 40,
-                    height: 40,
+                    backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.2)',
+                    color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
+                    width: 44,
+                    height: 44,
                     '&:hover': {
-                      backgroundColor: 'rgba(224, 225, 221, 0.2)',
+                      backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.2)' : 'rgba(27, 38, 59, 0.3)',
                       transform: 'scale(1.1)'
                     },
                     transition: 'all 0.2s ease',
-                    zIndex: 10
+                    zIndex: 1,
+                    border: `2px solid ${mode === 'dark' ? 'rgba(224, 225, 221, 0.2)' : 'rgba(27, 38, 59, 0.3)'}`,
+                    '&:active': {
+                      transform: 'scale(0.95)'
+                    }
                   }}
+                  aria-label="Next project"
                 >
-                  <ArrowForward />
+                  <ArrowForward sx={{ fontSize: 22 }} />
                 </IconButton>
               </Box>
             </Box>
@@ -559,9 +595,9 @@ const ProjectsCarousel = () => {
             }}>
               <div ref={infoRef}>
                 <Card sx={{
-                  backgroundColor: 'rgba(224, 225, 221, 0.05)',
+                  backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.05)' : 'rgba(27, 38, 59, 0.05)',
                   backdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(224, 225, 221, 0.1)',
+                  border: mode === 'dark' ? '1px solid rgba(224, 225, 221, 0.1)' : '1px solid rgba(27, 38, 59, 0.1)',
                   height: '100%'
                 }}>
                   <CardContent sx={{ p: 4 }}>
@@ -570,7 +606,7 @@ const ProjectsCarousel = () => {
                         <Typography
                           variant="h4"
                           sx={{
-                            color: '#e0e1dd',
+                            color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
                             fontWeight: 700,
                             mb: 1,
                             fontSize: '2.125rem'
@@ -594,8 +630,8 @@ const ProjectsCarousel = () => {
                             size="small"
                             variant="outlined"
                             sx={{
-                              borderColor: 'rgba(224, 225, 221, 0.3)',
-                              color: '#e0e1dd',
+                              borderColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.3)' : 'rgba(27, 38, 59, 0.5)',
+                              color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
                               fontSize: '0.8125rem'
                             }}
                           />
@@ -604,7 +640,7 @@ const ProjectsCarousel = () => {
                     </Box>
 
                     <Typography variant="body1" sx={{
-                      color: 'rgba(224, 225, 221, 0.9)',
+                      color: mode === 'dark' ? 'rgba(224, 225, 221, 0.9)' : 'rgba(27, 38, 59, 0.9)',
                       lineHeight: 1.6,
                       fontSize: '1.1rem',
                       mb: 4
@@ -612,7 +648,7 @@ const ProjectsCarousel = () => {
                       {projects[currentProject].description}
                     </Typography>
 
-                    <Typography variant="h6" sx={{ color: '#e0e1dd', mb: 2, fontWeight: 600, fontSize: '1.25rem' }}>
+                    <Typography variant="h6" sx={{ color: mode === 'dark' ? '#e0e1dd' : '#1b263b', mb: 2, fontWeight: 600, fontSize: '1.25rem' }}>
                       Technologies
                     </Typography>
                     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 4 }}>
@@ -623,11 +659,11 @@ const ProjectsCarousel = () => {
                           variant="outlined"
                           size="small"
                           sx={{
-                            borderColor: 'rgba(224, 225, 221, 0.3)',
-                            color: '#e0e1dd',
+                            borderColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.3)' : 'rgba(27, 38, 59, 0.5)',
+                            color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
                             fontSize: '0.8125rem',
                             '&:hover': {
-                              backgroundColor: 'rgba(224, 225, 221, 0.1)',
+                              backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.1)',
                             }
                           }}
                         />
@@ -653,13 +689,13 @@ const ProjectsCarousel = () => {
                         variant="outlined"
                         startIcon={<GitHub />}
                         sx={{
-                          borderColor: 'rgba(224, 225, 221, 0.3)',
-                          color: '#e0e1dd',
+                          borderColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.3)' : 'rgba(27, 38, 59, 0.5)',
+                          color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
                           fontSize: '0.875rem',
                           py: 1.5,
                           '&:hover': {
-                            backgroundColor: 'rgba(224, 225, 221, 0.1)',
-                            borderColor: '#e0e1dd'
+                            backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.1)',
+                            borderColor: mode === 'dark' ? '#e0e1dd' : '#1b263b'
                           }
                         }}
                       >
