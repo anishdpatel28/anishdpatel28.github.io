@@ -379,6 +379,7 @@ const ProjectsCarousel = () => {
   return (
     <Box
       ref={projectsSectionRef}
+      className="projects-carousel"
       sx={{
         minHeight: '100vh',
         display: 'flex',
@@ -587,12 +588,15 @@ const ProjectsCarousel = () => {
             </Box>
 
             {/* Project Details */}
-            <Box sx={{
-              flex: 1,
-              minHeight: '60vh',
-              width: 'auto',
-              maxWidth: 'none'
-            }}>
+            <Box
+              className="projects-info"
+              sx={{
+                flex: 1,
+                minHeight: '60vh',
+                width: 'auto',
+                maxWidth: 'none'
+              }}
+            >
               <div ref={infoRef}>
                 <Card sx={{
                   backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.05)' : 'rgba(27, 38, 59, 0.05)',

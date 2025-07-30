@@ -23,6 +23,7 @@ const Home = () => {
   const heroRef = useRef<HTMLDivElement>(null);
   const aboutRef = useRef<HTMLDivElement>(null);
   const skillsRef = useRef<HTMLDivElement>(null);
+  const projectsRef = useRef<HTMLDivElement>(null);
   const resumeRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
   const analyticsBtnRef = useRef<HTMLButtonElement>(null);
@@ -199,6 +200,44 @@ const Home = () => {
             stagger: 0.3,
             scrollTrigger: {
               trigger: skillsRef.current,
+              start: "top 70%",
+              once: true
+            }
+          }
+        );
+      }
+
+      // projects section animations
+      const projectsCarousel = projectsRef.current?.querySelector('.projects-carousel');
+      const projectsInfo = projectsRef.current?.querySelector('.projects-info');
+
+      if (projectsCarousel) {
+        gsap.fromTo(projectsCarousel,
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: projectsRef.current,
+              start: "top 80%",
+              once: true
+            }
+          }
+        );
+      }
+
+      if (projectsInfo) {
+        gsap.fromTo(projectsInfo,
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: projectsRef.current,
               start: "top 70%",
               once: true
             }
@@ -1107,6 +1146,7 @@ const Home = () => {
       {/* Projects */}
       <Box
         id="projects"
+        ref={projectsRef}
         sx={{
           background: mode === 'dark' ? 'transparent' : '#f5f5f5',
           minHeight: '100vh',
