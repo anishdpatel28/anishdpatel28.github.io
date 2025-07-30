@@ -365,6 +365,34 @@ const Home = () => {
     return `${remainingSeconds}s`;
   };
 
+  // custom tooltip content to capitalize "time:" label
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <Box sx={{
+          background: mode === 'dark' ? '#222e3a' : '#ffffff',
+          color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
+          border: mode === 'dark' ? 'none' : '1px solid #e0e0e0',
+          padding: '10px',
+          borderRadius: '4px'
+        }}>
+          <Typography variant="body2" sx={{
+            fontWeight: 'bold',
+            color: mode === 'dark' ? '#e0e1dd' : '#1b263b'
+          }}>
+            {label}
+          </Typography>
+          <Typography variant="body2" sx={{
+            color: mode === 'dark' ? '#e0e1dd' : '#1b263b'
+          }}>
+            Time: {formatTime(payload[0].value)}
+          </Typography>
+        </Box>
+      );
+    }
+    return null;
+  };
+
   useEffect(() => { // remove analytics button highlight on close
     if (process.env.NODE_ENV === 'test') return;
     if (!showAnalytics && analyticsBtnRef.current) {
@@ -507,11 +535,9 @@ const Home = () => {
                     tickFormatter={formatYAxisTick}
                     width={80}
                   />
-                  <RechartsTooltip formatter={(v: number) => formatTime(v)} contentStyle={{
-                    background: mode === 'dark' ? '#222e3a' : '#ffffff',
-                    color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
-                    border: mode === 'dark' ? 'none' : '1px solid #e0e0e0'
-                  }} />
+                  <RechartsTooltip
+                    content={<CustomTooltip />}
+                  />
                   <Bar dataKey="time" fill="#4fc3f7" radius={[8, 8, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
