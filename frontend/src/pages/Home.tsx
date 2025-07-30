@@ -353,20 +353,25 @@ const Home = () => {
 
   // custom Y-axis tick formatter for graph
   const formatYAxisTick = (seconds: number) => {
-    const hours = Math.floor(seconds / 3600);
+    const days = Math.floor(seconds / 86400);
+    const hours = Math.floor((seconds % 86400) / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     const remainingSeconds = seconds % 60;
 
-    if (hours > 0) {
-      return `${hours}h ${minutes}m`;
-    } else if (minutes > 0) {
-      return `${minutes}m ${remainingSeconds}s`;
-    }
-    return `${remainingSeconds}s`;
+    let str = '';
+    if (days > 0) str += `${days}d `;
+    if (hours > 0 || days > 0) str += `${hours}h `;
+    if (minutes > 0 || hours > 0 || days > 0) str += `${minutes}m `;
+    str += `${remainingSeconds}s`;
+    return str.trim();
   };
 
   // custom tooltip content to capitalize "time:" label
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({ active, payload, label }: {
+    active?: boolean;
+    payload?: Array<{ value: number; }>;
+    label?: string;
+  }) => {
     if (active && payload && payload.length) {
       return (
         <Box sx={{
@@ -501,7 +506,7 @@ const Home = () => {
           bgcolor: mode === 'dark' ? '#1b263b' : '#ffffff',
           color: mode === 'dark' ? '#e0e1dd' : '#1b263b'
         }}>
-          <Box sx={{ p: 2 }}>
+          <Box sx={{ p: 2, pb: 1 }}>
             <Typography variant="h6" sx={{ mb: 2 }}>
               Page Views: {typeof analytics?.page_views === 'number' ? analytics.page_views : 0}
             </Typography>
@@ -533,7 +538,9 @@ const Home = () => {
                     stroke={mode === 'dark' ? '#e0e1dd' : '#1b263b'}
                     tick={{ fill: mode === 'dark' ? '#e0e1dd' : '#1b263b', fontSize: 12 }}
                     tickFormatter={formatYAxisTick}
-                    width={80}
+                    width={100}
+                    axisLine={false}
+                    tickLine={false}
                   />
                   <RechartsTooltip
                     content={<CustomTooltip />}
