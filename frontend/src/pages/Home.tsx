@@ -353,10 +353,14 @@ const Home = () => {
 
   // custom Y-axis tick formatter for graph
   const formatYAxisTick = (seconds: number) => {
-    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
     const remainingSeconds = seconds % 60;
-    if (minutes > 0) {
-      return `${minutes}m\u00A0${remainingSeconds}s`;
+
+    if (hours > 0) {
+      return `${hours}h ${minutes}m`;
+    } else if (minutes > 0) {
+      return `${minutes}m ${remainingSeconds}s`;
     }
     return `${remainingSeconds}s`;
   };
@@ -497,7 +501,12 @@ const Home = () => {
                 >
                   <CartesianGrid strokeDasharray="3 3" stroke={mode === 'dark' ? '#2c3e50' : '#e0e0e0'} />
                   <XAxis dataKey="section" stroke={mode === 'dark' ? '#e0e1dd' : '#1b263b'} tick={{ fill: mode === 'dark' ? '#e0e1dd' : '#1b263b', fontSize: 14 }} />
-                  <YAxis stroke={mode === 'dark' ? '#e0e1dd' : '#1b263b'} tick={{ fill: mode === 'dark' ? '#e0e1dd' : '#1b263b', fontSize: 12 }} tickFormatter={formatYAxisTick} />
+                  <YAxis
+                    stroke={mode === 'dark' ? '#e0e1dd' : '#1b263b'}
+                    tick={{ fill: mode === 'dark' ? '#e0e1dd' : '#1b263b', fontSize: 12 }}
+                    tickFormatter={formatYAxisTick}
+                    width={80}
+                  />
                   <RechartsTooltip formatter={(v: number) => formatTime(v)} contentStyle={{
                     background: mode === 'dark' ? '#222e3a' : '#ffffff',
                     color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
