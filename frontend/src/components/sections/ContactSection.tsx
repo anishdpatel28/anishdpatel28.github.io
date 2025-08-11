@@ -24,7 +24,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ mode = 'dark' }) => {
         <Tooltip title="Email" arrow>
           <IconButton
             className="contact-item"
-            onClick={() => window.open('mailto:anish.patel@example.com', '_blank')}
+            onClick={() => window.open('mailto:anishdpatel28@gmail.com', '_blank')}
             sx={{ color: mode === 'dark' ? '#e0e1dd' : '#1b263b', p: 2, fontSize: 40 }}
             aria-label="Email"
           >
@@ -34,7 +34,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ mode = 'dark' }) => {
         <Tooltip title="LinkedIn" arrow>
           <IconButton
             className="contact-item"
-            onClick={() => window.open('https://linkedin.com/in/anishpatel', '_blank')}
+            onClick={() => window.open('https://linkedin.com/in/-anishpatel', '_blank')}
             sx={{ color: mode === 'dark' ? '#e0e1dd' : '#1b263b', p: 2, fontSize: 40 }}
             aria-label="LinkedIn"
           >
