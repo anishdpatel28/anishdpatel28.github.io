@@ -1,293 +1,151 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Button,
-  Box,
   IconButton,
-  Drawer,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
+  Paper,
+  Tooltip
 } from '@mui/material';
-import { Menu as MenuIcon, Close } from '@mui/icons-material';
-import { ThemeContext } from '../App';
+import HomeIcon from '@mui/icons-material/Home';
+import PersonIcon from '@mui/icons-material/Person';
+import BuildIcon from '@mui/icons-material/Build';
+import AppsIcon from '@mui/icons-material/Apps';
+import DescriptionIcon from '@mui/icons-material/Description';
+import EmailIcon from '@mui/icons-material/Email';
+import { ThemeContext } from '@/App';
 
 if (process.env.NODE_ENV === 'test') {
   jest.mock('gsap');
 }
 
+const NAVBAR_HEIGHT = 64;
+
+const sectionIcons = [
+  { id: 'home', icon: <HomeIcon fontSize="medium" /> },
+  { id: 'about', icon: <PersonIcon fontSize="medium" /> },
+  { id: 'skills', icon: <BuildIcon fontSize="medium" /> },
+  { id: 'projects', icon: <AppsIcon fontSize="medium" /> },
+  { id: 'resume', icon: <DescriptionIcon fontSize="medium" /> },
+  { id: 'contact', icon: <EmailIcon fontSize="medium" /> },
+];
+
 const Navbar = () => {
   const [activeSection, setActiveSection] = useState('home');
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const logoRef = useRef<HTMLDivElement>(null);
-  const navButtonsRef = useRef<HTMLDivElement>(null);
-  const mobileButtonRef = useRef<HTMLDivElement>(null);
+  const navbarRef = useRef<HTMLDivElement>(null);
   const { mode } = useContext(ThemeContext);
-
-  useEffect(() => {
-    if (process.env.NODE_ENV === 'test') return;
-    let ticking = false;
-    const handleScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          const sections = ['home', 'about', 'projects', 'resume', 'contact'];
-          const scrollPosition = window.scrollY + 100;
-          let currentSection = 'home';
-          for (let i = 0; i < sections.length; i++) {
-            const section = document.getElementById(sections[i]);
-            if (section) {
-              const sectionTop = section.offsetTop;
-              if (scrollPosition >= sectionTop) {
-                currentSection = sections[i];
-              } else {
-                break;
-              }
-            }
-          }
-          setActiveSection(currentSection);
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-    window.addEventListener('scroll', handleScroll);
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [activeSection]);
-
-  useEffect(() => {
-    if (process.env.NODE_ENV === 'test') return;
-    const handleResize = () => {
-      if (window.innerWidth >= 900 && mobileOpen) {
-        setMobileOpen(false);
-      }
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, [mobileOpen]);
 
   useEffect(() => {
     if (process.env.NODE_ENV === 'test') return;
     (async () => {
       const gsapMod = await import('gsap');
       const gsap = gsapMod.default;
-      if (logoRef.current) {
-        gsap.fromTo(logoRef.current,
-          { opacity: 0, y: -20 },
-          { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out', delay: 1.2 }
-        );
-      }
-      if (navButtonsRef.current) {
-        const buttons = navButtonsRef.current.querySelectorAll('.nav-button');
-        gsap.fromTo(buttons,
-          { opacity: 0, y: -16 },
-          { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out', stagger: 0.1, delay: 0.5 }
-        );
-      }
-      if (mobileButtonRef.current) {
-        gsap.fromTo(mobileButtonRef.current,
-          { opacity: 0, y: -16 },
-          { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out', delay: 1.1 }
+      if (navbarRef.current) {
+        gsap.fromTo(navbarRef.current,
+          { opacity: 0, transform: 'translateY(-32px)' },
+          { opacity: 1, transform: 'translateY(0)', duration: 0.8, ease: 'power2.out' }
         );
       }
     })();
   }, []);
 
-  const handleMobileMenuToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + 100;
+      let newActiveSection = 'home';
 
-  const handleMobileNavClick = (sectionId: string) => {
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
-    setMobileOpen(false);
-  };
+      // Check each section in order
+      for (let i = 0; i < sectionIcons.length; i++) {
+        const section = sectionIcons[i];
+        const element = document.getElementById(section.id);
+        if (element) {
+          const sectionTop = element.offsetTop;
+          const sectionBottom = sectionTop + element.offsetHeight;
 
-  const getButtonStyles = (section: string) => ({
-    color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
-    backgroundColor: 'transparent',
-    borderRadius: 1,
-    px: 2,
-    py: 1,
-    textTransform: 'none',
-    fontSize: '1rem',
-    fontWeight: 500,
-    position: 'relative',
-    overflow: 'hidden',
-    '&::before': {
-      content: '""',
-      position: 'absolute',
-      bottom: 0,
-      left: 0,
-      width: activeSection === section ? '100%' : 0,
-      height: '2px',
-      backgroundColor: mode === 'dark' ? '#e0e1dd' : '#1b263b',
-      transition: 'width 0.3s ease',
-    },
-    '&::after': {
-      content: '""',
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      width: '100%',
-      height: '100%',
-      backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.08)',
-      opacity: 0,
-      transition: 'opacity 0.3s ease',
-      zIndex: -1,
-    },
-    '&:hover::after': {
-      opacity: 1,
-    },
-  });
+          // Check if we're within this section
+          if (scrollPosition >= sectionTop - 100 && scrollPosition < sectionBottom - 100) {
+            newActiveSection = section.id;
+            break;
+          }
+        }
+      }
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const navItems = [
-    { id: 'home', label: 'Home' },
-    { id: 'about', label: 'About' },
-    { id: 'projects', label: 'Projects' },
-    { id: 'resume', label: 'Resume' },
-    { id: 'contact', label: 'Contact' }
-  ];
+      if (newActiveSection !== activeSection) {
+        setActiveSection(newActiveSection);
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [activeSection]);
 
   return (
-    <>
-      <AppBar
-        position="fixed"
-        elevation={0}
+    <div
+      ref={navbarRef}
+      style={{
+        position: 'fixed',
+        top: 32,
+        left: 0,
+        right: 0,
+        zIndex: 1300,
+        display: 'flex',
+        justifyContent: 'center',
+        pointerEvents: 'none',
+        opacity: 0,
+        transform: 'translateY(-32px)',
+      }}
+    >
+      <Paper
+        elevation={6}
         sx={{
-          backgroundColor: mode === 'dark' ? 'rgba(27, 38, 59, 0.4)' : 'rgba(255, 255, 255, 0.8)',
-          backdropFilter: 'blur(10px)',
-          boxShadow: 'none',
-          zIndex: 1200,
+          borderRadius: 10,
+          px: { xs: 1, md: 2 },
+          py: 0.5,
+          bgcolor: mode === 'dark' ? '#1b263b' : '#ffffff',
+          boxShadow: '0 8px 32px 0 rgba(0,0,0,0.18)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: { xs: 0.5, md: 1.5 },
+          minHeight: NAVBAR_HEIGHT,
+          pointerEvents: 'auto',
+          transform: 'translateZ(0)',
+          position: 'relative',
+          zIndex: 1300,
         }}
       >
-        <Box sx={{ maxWidth: '1000px', width: '100%', mx: 'auto' }}>
-          <Toolbar sx={{ justifyContent: 'space-between', px: { xs: 2, md: 3 } }}>
-            <div ref={logoRef}>
-              <Typography
-                variant="h6"
-                component="div"
-                onClick={scrollToTop}
-                sx={{
-                  fontWeight: 600,
+        {sectionIcons.map((section) => (
+          <Tooltip key={section.id} title={section.id.charAt(0).toUpperCase() + section.id.slice(1)} arrow>
+            <IconButton
+              onClick={() => {
+                const element = document.getElementById(section.id);
+                if (element) {
+                  element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+              }}
+              sx={{
+                color: activeSection === section.id
+                  ? (mode === 'dark' ? '#e0e1dd' : '#1b263b')
+                  : (mode === 'dark' ? 'rgba(224, 225, 221, 0.7)' : 'rgba(27, 38, 59, 0.7)'),
+                backgroundColor: activeSection === section.id
+                  ? (mode === 'dark' ? 'rgba(224, 225, 221, 0.18)' : 'rgba(27, 38, 59, 0.18)')
+                  : 'transparent',
+                border: activeSection === section.id
+                  ? `2px solid ${mode === 'dark' ? '#e0e1dd' : '#1b263b'}`
+                  : '2px solid transparent',
+                mx: { xs: 0.25, md: 0.5 },
+                transition: 'all 0.18s cubic-bezier(.4,0,.2,1)',
+                '&:hover': {
+                  backgroundColor: mode === 'dark' ? 'rgba(65, 90, 119, 0.3)' : 'rgba(27, 38, 59, 0.3)',
                   color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
-                  cursor: 'pointer',
-                  userSelect: 'none',
-                  '&:hover': {
-                    opacity: 0.8,
-                  },
-                }}
-              >
-                Anish Patel
-              </Typography>
-            </div>
-            <Box ref={navButtonsRef} sx={{ display: { xs: 'none', md: 'flex' }, gap: 1, alignItems: 'center' }}>
-              {navItems.map((item) => (
-                <React.Fragment key={item.id}>
-                  <div className="nav-button">
-                    <Button
-                      onClick={() => document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' })}
-                      sx={getButtonStyles(item.id)}
-                    >
-                      {item.label}
-                    </Button>
-                  </div>
-                </React.Fragment>
-              ))}
-            </Box>
-            <Box ref={mobileButtonRef} sx={{ display: { xs: 'flex', md: 'none' } }}>
-              <IconButton
-                color="inherit"
-                aria-label="menu"
-                onClick={handleMobileMenuToggle}
-                sx={{ color: mode === 'dark' ? '#e0e1dd' : '#1b263b' }}
-              >
-                {mobileOpen ? <Close /> : <MenuIcon />}
-              </IconButton>
-            </Box>
-          </Toolbar>
-        </Box>
-      </AppBar>
-      <Drawer
-        anchor="right"
-        open={mobileOpen}
-        onClose={handleMobileMenuToggle}
-        PaperProps={{
-          sx: {
-            backgroundColor: mode === 'dark' ? '#1b263b' : '#fff',
-            color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
-            width: 200,
-          },
-        }}
-      >
-        <Box sx={{ p: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Typography variant="h6" sx={{ color: mode === 'dark' ? '#e0e1dd' : '#1b263b' }}>
-            Menu
-          </Typography>
-          <IconButton color="inherit" onClick={handleMobileMenuToggle}>
-            <Close />
-          </IconButton>
-        </Box>
-        <List>
-          <ListItem disablePadding>
-            <ListItemButton
-              onClick={() => handleMobileNavClick('home')}
-              sx={{
-                backgroundColor: activeSection === 'home' ? (mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.1)') : 'transparent'
+                  border: `2px solid ${mode === 'dark' ? '#e0e1dd' : '#1b263b'}`,
+                },
+                fontSize: 24,
+                p: { xs: 0.75, md: 1.1 },
               }}
+              aria-label={section.id}
             >
-              <ListItemText primary="Home" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton
-              onClick={() => handleMobileNavClick('about')}
-              sx={{
-                backgroundColor: activeSection === 'about' ? (mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.1)') : 'transparent'
-              }}
-            >
-              <ListItemText primary="About" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton
-              onClick={() => handleMobileNavClick('projects')}
-              sx={{
-                backgroundColor: activeSection === 'projects' ? (mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.1)') : 'transparent'
-              }}
-            >
-              <ListItemText primary="Projects" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton
-              onClick={() => handleMobileNavClick('resume')}
-              sx={{
-                backgroundColor: activeSection === 'resume' ? (mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.1)') : 'transparent'
-              }}
-            >
-              <ListItemText primary="Resume" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton
-              onClick={() => handleMobileNavClick('contact')}
-              sx={{
-                backgroundColor: activeSection === 'contact' ? (mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.1)') : 'transparent'
-              }}
-            >
-              <ListItemText primary="Contact" />
-            </ListItemButton>
-          </ListItem>
-        </List>
-      </Drawer>
-    </>
+              {section.icon}
+            </IconButton>
+          </Tooltip>
+        ))}
+      </Paper>
+    </div>
   );
 };
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, waitForElementToBeRemoved } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 // Mock services
 jest.mock('../../src/services/posthog', () => ({
@@ -42,25 +42,16 @@ jest.mock('gsap', () => {
 import Navbar from '../../src/components/Navbar';
 
 describe('Navbar', () => {
-  it('renders the logo', () => {
+  it('renders all section icons', () => {
     render(<Navbar />);
-    expect(screen.getByText(/Anish Patel/i)).toBeInTheDocument();
-  });
-
-  it('renders all nav items', () => {
-    render(<Navbar />);
-    ['Home', 'About', 'Projects', 'Resume', 'Contact'].forEach(label => {
-      expect(screen.getAllByText(label)[0]).toBeInTheDocument();
+    ['home', 'about', 'skills', 'projects', 'resume', 'contact'].forEach(id => {
+      expect(screen.getByLabelText(id)).toBeInTheDocument();
     });
   });
 
-  it('opens and closes the mobile menu', async () => {
+  it('highlights the home section by default', () => {
     render(<Navbar />);
-    const menuButton = screen.getByLabelText(/menu/i);
-    fireEvent.click(menuButton);
-    expect(screen.getByText('Menu')).toBeInTheDocument();
-    const closeButtons = screen.getAllByRole('button', { name: '' });
-    fireEvent.click(closeButtons[closeButtons.length - 1]);
-    await waitForElementToBeRemoved(() => screen.queryByText('Menu'));
+    const homeButton = screen.getByLabelText('home');
+    expect(homeButton).toHaveStyle('color: #e0e1dd');
   });
 }); 
