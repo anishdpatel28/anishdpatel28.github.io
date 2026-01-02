@@ -173,7 +173,7 @@ const ProjectsCarousel = () => {
               label={projects[currentProject].status}
               size="small"
               sx={{
-                backgroundColor: projects[currentProject].color,
+                backgroundColor: projects[currentProject].id === 'pacman-ai' ? '#D4AF37' : projects[currentProject].color,
                 color: 'white',
                 fontWeight: 600,
                 fontSize: '0.7rem'
@@ -243,11 +243,11 @@ const ProjectsCarousel = () => {
             fullWidth
             onClick={() => handleViewDetails(projects[currentProject].id)}
             sx={{
-              backgroundColor: projects[currentProject].color,
+              backgroundColor: projects[currentProject].id === 'pacman-ai' ? '#D4AF37' : projects[currentProject].color,
               fontSize: '0.8rem',
               py: 1,
               '&:hover': {
-                backgroundColor: projects[currentProject].color + 'dd'
+                backgroundColor: projects[currentProject].id === 'pacman-ai' ? '#B8860B' : projects[currentProject].color + 'dd'
               }
             }}
           >
@@ -569,7 +569,7 @@ const ProjectsCarousel = () => {
                             label={projects[currentProject].status}
                             size="small"
                             sx={{
-                              backgroundColor: projects[currentProject].color,
+                              backgroundColor: projects[currentProject].id === 'pacman-ai' ? '#D4AF37' : projects[currentProject].color,
                               color: 'white',
                               fontWeight: 600,
                               fontSize: '0.8125rem'
@@ -625,12 +625,12 @@ const ProjectsCarousel = () => {
                       startIcon={<OpenInNew />}
                       onClick={() => handleViewDetails(projects[currentProject].id)}
                       sx={{
-                        backgroundColor: projects[currentProject].color,
+                        backgroundColor: projects[currentProject].id === 'pacman-ai' ? '#D4AF37' : projects[currentProject].color,
                         fontSize: '0.875rem',
                         py: 1.5,
                         px: 4,
                         '&:hover': {
-                          backgroundColor: projects[currentProject].color + 'dd'
+                          backgroundColor: projects[currentProject].id === 'pacman-ai' ? '#B8860B' : projects[currentProject].color + 'dd'
                         }
                       }}
                     >
