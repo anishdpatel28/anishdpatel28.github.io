@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
 
-// Mock services
 jest.mock('../../src/services/posthog', () => ({
   __esModule: true,
   default: {
@@ -30,7 +30,6 @@ jest.mock('../../src/services/api', () => ({
   }
 }));
 
-// Mock GSAP
 jest.mock('gsap', () => ({
   default: {
     to: jest.fn(),
@@ -39,13 +38,11 @@ jest.mock('gsap', () => ({
   }
 }));
 
-// Import the component after mocking
 import ProjectsCarousel from '../../src/components/ProjectsCarousel';
 import { ThemeContext } from '../../src/App';
 
 describe('ProjectsCarousel', () => {
   beforeEach(() => {
-    // Reset all mocks before each test
     jest.clearAllMocks();
   });
 
@@ -56,34 +53,36 @@ describe('ProjectsCarousel', () => {
     };
 
     return render(
-      <ThemeContext.Provider value={themeContextValue}>
-        {component}
-      </ThemeContext.Provider>
+      <BrowserRouter>
+        <ThemeContext.Provider value={themeContextValue}>
+          {component}
+        </ThemeContext.Provider>
+      </BrowserRouter>
     );
   };
 
   it('renders the first project title', () => {
     renderWithTheme(<ProjectsCarousel />);
-    expect(screen.getAllByText(/E-Commerce Platform/i)[0]).toBeInTheDocument();
+    expect(screen.getAllByText(/Pacman Search Algorithms/i)[0]).toBeInTheDocument();
   });
 
   it('navigates to the next project on right arrow click', () => {
     renderWithTheme(<ProjectsCarousel />);
     const rightArrow = screen.getAllByRole('button').find(btn => btn.querySelector('svg'));
     fireEvent.click(rightArrow!);
-    expect(screen.getAllByText(/AI Analytics Dashboard/i)[0]).toBeInTheDocument();
+    expect(screen.getAllByText(/Multi-Agent Search/i)[0]).toBeInTheDocument();
   });
 
   it('navigates to the previous project on left arrow click', () => {
     renderWithTheme(<ProjectsCarousel />);
     const leftArrow = screen.getAllByRole('button').find(btn => btn.querySelector('svg'));
     fireEvent.click(leftArrow!);
-    expect(screen.getAllByText(/Mobile Finance App/i)[0]).toBeInTheDocument();
+    expect(screen.getAllByText(/Ghostbusters: Probabilistic Inference/i)[0]).toBeInTheDocument();
   });
 
   it('shows technologies for the current project', () => {
     renderWithTheme(<ProjectsCarousel />);
-    expect(screen.getByText('React')).toBeInTheDocument();
-    expect(screen.getByText('Node.js')).toBeInTheDocument();
+    expect(screen.getByText('Python')).toBeInTheDocument();
+    expect(screen.getByText('Graph Algorithms')).toBeInTheDocument();
   });
-}); 
+});

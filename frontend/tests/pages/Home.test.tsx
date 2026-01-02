@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
 import Home from '../../src/pages/Home';
 
 jest.mock('@/services/api', () => ({
@@ -11,15 +12,23 @@ jest.mock('@/services/api', () => ({
   },
 }));
 
+const renderWithRouter = (component: React.ReactElement) => {
+  return render(
+    <BrowserRouter>
+      {component}
+    </BrowserRouter>
+  );
+};
+
 describe('Home', () => {
   it('renders the hero section', () => {
-    render(<Home />);
+    renderWithRouter(<Home />);
     expect(screen.getByText(/Hey, I'm/i)).toBeInTheDocument();
     expect(screen.getByText(/Fullstack Web Developer/i)).toBeInTheDocument();
   });
 
   it('renders the about section', () => {
-    render(<Home />);
+    renderWithRouter(<Home />);
     expect(screen.getByText(/About Me/i)).toBeInTheDocument();
     expect(screen.getByText(/Education/i)).toBeInTheDocument();
     expect(screen.getByText(/Work Experience/i)).toBeInTheDocument();
@@ -28,7 +37,7 @@ describe('Home', () => {
   });
 
   it('renders the skills section', () => {
-    render(<Home />);
+    renderWithRouter(<Home />);
     expect(screen.getByText(/Skills & Technologies/i)).toBeInTheDocument();
     expect(screen.getByText(/Programming Languages/i)).toBeInTheDocument();
     expect(screen.getByText(/Frameworks & Libraries/i)).toBeInTheDocument();
@@ -36,23 +45,23 @@ describe('Home', () => {
   });
 
   it('renders the projects section', () => {
-    render(<Home />);
-    expect(screen.getAllByText(/E-Commerce Platform/i)[0]).toBeInTheDocument();
+    renderWithRouter(<Home />);
+    expect(screen.getAllByText(/Pacman Search Algorithms/i)[0]).toBeInTheDocument();
   });
 
   it('renders the resume section', () => {
-    render(<Home />);
+    renderWithRouter(<Home />);
     expect(screen.getAllByText(/Resume/i).length).toBeGreaterThan(0);
     expect(screen.getByText(/View Resume/i)).toBeInTheDocument();
     expect(screen.getByText(/Download PDF/i)).toBeInTheDocument();
   });
 
   it('renders the contact section', () => {
-    render(<Home />);
+    renderWithRouter(<Home />);
     expect(screen.getByText(/Get In Touch/i)).toBeInTheDocument();
     expect(screen.getByLabelText('Email')).toBeInTheDocument();
     expect(screen.getByLabelText('LinkedIn')).toBeInTheDocument();
     const githubButtons = screen.getAllByLabelText('GitHub');
     expect(githubButtons.some(el => el.tagName === 'BUTTON')).toBe(true);
   });
-}); 
+});

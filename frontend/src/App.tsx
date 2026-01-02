@@ -1,9 +1,11 @@
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline, GlobalStyles } from '@mui/material';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { theme, lightTheme } from './themes/theme';
 import { createContext, useMemo, useState } from 'react';
 
 import Home from './pages/Home';
+import ProjectPage from './pages/ProjectPage';
 
 type ThemeMode = 'dark' | 'light';
 interface ThemeContextType {
@@ -58,10 +60,15 @@ function App() {
             },
           }}
         />
-        <Home />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/projects/:projectId" element={<ProjectPage />} />
+          </Routes>
+        </BrowserRouter>
       </ThemeProvider>
     </ThemeContext.Provider>
   );
 }
 
-export default App; 
+export default App;

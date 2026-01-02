@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef, useContext, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Box, Typography, Container, Card, CardContent, Chip, IconButton, Button, useTheme, useMediaQuery } from '@mui/material';
-import { ArrowBack, ArrowForward, Launch, GitHub } from '@mui/icons-material';
+import { ArrowBack, ArrowForward, OpenInNew } from '@mui/icons-material';
 import { ThemeContext } from '@/App';
+import { projects } from '@/data/projects';
 
 const ProjectsCarousel = () => {
   const [currentProject, setCurrentProject] = useState(0);
@@ -12,49 +14,7 @@ const ProjectsCarousel = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const prevIsMobile = useRef(isMobile);
   const { mode } = useContext(ThemeContext);
-
-  const projects = [
-    {
-      id: 1,
-      title: "E-Commerce Platform",
-      description: "A full-stack e-commerce solution built with React and Node.js. Features include user authentication, payment processing with Stripe, inventory management, and real-time order tracking. The platform supports multiple vendors and includes an admin dashboard for analytics.",
-      technologies: ["React", "Node.js", "PostgreSQL", "Stripe", "Redux", "AWS"],
-      year: "2024",
-      status: "Live Production",
-      category: "Full-Stack",
-      color: "#4A90E2"
-    },
-    {
-      id: 2,
-      title: "AI Analytics Dashboard",
-      description: "An intelligent dashboard that uses machine learning to analyze user behavior patterns and provide actionable insights. Built with Python and TensorFlow, it processes large datasets to predict user trends and optimize business strategies.",
-      technologies: ["Python", "TensorFlow", "D3.js", "Flask", "MongoDB", "Docker"],
-      year: "2023",
-      status: "In Development",
-      category: "AI/ML",
-      color: "#7B68EE"
-    },
-    {
-      id: 3,
-      title: "Real-Time Collaboration",
-      description: "A collaborative workspace application with real-time editing capabilities, video calls, and project management features. Implemented using WebRTC for peer-to-peer communication and Socket.io for real-time synchronization across multiple users.",
-      technologies: ["TypeScript", "WebRTC", "Socket.io", "Express", "Redis", "React"],
-      year: "2023",
-      status: "Beta Testing",
-      category: "Real-Time",
-      color: "#FF6B6B"
-    },
-    {
-      id: 4,
-      title: "Mobile Finance App",
-      description: "A cross-platform mobile application for personal finance management. Features include expense tracking, budget planning, investment portfolio management, and AI-powered spending insights. Built with React Native for seamless iOS and Android experience.",
-      technologies: ["React Native", "Firebase", "Plaid API", "Chart.js", "TypeScript"],
-      year: "2024",
-      status: "App Store Review",
-      category: "Mobile",
-      color: "#50E3C2"
-    }
-  ];
+  const navigate = useNavigate();
 
   const nextProject = useCallback(() => {
     const newProject = (currentProject + 1) % projects.length;
@@ -62,7 +22,7 @@ const ProjectsCarousel = () => {
     if (!isMobile) {
       setRotation(prev => prev - 90);
     }
-  }, [currentProject, projects.length, isMobile]);
+  }, [currentProject, isMobile]);
 
   const prevProject = useCallback(() => {
     const newProject = (currentProject - 1 + projects.length) % projects.length;
@@ -70,7 +30,11 @@ const ProjectsCarousel = () => {
     if (!isMobile) {
       setRotation(prev => prev + 90);
     }
-  }, [currentProject, projects.length, isMobile]);
+  }, [currentProject, isMobile]);
+
+  const handleViewDetails = (projectId: string) => {
+    navigate(`/projects/${projectId}`);
+  };
 
   useEffect(() => {
     if (process.env.NODE_ENV === 'test') return;
@@ -243,7 +207,7 @@ const ProjectsCarousel = () => {
             fontSize: '0.85rem',
             mb: 2
           }}>
-            {projects[currentProject].description}
+            {projects[currentProject].shortDescription}
           </Typography>
 
           <Typography variant="subtitle2" sx={{
@@ -273,40 +237,22 @@ const ProjectsCarousel = () => {
             ))}
           </Box>
 
-          <Box sx={{ display: 'flex', gap: 1, flexDirection: 'column' }}>
-            <Button
-              variant="contained"
-              startIcon={<Launch />}
-              fullWidth
-              sx={{
-                backgroundColor: projects[currentProject].color,
-                fontSize: '0.8rem',
-                py: 1,
-                '&:hover': {
-                  backgroundColor: projects[currentProject].color + 'dd'
-                }
-              }}
-            >
-              View Live
-            </Button>
-            <Button
-              variant="outlined"
-              startIcon={<GitHub />}
-              fullWidth
-              sx={{
-                borderColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.3)' : 'rgba(27, 38, 59, 0.5)',
-                color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
-                fontSize: '0.8rem',
-                py: 1,
-                '&:hover': {
-                  backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.1)',
-                  borderColor: mode === 'dark' ? '#e0e1dd' : '#1b263b'
-                }
-              }}
-            >
-              Source Code
-            </Button>
-          </Box>
+          <Button
+            variant="contained"
+            startIcon={<OpenInNew />}
+            fullWidth
+            onClick={() => handleViewDetails(projects[currentProject].id)}
+            sx={{
+              backgroundColor: projects[currentProject].color,
+              fontSize: '0.8rem',
+              py: 1,
+              '&:hover': {
+                backgroundColor: projects[currentProject].color + 'dd'
+              }
+            }}
+          >
+            View Details
+          </Button>
         </CardContent>
       </Card>
 
@@ -476,7 +422,7 @@ const ProjectsCarousel = () => {
                         transformOrigin: 'center center',
                         translate: '-50% -50%',
                         borderRadius: 16,
-                        cursor: 'pointer',
+                        cursor: 'default',
                         boxShadow: index === currentProject ? '0 8px 32px rgba(0,0,0,0.25)' : '0 2px 8px rgba(0,0,0,0.10)',
                         zIndex: 0,
                         background: '#222e3a',
@@ -649,7 +595,7 @@ const ProjectsCarousel = () => {
                       fontSize: '1.1rem',
                       mb: 4
                     }}>
-                      {projects[currentProject].description}
+                      {projects[currentProject].shortDescription}
                     </Typography>
 
                     <Typography variant="h6" sx={{ color: mode === 'dark' ? '#e0e1dd' : '#1b263b', mb: 2, fontWeight: 600, fontSize: '1.25rem' }}>
@@ -674,38 +620,22 @@ const ProjectsCarousel = () => {
                       ))}
                     </Box>
 
-                    <Box sx={{ display: 'flex', gap: 2, flexDirection: 'row' }}>
-                      <Button
-                        variant="contained"
-                        startIcon={<Launch />}
-                        sx={{
-                          backgroundColor: projects[currentProject].color,
-                          fontSize: '0.875rem',
-                          py: 1.5,
-                          '&:hover': {
-                            backgroundColor: projects[currentProject].color + 'dd'
-                          }
-                        }}
-                      >
-                        View Live
-                      </Button>
-                      <Button
-                        variant="outlined"
-                        startIcon={<GitHub />}
-                        sx={{
-                          borderColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.3)' : 'rgba(27, 38, 59, 0.5)',
-                          color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
-                          fontSize: '0.875rem',
-                          py: 1.5,
-                          '&:hover': {
-                            backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.1)',
-                            borderColor: mode === 'dark' ? '#e0e1dd' : '#1b263b'
-                          }
-                        }}
-                      >
-                        Source Code
-                      </Button>
-                    </Box>
+                    <Button
+                      variant="contained"
+                      startIcon={<OpenInNew />}
+                      onClick={() => handleViewDetails(projects[currentProject].id)}
+                      sx={{
+                        backgroundColor: projects[currentProject].color,
+                        fontSize: '0.875rem',
+                        py: 1.5,
+                        px: 4,
+                        '&:hover': {
+                          backgroundColor: projects[currentProject].color + 'dd'
+                        }
+                      }}
+                    >
+                      View Project Details
+                    </Button>
                   </CardContent>
                 </Card>
               </div>
@@ -717,4 +647,4 @@ const ProjectsCarousel = () => {
   );
 };
 
-export default ProjectsCarousel; 
+export default ProjectsCarousel;

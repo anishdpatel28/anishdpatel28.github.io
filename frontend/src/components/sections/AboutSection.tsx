@@ -45,7 +45,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ mode = 'dark' }) => {
         variant="body1"
         sx={{ color: mode === 'dark' ? 'rgba(224, 225, 221, 0.9)' : 'rgba(27, 38, 59, 0.9)', lineHeight: 1.6, mb: 3 }}
       >
-        Computer Science student at RPI with a passion for building digital products. Interned at Analog Devices and Intuit Credit Karma, focusing on cloud and full-stack development.
+        Computer Science student at RPI with a passion for building digital products. Interned at Intuit Credit Karma and Analog Devices, focusing on cloud and full-stack development.
       </Typography>
 
       <Box sx={{ display: 'grid', gap: 4, gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' } }}>
