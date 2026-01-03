@@ -1,5 +1,6 @@
 import React from 'react';
-import { Box, Typography, Avatar } from '@mui/material';
+import { Box, Typography } from '@mui/material';
+import pfpImage from '@/assets/images/pfp.png';
 
 interface HeroSectionProps {
   showNavbar: boolean;
@@ -65,37 +66,23 @@ const HeroSection: React.FC<HeroSectionProps> = ({ showNavbar, heroRef, mode = '
         </Box>
       </Box>
 
-      {/* Right side - Image placeholder */}
+      {/* Right side - Profile Image */}
       <Box
         className="hero-image"
         style={{ flex: 1, display: 'flex', justifyContent: 'center', opacity: 0 }}
       >
-        <Box sx={{
-          width: { xs: 280, md: 400 },
-          height: { xs: 250, md: 350 },
-          backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.1)',
-          border: '2px dashed rgba(224, 225, 221, 0.3)',
-          borderRadius: 2,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexDirection: 'column'
-        }}>
-          <Avatar
-            sx={{
-              width: 80,
-              height: 80,
-              bgcolor: 'primary.main',
-              fontSize: '2rem',
-              mb: 2,
-            }}
-          >
-            AP
-          </Avatar>
-          <Typography variant="body2" sx={{ opacity: 0.6, textAlign: 'center' }}>
-            Profile Image<br />Placeholder
-          </Typography>
-        </Box>
+        <Box
+          component="img"
+          src={pfpImage}
+          alt="Anish Patel"
+          sx={{
+            width: { xs: 280, md: 400 },
+            height: { xs: 250, md: 350 },
+            objectFit: 'cover',
+            borderRadius: 2,
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
+          }}
+        />
       </Box>
     </Box>
   );
