@@ -75,9 +75,6 @@ const AboutSection: React.FC<AboutSectionProps> = ({ mode = 'dark' }) => {
             <Typography variant="body2" sx={{ color: mode === 'dark' ? 'rgba(224, 225, 221, 0.8)' : 'rgba(27, 38, 59, 0.8)', mb: 0.2 }}>
               Minor in Information Technology & Web Science
             </Typography>
-            <Typography variant="body2" sx={{ color: mode === 'dark' ? 'rgba(224, 225, 221, 0.7)' : 'rgba(27, 38, 59, 0.7)' }}>
-              Dean&apos;s List, Honors Program
-            </Typography>
           </CardContent>
         </Card>
 
