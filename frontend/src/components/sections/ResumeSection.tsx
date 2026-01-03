@@ -25,7 +25,7 @@ const ResumeSection: React.FC<ResumeSectionProps> = ({ mode = 'dark' }) => {
           className="resume-button"
           variant="contained"
           startIcon={<Description />}
-          href="https://drive.google.com/file/d/19BGb6xdeRADI9lLYGqFvN8jCOlfzvm3h/view"
+          href="https://drive.google.com/file/d/1oYXYWQ_XTY6oj7upTV3WV0ODcNrZ063r/view"
           target="_blank"
           rel="noopener noreferrer"
           sx={{
@@ -45,7 +45,7 @@ const ResumeSection: React.FC<ResumeSectionProps> = ({ mode = 'dark' }) => {
           className="resume-button"
           variant="outlined"
           startIcon={<FileDownload />}
-          href="https://drive.google.com/uc?export=download&id=19BGb6xdeRADI9lLYGqFvN8jCOlfzvm3h"
+          href="https://drive.google.com/uc?export=download&id=1oYXYWQ_XTY6oj7upTV3WV0ODcNrZ063r"
           target="_blank"
           rel="noopener noreferrer"
           sx={{
