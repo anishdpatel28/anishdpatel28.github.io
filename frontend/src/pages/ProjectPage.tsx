@@ -440,28 +440,18 @@ const ProjectPage = () => {
                     }}
                   >
                     <Box
+                      component="img"
+                      src={image.src}
+                      alt={image.alt}
                       sx={{
-                        height: 250,
+                        width: '100%',
+                        height: 'auto',
+                        minHeight: 250,
+                        display: 'block',
+                        objectFit: 'contain',
                         backgroundColor: project.color + '22',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        position: 'relative',
                       }}
-                    >
-                      <Typography
-                        sx={{
-                          color: mode === 'dark' ? 'rgba(224, 225, 221, 0.5)' : 'rgba(27, 38, 59, 0.5)',
-                          fontSize: '0.9rem',
-                          textAlign: 'center',
-                          px: 2,
-                        }}
-                      >
-                        Coming Soon!
-                        <br />
-                        {image.alt}
-                      </Typography>
-                    </Box>
+                    />
                     {image.caption && (
                       <CardContent sx={{ py: 2 }}>
                         <Typography
