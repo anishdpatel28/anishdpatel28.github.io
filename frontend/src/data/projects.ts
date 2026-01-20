@@ -21,7 +21,7 @@ export const projects: Project[] = [
     id: "sentiment-analysis",
     title: "Sentiment Analysis for Portfolio Optimization",
     shortDescription: "Integrating financial news sentiment analysis with reinforcement learning to optimize stock portfolio allocation, capturing market psychology beyond traditional quantitative methods.",
-    fullDescription: "This project integrates market sentiment analysis into trading systems to capture the psychological aspects of market behavior that traditional methods like moving averages and mean-variance optimization cannot capture. The system utilizes financial news data to derive sentiment scores that provide additional input to a reinforcement learning agent for portfolio optimization. The project addresses the limitation of standard methods that only look at past behavior and cannot adapt to future events like sudden market crashes or real-world events. By analyzing sentiments from news, the system provides insight into market mood, especially during volatile periods. The implementation uses FinBERT, a transformer model based on BERT and fine-tuned specifically for financial sentiment classification. The pipeline processes a massive dataset of approximately 4 million articles for 6000 stocks from 2009-2020, downloaded via Kaggle API. The system filters data for the busiest months, applies FinBERT in batches to classify entries as negative, neutral, or positive (encoded as -1, 0, 1), combines scores by date to calculate average daily sentiment scores, forward fills missing dates, and outputs processed sentiment time series data. The resulting sentiment scores are integrated as features into a Proximal Policy Optimization (PPO) reinforcement learning model, providing the agent with both quantitative price data and qualitative sentiment information to make more informed portfolio allocation decisions. This combined approach gives the RL agent a more comprehensive view of market dynamics, enabling it to recognize changing market conditions quicker and react accordingly.",
+    fullDescription: "This project integrates market sentiment analysis into trading systems to capture the psychological aspects of market behavior that traditional methods like moving averages and mean-variance optimization cannot capture. The system utilizes financial news data from the Massive Stock News Analysis DB (approximately 4 million articles for 6000 stocks from 2009-2020) to derive sentiment scores that provide additional input to a reinforcement learning agent for portfolio optimization. The project addresses the limitation of standard methods that only look at past behavior and cannot adapt to future events like sudden market crashes or real-world events. The implementation uses FinBERT, a transformer model based on BERT and fine-tuned specifically for financial sentiment classification. The pipeline filters data for the busiest months (May 2019 to March 2020), applies FinBERT in batches to classify entries as negative, neutral, or positive (encoded as -1, 0, 1), combines scores by date to calculate average daily sentiment scores, forward fills missing dates, and outputs processed sentiment time series data. The resulting sentiment scores are integrated as features into a Proximal Policy Optimization (PPO) reinforcement learning model within a custom OpenAI Gymnasium environment, providing the agent with both quantitative price data and qualitative sentiment information. The agent is trained to maximize log returns across a portfolio of stocks sampled from NASDAQ. Experimental results show a 2% gain in returns when using sentiment data, with sentiment-enhanced portfolios achieving up to 3.02% returns compared to the NASDAQ's 2.11% return from May 2019 to December 2019. The system demonstrates improved Sharpe ratios and reduced volatility when sentiment features are included, though performance degrades during extreme market conditions like the COVID-19 pandemic period.",
     technologies: ["Python", "FinBERT", "BERT", "Transformer Models", "PPO", "Reinforcement Learning", "Kaggle API", "yfinance API", "NLP", "Sentiment Analysis", "Portfolio Optimization"],
     year: "2025",
     status: "Completed",
@@ -65,11 +65,9 @@ export const projects: Project[] = [
       "Building systems that combine quantitative and qualitative analysis for more comprehensive market understanding"
     ],
     images: [
-      { src: "/projects/sentiment/pipeline-overview.png", alt: "Sentiment analysis pipeline", caption: "Complete sentiment analysis pipeline from data download to sentiment time series" },
-      { src: "/projects/sentiment/finbert-classification.png", alt: "FinBERT classification", caption: "FinBERT model classifying financial news into negative, neutral, or positive sentiment" },
-      { src: "/projects/sentiment/sentiment-timeseries.png", alt: "Sentiment time series", caption: "Daily sentiment scores aggregated and forward filled to create continuous time series" },
-      { src: "/projects/sentiment/rl-integration.png", alt: "RL integration", caption: "Sentiment scores integrated as features in PPO reinforcement learning agent" },
-      { src: "/projects/sentiment/portfolio-allocation.png", alt: "Portfolio allocation", caption: "RL agent using sentiment and price data for optimal portfolio allocation" }
+      { src: "/projects/sentiment/dataset-overview.png", alt: "Dataset overview", caption: "Daily financial news used for 6k+ stocks, ~4m articles from 2009-2020" },
+      { src: "/projects/sentiment/ppo-hyperparameters.png", alt: "PPO hyperparameters", caption: "PPO agent hyperparameters used for portfolio optimization" },
+      { src: "/projects/sentiment/portfolio-returns.png", alt: "Portfolio returns comparison", caption: "Figure 1: Portfolio returns across sentiment settings and time periods" }
     ]
   },
   {
@@ -120,13 +118,10 @@ export const projects: Project[] = [
       "Exploration-exploitation dilemma in reinforcement learning and strategies to balance them effectively"
     ],
     images: [
-      { src: "/projects/pacman-ai/search-algorithms.png", alt: "Search algorithms visualization", caption: "A* search finding optimal path through complex maze with custom heuristics" },
-      { src: "/projects/pacman-ai/corners-problem.png", alt: "Corners problem solution", caption: "Solving the corners problem with efficient state space representation" },
+      { src: "/projects/pacman-ai/search-algorithms.png", alt: "A* search algorithm", caption: "A* search finding optimal path through maze using Manhattan heuristic" },
       { src: "/projects/pacman-ai/minimax-gameplay.png", alt: "Minimax agent gameplay", caption: "Minimax agent making strategic decisions against multiple ghost adversaries" },
-      { src: "/projects/pacman-ai/qlearning-training.png", alt: "Q-Learning training", caption: "Q-Learning agent discovering optimal policy through exploration and exploitation" },
-      { src: "/projects/pacman-ai/value-iteration.png", alt: "Value iteration visualization", caption: "Value iteration computing optimal value function in Gridworld environment" },
-      { src: "/projects/pacman-ai/particle-filter.png", alt: "Particle filter beliefs", caption: "Particle filter maintaining belief distributions over ghost locations with noisy sensors" },
-      { src: "/projects/pacman-ai/joint-tracking.png", alt: "Joint particle filter", caption: "Joint particle filter tracking multiple ghosts simultaneously" }
+      { src: "/projects/pacman-ai/value-iteration.png", alt: "Value iteration visualization", caption: "Value iteration computing Q-values and optimal value function in Gridworld after 100 iterations" },
+      { src: "/projects/pacman-ai/exact-inference.png", alt: "Exact inference beliefs", caption: "Exact inference maintaining belief distributions over ghost locations with noisy distance sensors" }
     ]
   },
   {
@@ -173,11 +168,10 @@ export const projects: Project[] = [
       "Designing platforms that encourage community interaction while maintaining security"
     ],
     images: [
-      { src: "/projects/marketplace/homepage.png", alt: "College Marketplace homepage", caption: "Homepage of the college marketplace platform" },
-      { src: "/projects/marketplace/marketplace-page.png", alt: "Marketplace listings", caption: "Marketplace page with dynamic listing display and search functionality" },
-      { src: "/projects/marketplace/listing-page.png", alt: "Item listing page", caption: "Detailed item listing page with seller contact information" },
-      { src: "/projects/marketplace/user-account.png", alt: "User account page", caption: "User account page showing personal information and posted listings" },
-      { src: "/projects/marketplace/search-results.png", alt: "Search results", caption: "Search functionality by name and category" }
+      { src: "/projects/college-marketplace/architecture-diagrams.png", alt: "Information and database architecture", caption: "Information architecture and database architecture diagrams showing Users and Listings table relationships" },
+      { src: "/projects/college-marketplace/homepage.png", alt: "College Marketplace homepage", caption: "Homepage featuring animated background, login button, and platform logo" },
+      { src: "/projects/college-marketplace/marketplace-ui.png", alt: "Marketplace UI design", caption: "Marketplace UI design in Figma showing dynamic listing display and search functionality" },
+      { src: "/projects/college-marketplace/post-listing-ui.png", alt: "Post listing UI design", caption: "Post a listing UI design in Figma for creating new item listings" }
     ]
   },
   {
@@ -221,11 +215,11 @@ export const projects: Project[] = [
       "The critical role of gameplay feel and pacing in creating engaging horror-racing hybrid experiences"
     ],
     images: [
-      { src: "/projects/scary-racing/gameplay.png", alt: "Scary Racing Game gameplay", caption: "High-speed racing with ghost enemies in pursuit" },
-      { src: "/projects/scary-racing/enemy-chase.png", alt: "Enemy chase sequence", caption: "Ghost vehicles dynamically chasing the player" },
-      { src: "/projects/scary-racing/jumpscare.png", alt: "Jumpscare animation", caption: "Jumpscare animation triggered when enemy catches player" },
-      { src: "/projects/scary-racing/spawner-system.png", alt: "Enemy spawner system", caption: "Dynamic enemy spawning system with probability-based checks" },
-      { src: "/projects/scary-racing/blueprint-system.png", alt: "Blueprint architecture", caption: "Racer, Enemy, and Spawner Blueprint systems" }
+      { src: "/projects/scary-racing-game/gameplay-rendered.png", alt: "Rendered gameplay", caption: "In-game view showing high-speed racing with ghost enemies in pursuit" },
+      { src: "/projects/scary-racing-game/scene-view.png", alt: "Scene view with entities", caption: "Unreal Engine scene view displaying all entities, spawners, and level layout" },
+      { src: "/projects/scary-racing-game/racer-blueprint.png", alt: "Racer Blueprint", caption: "Racer Blueprint implementation for player and AI-controlled racing cars" },
+      { src: "/projects/scary-racing-game/enemy-blueprint.png", alt: "Enemy Blueprint", caption: "Enemy Blueprint with momentum-based AI, distance-based speed scaling, and jumpscare mechanics" },
+      { src: "/projects/scary-racing-game/enemy-spawner-blueprint.png", alt: "Enemy Spawner Blueprint", caption: "Enemy Spawner Blueprint using timed checks and probability-based spawning system" }
     ]
   }
 ];
