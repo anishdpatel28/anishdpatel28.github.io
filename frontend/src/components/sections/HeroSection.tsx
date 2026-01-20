@@ -76,10 +76,10 @@ const HeroSection: React.FC<HeroSectionProps> = ({ showNavbar, heroRef, mode = '
           src={pfpImage}
           alt="Anish Patel"
           sx={{
-            width: { xs: 280, md: 400 },
-            height: { xs: 250, md: 350 },
+          width: { xs: 280, md: 400 },
+          height: { xs: 250, md: 350 },
             objectFit: 'cover',
-            borderRadius: 2,
+          borderRadius: 2,
             boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
           }}
         />
