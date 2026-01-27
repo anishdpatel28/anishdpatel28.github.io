@@ -23,7 +23,7 @@ describe('ResumeSection', () => {
 
     const viewButton = screen.getByText(/View Resume/i).closest('a');
     expect(viewButton).toBeInTheDocument();
-    expect(viewButton).toHaveAttribute('href', 'https://drive.google.com/file/d/1oYXYWQ_XTY6oj7upTV3WV0ODcNrZ063r/view');
+    expect(viewButton).toHaveAttribute('href', 'https://drive.google.com/file/d/1P5z5p6gSy7lds6PhupBybIaqLGcI_zdY/view');
     expect(viewButton).toHaveAttribute('target', '_blank');
   });
 
@@ -34,7 +34,7 @@ describe('ResumeSection', () => {
 
     const downloadButton = screen.getByText(/Download PDF/i).closest('a');
     expect(downloadButton).toBeInTheDocument();
-    expect(downloadButton).toHaveAttribute('href', 'https://drive.google.com/uc?export=download&id=1oYXYWQ_XTY6oj7upTV3WV0ODcNrZ063r');
+    expect(downloadButton).toHaveAttribute('href', 'https://drive.google.com/uc?export=download&id=1P5z5p6gSy7lds6PhupBybIaqLGcI_zdY');
     expect(downloadButton).toHaveAttribute('target', '_blank');
   });
 }); 
