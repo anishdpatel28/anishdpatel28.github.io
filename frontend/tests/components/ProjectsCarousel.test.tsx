@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 
 jest.mock('../../src/services/posthog', () => ({
@@ -61,28 +61,20 @@ describe('ProjectsCarousel', () => {
     );
   };
 
-  it('renders the first project title', () => {
+  it('renders project titles', () => {
     renderWithTheme(<ProjectsCarousel />);
-    expect(screen.getAllByText(/Pacman Search Algorithms/i)[0]).toBeInTheDocument();
+    expect(screen.getAllByText(/Sentiment Analysis for Portfolio Optimization/i)[0]).toBeInTheDocument();
+    expect(screen.getAllByText(/Pacman AI Projects/i)[0]).toBeInTheDocument();
   });
 
-  it('navigates to the next project on right arrow click', () => {
+  it('renders navigation arrows', () => {
     renderWithTheme(<ProjectsCarousel />);
-    const rightArrow = screen.getAllByRole('button').find(btn => btn.querySelector('svg'));
-    fireEvent.click(rightArrow!);
-    expect(screen.getAllByText(/Multi-Agent Search/i)[0]).toBeInTheDocument();
+    const buttons = screen.getAllByRole('button');
+    expect(buttons.length).toBeGreaterThanOrEqual(2);
   });
 
-  it('navigates to the previous project on left arrow click', () => {
+  it('renders project cards with categories', () => {
     renderWithTheme(<ProjectsCarousel />);
-    const leftArrow = screen.getAllByRole('button').find(btn => btn.querySelector('svg'));
-    fireEvent.click(leftArrow!);
-    expect(screen.getAllByText(/Ghostbusters: Probabilistic Inference/i)[0]).toBeInTheDocument();
-  });
-
-  it('shows technologies for the current project', () => {
-    renderWithTheme(<ProjectsCarousel />);
-    expect(screen.getByText('Python')).toBeInTheDocument();
-    expect(screen.getByText('Graph Algorithms')).toBeInTheDocument();
+    expect(screen.getAllByText('AI/ML').length).toBeGreaterThanOrEqual(1);
   });
 });

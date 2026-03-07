@@ -20,13 +20,12 @@ describe('HeroSection', () => {
     expect(screen.getByText(/innovative digital experiences/i)).toBeInTheDocument();
   });
 
-  it('renders profile placeholder', () => {
+  it('renders profile image', () => {
     render(
       <HeroSection showNavbar={false} heroRef={mockHeroRef} mode="dark" />
     );
 
-    expect(screen.getByText('AP')).toBeInTheDocument();
-    expect(screen.getByText(/Profile Image/i)).toBeInTheDocument();
+    expect(screen.getByAltText('Anish Patel')).toBeInTheDocument();
   });
 
   it('shows navbar when showNavbar is true', () => {

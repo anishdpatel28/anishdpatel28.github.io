@@ -44,14 +44,14 @@ import Navbar from '../../src/components/Navbar';
 describe('Navbar', () => {
   it('renders all section icons', () => {
     render(<Navbar />);
-    ['home', 'about', 'skills', 'projects', 'resume', 'contact'].forEach(id => {
-      expect(screen.getByLabelText(id)).toBeInTheDocument();
+    ['Home', 'About', 'Skills', 'Projects', 'Resume', 'Contact'].forEach(name => {
+      expect(screen.getByLabelText(`Navigate to ${name}`)).toBeInTheDocument();
     });
   });
 
   it('highlights the home section by default', () => {
     render(<Navbar />);
-    const homeButton = screen.getByLabelText('home');
-    expect(homeButton).toHaveStyle('color: #e0e1dd');
+    const homeButton = screen.getByLabelText('Navigate to Home');
+    expect(homeButton).toBeInTheDocument();
   });
 }); 

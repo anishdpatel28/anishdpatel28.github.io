@@ -21,9 +21,9 @@ describe('ContactSection', () => {
       <ContactSection mode="dark" />
     );
 
-    expect(screen.getByLabelText('Email')).toBeInTheDocument();
-    expect(screen.getByLabelText('LinkedIn')).toBeInTheDocument();
-    expect(screen.getByLabelText('GitHub')).toBeInTheDocument();
+    expect(screen.getByLabelText('Send email to Anish Patel')).toBeInTheDocument();
+    expect(screen.getByLabelText('Visit LinkedIn profile (opens in new tab)')).toBeInTheDocument();
+    expect(screen.getByLabelText('Visit GitHub profile (opens in new tab)')).toBeInTheDocument();
   });
 
   it('has correct aria labels for accessibility', () => {
@@ -31,9 +31,9 @@ describe('ContactSection', () => {
       <ContactSection mode="dark" />
     );
 
-    const emailButton = screen.getByLabelText('Email');
-    const linkedinButton = screen.getByLabelText('LinkedIn');
-    const githubButton = screen.getByLabelText('GitHub');
+    const emailButton = screen.getByLabelText('Send email to Anish Patel');
+    const linkedinButton = screen.getByLabelText('Visit LinkedIn profile (opens in new tab)');
+    const githubButton = screen.getByLabelText('Visit GitHub profile (opens in new tab)');
 
     expect(emailButton).toBeInTheDocument();
     expect(linkedinButton).toBeInTheDocument();

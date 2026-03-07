@@ -46,7 +46,7 @@ describe('Home', () => {
 
   it('renders the projects section', () => {
     renderWithRouter(<Home />);
-    expect(screen.getAllByText(/Pacman Search Algorithms/i)[0]).toBeInTheDocument();
+    expect(screen.getAllByText(/Pacman AI Projects/i)[0]).toBeInTheDocument();
   });
 
   it('renders the resume section', () => {
@@ -59,9 +59,8 @@ describe('Home', () => {
   it('renders the contact section', () => {
     renderWithRouter(<Home />);
     expect(screen.getByText(/Get In Touch/i)).toBeInTheDocument();
-    expect(screen.getByLabelText('Email')).toBeInTheDocument();
-    expect(screen.getByLabelText('LinkedIn')).toBeInTheDocument();
-    const githubButtons = screen.getAllByLabelText('GitHub');
-    expect(githubButtons.some(el => el.tagName === 'BUTTON')).toBe(true);
+    expect(screen.getByLabelText('Send email to Anish Patel')).toBeInTheDocument();
+    expect(screen.getByLabelText('Visit LinkedIn profile (opens in new tab)')).toBeInTheDocument();
+    expect(screen.getByLabelText('Visit GitHub profile (opens in new tab)')).toBeInTheDocument();
   });
 });
