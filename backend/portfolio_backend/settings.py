@@ -127,7 +127,9 @@ CORS_ALLOW_ALL_ORIGINS = os.getenv("CORS_ALLOW_ALL_ORIGINS", "True").lower() == 
 
 # If specific origins are provided, use them instead of allowing all
 if CORS_ALLOWED_ORIGINS_ENV and not CORS_ALLOW_ALL_ORIGINS:
-    CORS_ALLOWED_ORIGINS = [origin.strip() for origin in CORS_ALLOWED_ORIGINS_ENV.split(",")]
+    CORS_ALLOWED_ORIGINS = [
+        origin.strip() for origin in CORS_ALLOWED_ORIGINS_ENV.split(",")
+    ]
 else:
     # Default allowed origins for development
     CORS_ALLOWED_ORIGINS = [
