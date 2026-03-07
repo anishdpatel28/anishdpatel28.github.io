@@ -170,6 +170,20 @@ export const lightTheme = createTheme({
   },
 });
 
+type ThemeMode = 'dark' | 'light';
+
+export function textAlpha(mode: ThemeMode, darkAlpha: number, lightAlpha?: number): string {
+  return mode === 'dark'
+    ? `rgba(224, 225, 221, ${darkAlpha})`
+    : `rgba(27, 38, 59, ${lightAlpha ?? darkAlpha})`;
+}
+
+export function primaryAlpha(mode: ThemeMode, alpha: number): string {
+  return mode === 'dark'
+    ? `rgba(65, 90, 119, ${alpha})`
+    : `rgba(27, 38, 59, ${alpha})`;
+}
+
 export const sectionBackgrounds = {
   home: `linear-gradient(135deg, ${colors.darkBlue} 0%, ${colors.navy} 100%)`,
   about: `linear-gradient(135deg, ${colors.darkTeal} 0%, ${colors.slate} 100%)`,

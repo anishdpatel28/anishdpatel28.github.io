@@ -15,6 +15,7 @@ import AppsIcon from '@mui/icons-material/Apps';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { ThemeContext } from '@/App';
 import { projects } from '@/data/projects';
+import { textAlpha, primaryAlpha } from '@/themes/theme';
 
 const NAVBAR_HEIGHT = 64;
 
@@ -79,7 +80,7 @@ const ProjectNavbar = () => {
           borderRadius: 10,
           px: { xs: 1, md: 2 },
           py: 0.5,
-          bgcolor: mode === 'dark' ? '#1b263b' : '#ffffff',
+          bgcolor: 'background.paper',
           boxShadow: '0 8px 32px 0 rgba(0,0,0,0.18)',
           display: 'flex',
           alignItems: 'center',
@@ -95,13 +96,13 @@ const ProjectNavbar = () => {
           <IconButton
             onClick={handleHomeClick}
             sx={{
-              color: mode === 'dark' ? 'rgba(224, 225, 221, 0.7)' : 'rgba(27, 38, 59, 0.7)',
+              color: textAlpha(mode, 0.7),
               mx: { xs: 0.25, md: 0.5 },
               transition: 'all 0.18s cubic-bezier(.4,0,.2,1)',
               '&:hover': {
-                backgroundColor: mode === 'dark' ? 'rgba(65, 90, 119, 0.3)' : 'rgba(27, 38, 59, 0.3)',
-                color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
-                border: `2px solid ${mode === 'dark' ? '#e0e1dd' : '#1b263b'}`,
+                backgroundColor: primaryAlpha(mode, 0.3),
+                color: 'text.primary',
+                borderColor: 'text.primary',
               },
               fontSize: 24,
               p: { xs: 0.75, md: 1.1 },
@@ -118,21 +119,22 @@ const ProjectNavbar = () => {
             onClick={handleProjectsClick}
             sx={{
               color: open
-                ? (mode === 'dark' ? '#e0e1dd' : '#1b263b')
-                : (mode === 'dark' ? 'rgba(224, 225, 221, 0.7)' : 'rgba(27, 38, 59, 0.7)'),
+                ? 'text.primary'
+                : textAlpha(mode, 0.7),
               backgroundColor: open
-                ? (mode === 'dark' ? 'rgba(224, 225, 221, 0.18)' : 'rgba(27, 38, 59, 0.18)')
+                ? textAlpha(mode, 0.18)
                 : 'transparent',
-              border: open
-                ? `2px solid ${mode === 'dark' ? '#e0e1dd' : '#1b263b'}`
-                : '2px solid transparent',
+              border: '2px solid',
+              borderColor: open
+                ? 'text.primary'
+                : 'transparent',
               borderRadius: 2,
               mx: { xs: 0.25, md: 0.5 },
               transition: 'all 0.18s cubic-bezier(.4,0,.2,1)',
               '&:hover': {
-                backgroundColor: mode === 'dark' ? 'rgba(65, 90, 119, 0.3)' : 'rgba(27, 38, 59, 0.3)',
-                color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
-                border: `2px solid ${mode === 'dark' ? '#e0e1dd' : '#1b263b'}`,
+                backgroundColor: primaryAlpha(mode, 0.3),
+                color: 'text.primary',
+                borderColor: 'text.primary',
               },
               fontSize: 24,
               p: { xs: 0.75, md: 1.1 },
@@ -175,7 +177,7 @@ const ProjectNavbar = () => {
           sx={{
             mt: 1,
             '& .MuiPaper-root': {
-              bgcolor: mode === 'dark' ? '#1b263b' : '#ffffff',
+              bgcolor: 'background.paper',
               borderRadius: 2,
               minWidth: 250,
               boxShadow: '0 8px 32px 0 rgba(0,0,0,0.18)',
@@ -187,7 +189,7 @@ const ProjectNavbar = () => {
               primary="All Projects"
               primaryTypographyProps={{
                 fontWeight: 600,
-                color: mode === 'dark' ? '#e0e1dd' : '#1b263b'
+                color: 'text.primary'
               }}
             />
           </MenuItem>
@@ -199,7 +201,7 @@ const ProjectNavbar = () => {
               sx={{
                 py: 1.5,
                 '&:hover': {
-                  backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.08)',
+                  backgroundColor: textAlpha(mode, 0.1, 0.08),
                 },
               }}
             >
@@ -217,11 +219,11 @@ const ProjectNavbar = () => {
                 primary={project.title}
                 secondary={project.category}
                 primaryTypographyProps={{
-                  color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
+                  color: 'text.primary',
                   fontSize: '0.95rem',
                 }}
                 secondaryTypographyProps={{
-                  color: mode === 'dark' ? 'rgba(224, 225, 221, 0.6)' : 'rgba(27, 38, 59, 0.6)',
+                  color: textAlpha(mode, 0.6),
                   fontSize: '0.8rem',
                 }}
               />
@@ -234,4 +236,3 @@ const ProjectNavbar = () => {
 };
 
 export default ProjectNavbar;
-

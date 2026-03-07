@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import { Description, FileDownload } from '@mui/icons-material';
+import { textAlpha } from '@/themes/theme';
 
 interface ResumeSectionProps {
   mode?: 'dark' | 'light';
@@ -13,11 +14,11 @@ const ResumeSection: React.FC<ResumeSectionProps> = ({ mode = 'dark' }) => {
       <Typography
         className="resume-title"
         variant="h3"
-        sx={{ color: mode === 'dark' ? '#e0e1dd' : '#1b263b', mb: 4, fontWeight: 600 }}
+        sx={{ color: 'text.primary', mb: 4, fontWeight: 600 }}
       >
         Resume & Experience
       </Typography>
-      <Typography variant="h6" sx={{ color: mode === 'dark' ? 'rgba(224, 225, 221, 0.9)' : 'rgba(27, 38, 59, 0.9)', mb: 6, maxWidth: 600, mx: 'auto' }}>
+      <Typography variant="h6" sx={{ color: textAlpha(mode, 0.9), mb: 6, maxWidth: 600, mx: 'auto' }}>
         Download my resume to learn more about my experience, skills, and projects.
       </Typography>
       <Box sx={{ display: 'flex', gap: 3, justifyContent: 'center', flexDirection: { xs: 'column', sm: 'row' } }}>
@@ -29,13 +30,13 @@ const ResumeSection: React.FC<ResumeSectionProps> = ({ mode = 'dark' }) => {
           target="_blank"
           rel="noopener noreferrer"
           sx={{
-            backgroundColor: mode === 'dark' ? 'primary.main' : '#1b263b',
+            backgroundColor: 'primary.main',
             color: mode === 'dark' ? '#e0e1dd' : '#fff',
             fontSize: { xs: '0.9rem', lg: '1rem' },
             py: { xs: 1.5, lg: 2 },
             px: { xs: 3, lg: 4 },
             '&:hover': {
-              backgroundColor: mode === 'dark' ? 'primary.dark' : '#0d1b2a'
+              backgroundColor: 'primary.dark'
             }
           }}
         >
@@ -49,14 +50,14 @@ const ResumeSection: React.FC<ResumeSectionProps> = ({ mode = 'dark' }) => {
           target="_blank"
           rel="noopener noreferrer"
           sx={{
-            borderColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.3)' : 'rgba(27, 38, 59, 0.5)',
-            color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
+            borderColor: textAlpha(mode, 0.3, 0.5),
+            color: 'text.primary',
             fontSize: { xs: '0.9rem', lg: '1rem' },
             py: { xs: 1.5, lg: 2 },
             px: { xs: 3, lg: 4 },
             '&:hover': {
-              backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.1)',
-              borderColor: mode === 'dark' ? '#e0e1dd' : '#1b263b'
+              backgroundColor: textAlpha(mode, 0.1),
+              borderColor: 'text.primary'
             }
           }}
         >

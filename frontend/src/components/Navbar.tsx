@@ -11,6 +11,7 @@ import AppsIcon from '@mui/icons-material/Apps';
 import DescriptionIcon from '@mui/icons-material/Description';
 import EmailIcon from '@mui/icons-material/Email';
 import { ThemeContext } from '@/App';
+import { textAlpha, primaryAlpha } from '@/themes/theme';
 
 if (process.env.NODE_ENV === 'test') {
   jest.mock('gsap');
@@ -98,7 +99,7 @@ const Navbar = () => {
           borderRadius: 10,
           px: { xs: 1, md: 2 },
           py: 0.5,
-          bgcolor: mode === 'dark' ? '#1b263b' : '#ffffff',
+          bgcolor: 'background.paper',
           boxShadow: '0 8px 32px 0 rgba(0,0,0,0.18)',
           display: 'flex',
           alignItems: 'center',
@@ -121,20 +122,21 @@ const Navbar = () => {
               }}
               sx={{
                 color: activeSection === section.id
-                  ? (mode === 'dark' ? '#e0e1dd' : '#1b263b')
-                  : (mode === 'dark' ? 'rgba(224, 225, 221, 0.7)' : 'rgba(27, 38, 59, 0.7)'),
+                  ? 'text.primary'
+                  : textAlpha(mode, 0.7),
                 backgroundColor: activeSection === section.id
-                  ? (mode === 'dark' ? 'rgba(224, 225, 221, 0.18)' : 'rgba(27, 38, 59, 0.18)')
+                  ? textAlpha(mode, 0.18)
                   : 'transparent',
-                border: activeSection === section.id
-                  ? `2px solid ${mode === 'dark' ? '#e0e1dd' : '#1b263b'}`
-                  : '2px solid transparent',
+                border: '2px solid',
+                borderColor: activeSection === section.id
+                  ? 'text.primary'
+                  : 'transparent',
                 mx: { xs: 0.25, md: 0.5 },
                 transition: 'all 0.18s cubic-bezier(.4,0,.2,1)',
                 '&:hover': {
-                  backgroundColor: mode === 'dark' ? 'rgba(65, 90, 119, 0.3)' : 'rgba(27, 38, 59, 0.3)',
-                  color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
-                  border: `2px solid ${mode === 'dark' ? '#e0e1dd' : '#1b263b'}`,
+                  backgroundColor: primaryAlpha(mode, 0.3),
+                  color: 'text.primary',
+                  borderColor: 'text.primary',
                 },
                 fontSize: 24,
                 p: { xs: 0.75, md: 1.1 },

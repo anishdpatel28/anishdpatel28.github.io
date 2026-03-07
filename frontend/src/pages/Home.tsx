@@ -11,7 +11,7 @@ import SkillsSection from '@/components/sections/SkillsSection';
 import ResumeSection from '@/components/sections/ResumeSection';
 import ContactSection from '@/components/sections/ContactSection';
 import AnalyticsDialog from '@/components/AnalyticsDialog';
-import { sectionBackgrounds } from '@/themes/theme';
+import { sectionBackgrounds, textAlpha } from '@/themes/theme';
 import { pageAnalyticsAPI } from '@/services/api';
 import easterEgg from '@/assets/images/icons/easter-egg.svg';
 import { ThemeContext } from '../App';
@@ -384,7 +384,7 @@ const Home = () => {
           display: 'flex',
           flexDirection: { xs: 'column', md: 'row' },
           alignItems: 'center',
-          bgcolor: mode === 'dark' ? '#1b263b' : '#ffffff',
+          bgcolor: 'background.paper',
           borderRadius: 3,
           boxShadow: 3,
           px: { xs: 0.5, md: 1.5 },
@@ -396,11 +396,11 @@ const Home = () => {
               onClick={toggleTheme}
               aria-label={mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
               sx={{
-                color: mode === 'dark' ? 'rgba(224, 225, 221, 0.7)' : 'rgba(27, 38, 59, 0.7)',
+                color: textAlpha(mode, 0.7),
                 mr: { xs: 0, md: 0.5 },
                 mb: { xs: 0.5, md: 0 },
                 '&:hover': {
-                  backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.08)',
+                  backgroundColor: textAlpha(mode, 0.1, 0.08),
                 },
               }}
               size="large"
@@ -415,14 +415,14 @@ const Home = () => {
               aria-label="View site analytics"
               onClick={e => { e.stopPropagation(); handleAnalyticsClick(); }}
               sx={{
-                color: mode === 'dark' ? 'rgba(224, 225, 221, 0.7)' : 'rgba(27, 38, 59, 0.7)',
+                color: textAlpha(mode, 0.7),
                 backgroundColor: 'transparent',
                 backdropFilter: 'none',
                 ml: { xs: 0, md: 0.5 },
                 transition: 'background-color 0.2s, box-shadow 0.2s',
                 boxShadow: 0,
                 '&:hover': {
-                  backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.08)',
+                  backgroundColor: textAlpha(mode, 0.1, 0.08),
                   boxShadow: 0,
                 },
                 ...(hasClickedAnalytics ? {} : {

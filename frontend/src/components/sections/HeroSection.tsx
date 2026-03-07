@@ -9,7 +9,7 @@ interface HeroSectionProps {
   navbar?: React.ReactNode;
 }
 
-const HeroSection: React.FC<HeroSectionProps> = ({ showNavbar, heroRef, mode = 'dark', navbar }) => {
+const HeroSection: React.FC<HeroSectionProps> = ({ showNavbar, heroRef, navbar }) => {
 
   return (
     <Box ref={heroRef} sx={{
@@ -34,7 +34,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ showNavbar, heroRef, mode = '
               opacity: 0
             }}
           >
-            Hey, I&apos;m <Box component="span" sx={{ fontWeight: 600, color: mode === 'dark' ? '#e0e1dd' : '#1b263b' }}>Anish</Box>
+            Hey, I&apos;m <Box component="span" sx={{ fontWeight: 600, color: 'text.primary' }}>Anish</Box>
           </Typography>
           <Typography
             className="hero-subtitle"

@@ -4,6 +4,7 @@ import { Box, Typography, Container, Card, CardContent, Chip, IconButton, Button
 import { ArrowBack, ArrowForward, OpenInNew } from '@mui/icons-material';
 import { ThemeContext } from '@/App';
 import { projects } from '@/data/projects';
+import { textAlpha } from '@/themes/theme';
 
 const ProjectsCarousel = () => {
   const [currentProject, setCurrentProject] = useState(0);
@@ -184,8 +185,8 @@ const ProjectsCarousel = () => {
               size="small"
               variant="outlined"
               sx={{
-                borderColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.3)' : 'rgba(27, 38, 59, 0.5)',
-                color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
+                borderColor: textAlpha(mode, 0.3, 0.5),
+                color: 'text.primary',
                 fontSize: '0.7rem'
               }}
             />
@@ -194,15 +195,15 @@ const ProjectsCarousel = () => {
               size="small"
               variant="outlined"
               sx={{
-                borderColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.3)' : 'rgba(27, 38, 59, 0.5)',
-                color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
+                borderColor: textAlpha(mode, 0.3, 0.5),
+                color: 'text.primary',
                 fontSize: '0.7rem'
               }}
             />
           </Box>
 
           <Typography variant="body2" sx={{
-            color: mode === 'dark' ? 'rgba(224, 225, 221, 0.9)' : 'rgba(27, 38, 59, 0.9)',
+            color: textAlpha(mode, 0.9),
             lineHeight: 1.6,
             fontSize: '0.85rem',
             mb: 2
@@ -211,7 +212,7 @@ const ProjectsCarousel = () => {
           </Typography>
 
           <Typography variant="subtitle2" sx={{
-            color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
+            color: 'text.primary',
             mb: 1,
             fontWeight: 600,
             fontSize: '0.9rem'
@@ -226,11 +227,11 @@ const ProjectsCarousel = () => {
                 variant="outlined"
                 size="small"
                 sx={{
-                  borderColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.3)' : 'rgba(27, 38, 59, 0.5)',
-                  color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
+                  borderColor: textAlpha(mode, 0.3, 0.5),
+                  color: 'text.primary',
                   fontSize: '0.65rem',
                   '&:hover': {
-                    backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.1)',
+                    backgroundColor: textAlpha(mode, 0.1),
                   }
                 }}
               />
@@ -267,13 +268,13 @@ const ProjectsCarousel = () => {
           onClick={prevProject}
           aria-label="Previous project"
           sx={{
-            backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.2)',
-            color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
+            backgroundColor: textAlpha(mode, 0.1, 0.2),
+            color: 'text.primary',
             width: 48,
             height: 48,
             zIndex: 1,
             '&:hover': {
-              backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.2)' : 'rgba(27, 38, 59, 0.3)',
+              backgroundColor: textAlpha(mode, 0.2, 0.3),
               transform: 'scale(1.1)'
             },
             transition: 'all 0.2s ease'
@@ -320,13 +321,13 @@ const ProjectsCarousel = () => {
           onClick={nextProject}
           aria-label="Next project"
           sx={{
-            backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.2)',
-            color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
+            backgroundColor: textAlpha(mode, 0.1, 0.2),
+            color: 'text.primary',
             width: 48,
             height: 48,
             zIndex: 1,
             '&:hover': {
-              backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.2)' : 'rgba(27, 38, 59, 0.3)',
+              backgroundColor: textAlpha(mode, 0.2, 0.3),
               transform: 'scale(1.1)'
             },
             transition: 'all 0.2s ease'
@@ -388,17 +389,18 @@ const ProjectsCarousel = () => {
                 <IconButton
                   onClick={prevProject}
                   sx={{
-                    backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.2)',
-                    color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
+                    backgroundColor: textAlpha(mode, 0.1, 0.2),
+                    color: 'text.primary',
                     width: 44,
                     height: 44,
                     '&:hover': {
-                      backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.2)' : 'rgba(27, 38, 59, 0.3)',
+                      backgroundColor: textAlpha(mode, 0.2, 0.3),
                       transform: 'scale(1.1)'
                     },
                     transition: 'all 0.2s ease',
                     zIndex: 1,
-                    border: `2px solid ${mode === 'dark' ? 'rgba(224, 225, 221, 0.2)' : 'rgba(27, 38, 59, 0.3)'}`,
+                    border: '2px solid',
+                    borderColor: textAlpha(mode, 0.2, 0.3),
                     '&:active': {
                       transform: 'scale(0.95)'
                     }
@@ -530,17 +532,18 @@ const ProjectsCarousel = () => {
                 <IconButton
                   onClick={nextProject}
                   sx={{
-                    backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.2)',
-                    color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
+                    backgroundColor: textAlpha(mode, 0.1, 0.2),
+                    color: 'text.primary',
                     width: 44,
                     height: 44,
                     '&:hover': {
-                      backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.2)' : 'rgba(27, 38, 59, 0.3)',
+                      backgroundColor: textAlpha(mode, 0.2, 0.3),
                       transform: 'scale(1.1)'
                     },
                     transition: 'all 0.2s ease',
                     zIndex: 1,
-                    border: `2px solid ${mode === 'dark' ? 'rgba(224, 225, 221, 0.2)' : 'rgba(27, 38, 59, 0.3)'}`,
+                    border: '2px solid',
+                    borderColor: textAlpha(mode, 0.2, 0.3),
                     '&:active': {
                       transform: 'scale(0.95)'
                     }
@@ -565,9 +568,10 @@ const ProjectsCarousel = () => {
             >
               <div ref={infoRef}>
                 <Card sx={{
-                  backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.05)' : 'rgba(27, 38, 59, 0.05)',
+                  backgroundColor: textAlpha(mode, 0.05),
                   backdropFilter: 'blur(20px)',
-                  border: mode === 'dark' ? '1px solid rgba(224, 225, 221, 0.1)' : '1px solid rgba(27, 38, 59, 0.1)',
+                  border: '1px solid',
+                  borderColor: textAlpha(mode, 0.1),
                   height: '100%'
                 }}>
                   <CardContent sx={{ p: 4 }}>
@@ -576,7 +580,7 @@ const ProjectsCarousel = () => {
                         <Typography
                           variant="h4"
                           sx={{
-                            color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
+                            color: 'text.primary',
                             fontWeight: 700,
                             mb: 1,
                             fontSize: '2.125rem'
@@ -600,8 +604,8 @@ const ProjectsCarousel = () => {
                             size="small"
                             variant="outlined"
                             sx={{
-                              borderColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.3)' : 'rgba(27, 38, 59, 0.5)',
-                              color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
+                              borderColor: textAlpha(mode, 0.3, 0.5),
+                              color: 'text.primary',
                               fontSize: '0.8125rem'
                             }}
                           />
@@ -610,7 +614,7 @@ const ProjectsCarousel = () => {
                     </Box>
 
                     <Typography variant="body1" sx={{
-                      color: mode === 'dark' ? 'rgba(224, 225, 221, 0.9)' : 'rgba(27, 38, 59, 0.9)',
+                      color: textAlpha(mode, 0.9),
                       lineHeight: 1.6,
                       fontSize: '1.1rem',
                       mb: 4
@@ -618,7 +622,7 @@ const ProjectsCarousel = () => {
                       {projects[currentProject].shortDescription}
                     </Typography>
 
-                    <Typography variant="h6" sx={{ color: mode === 'dark' ? '#e0e1dd' : '#1b263b', mb: 2, fontWeight: 600, fontSize: '1.25rem' }}>
+                    <Typography variant="h6" sx={{ color: 'text.primary', mb: 2, fontWeight: 600, fontSize: '1.25rem' }}>
                       Technologies
                     </Typography>
                     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 4 }}>
@@ -629,11 +633,11 @@ const ProjectsCarousel = () => {
                           variant="outlined"
                           size="small"
                           sx={{
-                            borderColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.3)' : 'rgba(27, 38, 59, 0.5)',
-                            color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
+                            borderColor: textAlpha(mode, 0.3, 0.5),
+                            color: 'text.primary',
                             fontSize: '0.8125rem',
                             '&:hover': {
-                              backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.1)',
+                              backgroundColor: textAlpha(mode, 0.1),
                             }
                           }}
                         />

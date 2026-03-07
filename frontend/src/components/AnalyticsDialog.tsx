@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Typography, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import { BarChart, Bar, XAxis, YAxis, Tooltip as RechartsTooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
+import { textAlpha } from '@/themes/theme';
 
 interface AnalyticsDialogProps {
   open: boolean;
@@ -24,7 +25,6 @@ const AnalyticsDialog: React.FC<AnalyticsDialogProps> = ({ open, onClose, analyt
     return str.trim();
   };
 
-  // custom Y-axis tick formatter for graph
   const formatYAxisTick = (seconds: number) => {
     const days = Math.floor(seconds / 86400);
     const hours = Math.floor((seconds % 86400) / 3600);
@@ -39,7 +39,9 @@ const AnalyticsDialog: React.FC<AnalyticsDialogProps> = ({ open, onClose, analyt
     return str.trim();
   };
 
-  // custom tooltip content to capitalize "time:" label
+  const textColor = textAlpha(mode, 1);
+  const gridColor = mode === 'dark' ? '#2c3e50' : '#e0e0e0';
+
   const CustomTooltip = ({ active, payload, label }: {
     active?: boolean;
     payload?: Array<{ value: number; }>;
@@ -49,19 +51,19 @@ const AnalyticsDialog: React.FC<AnalyticsDialogProps> = ({ open, onClose, analyt
       return (
         <Box sx={{
           background: mode === 'dark' ? '#222e3a' : '#ffffff',
-          color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
+          color: 'text.primary',
           border: mode === 'dark' ? 'none' : '1px solid #e0e0e0',
           padding: '10px',
           borderRadius: '4px'
         }}>
           <Typography variant="body2" sx={{
             fontWeight: 'bold',
-            color: mode === 'dark' ? '#e0e1dd' : '#1b263b'
+            color: 'text.primary'
           }}>
             {label}
           </Typography>
           <Typography variant="body2" sx={{
-            color: mode === 'dark' ? '#e0e1dd' : '#1b263b'
+            color: 'text.primary'
           }}>
             Time: {formatTime(payload[0].value)}
           </Typography>
@@ -81,14 +83,14 @@ const AnalyticsDialog: React.FC<AnalyticsDialogProps> = ({ open, onClose, analyt
       PaperProps={{ sx: { overflow: 'visible' } }}
     >
       <DialogTitle sx={{
-        color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
-        bgcolor: mode === 'dark' ? '#1b263b' : '#ffffff'
+        color: 'text.primary',
+        bgcolor: 'background.paper'
       }}>
         Page Analytics
       </DialogTitle>
       <DialogContent sx={{
-        bgcolor: mode === 'dark' ? '#1b263b' : '#ffffff',
-        color: mode === 'dark' ? '#e0e1dd' : '#1b263b'
+        bgcolor: 'background.paper',
+        color: 'text.primary'
       }}>
         <Box sx={{ p: 2, pb: 1 }}>
           <Typography variant="h6" sx={{ mb: 2 }}>
@@ -116,11 +118,11 @@ const AnalyticsDialog: React.FC<AnalyticsDialogProps> = ({ open, onClose, analyt
                 }]}
                 margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
               >
-                <CartesianGrid strokeDasharray="3 3" stroke={mode === 'dark' ? '#2c3e50' : '#e0e0e0'} />
-                <XAxis dataKey="section" stroke={mode === 'dark' ? '#e0e1dd' : '#1b263b'} tick={{ fill: mode === 'dark' ? '#e0e1dd' : '#1b263b', fontSize: 14 }} />
+                <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
+                <XAxis dataKey="section" stroke={textColor} tick={{ fill: textColor, fontSize: 14 }} />
                 <YAxis
-                  stroke={mode === 'dark' ? '#e0e1dd' : '#1b263b'}
-                  tick={{ fill: mode === 'dark' ? '#e0e1dd' : '#1b263b', fontSize: 12 }}
+                  stroke={textColor}
+                  tick={{ fill: textColor, fontSize: 12 }}
                   tickFormatter={formatYAxisTick}
                   width={100}
                   axisLine={false}
@@ -145,8 +147,8 @@ const AnalyticsDialog: React.FC<AnalyticsDialogProps> = ({ open, onClose, analyt
           </Typography>
         </Box>
       </DialogContent>
-      <DialogActions sx={{ bgcolor: mode === 'dark' ? '#1b263b' : '#ffffff' }}>
-        <Button onClick={onClose} sx={{ color: mode === 'dark' ? '#e0e1dd' : '#1b263b' }}>
+      <DialogActions sx={{ bgcolor: 'background.paper' }}>
+        <Button onClick={onClose} sx={{ color: 'text.primary' }}>
           Close
         </Button>
       </DialogActions>

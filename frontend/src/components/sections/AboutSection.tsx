@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Typography, Card, CardContent, IconButton } from '@mui/material';
 import { School, Work, Build, EmojiEvents, ArrowBack, ArrowForward } from '@mui/icons-material';
+import { textAlpha } from '@/themes/theme';
 
 interface AboutSectionProps {
   mode?: 'dark' | 'light';
@@ -35,7 +36,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ mode = 'dark' }) => {
       <Typography
         className="about-section"
         variant="h3"
-        sx={{ color: mode === 'dark' ? '#e0e1dd' : '#1b263b', mb: 4, fontWeight: 600, textAlign: 'center' }}
+        sx={{ color: 'text.primary', mb: 4, fontWeight: 600, textAlign: 'center' }}
       >
         About Me
       </Typography>
@@ -43,7 +44,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ mode = 'dark' }) => {
       <Typography
         className="about-section"
         variant="body1"
-        sx={{ color: mode === 'dark' ? 'rgba(224, 225, 221, 0.9)' : 'rgba(27, 38, 59, 0.9)', lineHeight: 1.6, mb: 3 }}
+        sx={{ color: textAlpha(mode, 0.9), lineHeight: 1.6, mb: 3 }}
       >
         Computer Science student at RPI with a passion for building digital products. Interned at Intuit Credit Karma and Analog Devices, focusing on cloud and full-stack development.
       </Typography>
@@ -51,28 +52,28 @@ const AboutSection: React.FC<AboutSectionProps> = ({ mode = 'dark' }) => {
       <Box sx={{ display: 'grid', gap: 4, gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' } }}>
         {/* Education */}
         <Card className="about-section" sx={{
-          backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.05)' : 'rgba(27, 38, 59, 0.05)',
+          backgroundColor: textAlpha(mode, 0.05),
           backdropFilter: 'blur(20px)',
           border: '1px solid rgba(224, 225, 221, 0.1)',
           minHeight: 0,
         }}>
           <CardContent sx={{ p: 2 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-              <School sx={{ mr: 2, color: mode === 'dark' ? '#e0e1dd' : '#1b263b', fontSize: 24 }} />
-              <Typography variant="h6" sx={{ color: mode === 'dark' ? '#e0e1dd' : '#1b263b', fontWeight: 600 }}>
+              <School sx={{ mr: 2, color: 'text.primary', fontSize: 24 }} />
+              <Typography variant="h6" sx={{ color: 'text.primary', fontWeight: 600 }}>
                 Education
               </Typography>
             </Box>
-            <Typography variant="subtitle1" sx={{ color: mode === 'dark' ? '#e0e1dd' : '#1b263b', fontWeight: 500, mb: 0.5 }}>
+            <Typography variant="subtitle1" sx={{ color: 'text.primary', fontWeight: 500, mb: 0.5 }}>
               Rensselaer Polytechnic Institute, Troy, NY
             </Typography>
-            <Typography variant="body2" sx={{ color: mode === 'dark' ? 'rgba(224, 225, 221, 0.8)' : 'rgba(27, 38, 59, 0.8)', mb: 0.5 }}>
+            <Typography variant="body2" sx={{ color: textAlpha(mode, 0.8), mb: 0.5 }}>
               B.S. in Computer Science (2022–2026)
             </Typography>
-            <Typography variant="body2" sx={{ color: mode === 'dark' ? 'rgba(224, 225, 221, 0.8)' : 'rgba(27, 38, 59, 0.8)', mb: 0.2 }}>
+            <Typography variant="body2" sx={{ color: textAlpha(mode, 0.8), mb: 0.2 }}>
               Minor in Cognitive Science of AI
             </Typography>
-            <Typography variant="body2" sx={{ color: mode === 'dark' ? 'rgba(224, 225, 221, 0.8)' : 'rgba(27, 38, 59, 0.8)', mb: 0.2 }}>
+            <Typography variant="body2" sx={{ color: textAlpha(mode, 0.8), mb: 0.2 }}>
               Minor in Information Technology & Web Science
             </Typography>
           </CardContent>
@@ -80,7 +81,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ mode = 'dark' }) => {
 
         {/* Work Experience */}
         <Card className="about-section" sx={{
-          backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.05)' : 'rgba(27, 38, 59, 0.05)',
+          backgroundColor: textAlpha(mode, 0.05),
           backdropFilter: 'blur(20px)',
           border: '1px solid rgba(224, 225, 221, 0.1)',
         }}>
@@ -96,15 +97,15 @@ const AboutSection: React.FC<AboutSectionProps> = ({ mode = 'dark' }) => {
               </IconButton>
               <Box sx={{ flex: 1 }} aria-live="polite">
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                  <Work sx={{ mr: 2, color: mode === 'dark' ? '#e0e1dd' : '#1b263b', fontSize: 28 }} />
-                  <Typography variant="h6" sx={{ color: mode === 'dark' ? '#e0e1dd' : '#1b263b', fontWeight: 600 }}>
+                  <Work sx={{ mr: 2, color: 'text.primary', fontSize: 28 }} />
+                  <Typography variant="h6" sx={{ color: 'text.primary', fontWeight: 600 }}>
                     Work Experience
                   </Typography>
                 </Box>
-                <Typography variant="subtitle1" sx={{ color: mode === 'dark' ? '#e0e1dd' : '#1b263b', fontWeight: 500, mb: 1 }}>
+                <Typography variant="subtitle1" sx={{ color: 'text.primary', fontWeight: 500, mb: 1 }}>
                   {internships[internshipIdx].company}, {internships[internshipIdx].title} ({internships[internshipIdx].year})
                 </Typography>
-                <Typography variant="body2" sx={{ color: mode === 'dark' ? 'rgba(224, 225, 221, 0.8)' : 'rgba(27, 38, 59, 0.8)' }}>
+                <Typography variant="body2" sx={{ color: textAlpha(mode, 0.8) }}>
                   {internships[internshipIdx].description}
                 </Typography>
               </Box>
@@ -122,18 +123,18 @@ const AboutSection: React.FC<AboutSectionProps> = ({ mode = 'dark' }) => {
 
         {/* Skills */}
         <Card className="about-section" sx={{
-          backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.05)' : 'rgba(27, 38, 59, 0.05)',
+          backgroundColor: textAlpha(mode, 0.05),
           backdropFilter: 'blur(20px)',
           border: '1px solid rgba(224, 225, 221, 0.1)',
         }}>
           <CardContent sx={{ p: 3 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-              <Build sx={{ mr: 2, color: mode === 'dark' ? '#e0e1dd' : '#1b263b', fontSize: 28 }} />
-              <Typography variant="h6" sx={{ color: mode === 'dark' ? '#e0e1dd' : '#1b263b', fontWeight: 600 }}>
+              <Build sx={{ mr: 2, color: 'text.primary', fontSize: 28 }} />
+              <Typography variant="h6" sx={{ color: 'text.primary', fontWeight: 600 }}>
                 Core Skills
               </Typography>
             </Box>
-            <Typography variant="body2" sx={{ color: mode === 'dark' ? 'rgba(224, 225, 221, 0.8)' : 'rgba(27, 38, 59, 0.8)' }}>
+            <Typography variant="body2" sx={{ color: textAlpha(mode, 0.8) }}>
               Full-stack development, cloud computing, AI/ML, real-time systems, DevOps practices
             </Typography>
           </CardContent>
@@ -141,21 +142,21 @@ const AboutSection: React.FC<AboutSectionProps> = ({ mode = 'dark' }) => {
 
         {/* Certifications */}
         <Card className="about-section" sx={{
-          backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.05)' : 'rgba(27, 38, 59, 0.05)',
+          backgroundColor: textAlpha(mode, 0.05),
           backdropFilter: 'blur(20px)',
           border: '1px solid rgba(224, 225, 221, 0.1)',
         }}>
           <CardContent sx={{ p: 3 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-              <EmojiEvents sx={{ mr: 2, color: mode === 'dark' ? '#e0e1dd' : '#1b263b', fontSize: 28 }} />
-              <Typography variant="h6" sx={{ color: mode === 'dark' ? '#e0e1dd' : '#1b263b', fontWeight: 600 }}>
+              <EmojiEvents sx={{ mr: 2, color: 'text.primary', fontSize: 28 }} />
+              <Typography variant="h6" sx={{ color: 'text.primary', fontWeight: 600 }}>
                 Certifications
               </Typography>
             </Box>
             <ul style={{
               margin: 0,
               paddingLeft: 18,
-              color: mode === 'dark' ? 'rgba(224, 225, 221, 0.8)' : 'rgba(27, 38, 59, 0.8)',
+              color: textAlpha(mode, 0.8),
               fontSize: '0.92rem',
               lineHeight: 1.5
             }}>

@@ -22,6 +22,7 @@ import {
 import { ThemeContext } from '@/App';
 import { projects, Project } from '@/data/projects';
 import ProjectNavbar from '@/components/ProjectNavbar';
+import { textAlpha } from '@/themes/theme';
 
 const ProjectPage = () => {
   const { projectId } = useParams<{ projectId: string; }>();
@@ -93,7 +94,7 @@ const ProjectPage = () => {
       >
         <Card
           sx={{
-            bgcolor: mode === 'dark' ? '#1b263b' : '#ffffff',
+            bgcolor: 'background.paper',
             borderRadius: 3,
             boxShadow: 3,
             px: 1,
@@ -105,10 +106,9 @@ const ProjectPage = () => {
               onClick={toggleTheme}
               aria-label={mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
               sx={{
-                color: mode === 'dark' ? 'rgba(224, 225, 221, 0.7)' : 'rgba(27, 38, 59, 0.7)',
+                color: textAlpha(mode, 0.7),
                 '&:hover': {
-                  backgroundColor:
-                    mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.08)',
+                  backgroundColor: textAlpha(mode, 0.1, 0.08),
                 },
               }}
               size="large"
@@ -127,9 +127,9 @@ const ProjectPage = () => {
           onClick={() => navigate('/')}
           sx={{
             mb: 4,
-            color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
+            color: 'text.primary',
             '&:hover': {
-              backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.1)',
+              backgroundColor: textAlpha(mode, 0.1),
             },
           }}
         >
@@ -167,16 +167,16 @@ const ProjectPage = () => {
               label={project.status}
               variant="outlined"
               sx={{
-                borderColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.3)' : 'rgba(27, 38, 59, 0.5)',
-                color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
+                borderColor: textAlpha(mode, 0.3, 0.5),
+                color: 'text.primary',
               }}
             />
             <Chip
               label={project.year}
               variant="outlined"
               sx={{
-                borderColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.3)' : 'rgba(27, 38, 59, 0.5)',
-                color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
+                borderColor: textAlpha(mode, 0.3, 0.5),
+                color: 'text.primary',
               }}
             />
           </Box>
@@ -185,7 +185,7 @@ const ProjectPage = () => {
             variant="h2"
             component="h1"
             sx={{
-              color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
+              color: 'text.primary',
               fontWeight: 700,
               fontSize: { xs: '2rem', md: '3rem' },
               mb: 2,
@@ -197,7 +197,7 @@ const ProjectPage = () => {
           <Typography
             variant="body1"
             sx={{
-              color: mode === 'dark' ? 'rgba(224, 225, 221, 0.9)' : 'rgba(27, 38, 59, 0.9)',
+              color: textAlpha(mode, 0.9),
               fontSize: '1.25rem',
               lineHeight: 1.8,
               maxWidth: 800,
@@ -211,9 +211,10 @@ const ProjectPage = () => {
         <Card
           className="animate-in"
           sx={{
-            backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.05)' : 'rgba(27, 38, 59, 0.03)',
+            backgroundColor: textAlpha(mode, 0.05, 0.03),
             backdropFilter: 'blur(20px)',
-            border: mode === 'dark' ? '1px solid rgba(224, 225, 221, 0.1)' : '1px solid rgba(27, 38, 59, 0.1)',
+            border: '1px solid',
+            borderColor: textAlpha(mode, 0.1),
             mb: 4,
           }}
         >
@@ -221,7 +222,7 @@ const ProjectPage = () => {
             <Typography
               variant="h5"
               sx={{
-                color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
+                color: 'text.primary',
                 fontWeight: 600,
                 mb: 3,
               }}
@@ -235,7 +236,7 @@ const ProjectPage = () => {
                   label={tech}
                   sx={{
                     backgroundColor: project.color + '33',
-                    color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
+                    color: 'text.primary',
                     fontWeight: 500,
                     fontSize: '0.9rem',
                     py: 2,
@@ -250,9 +251,10 @@ const ProjectPage = () => {
         <Card
           className="animate-in"
           sx={{
-            backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.05)' : 'rgba(27, 38, 59, 0.03)',
+            backgroundColor: textAlpha(mode, 0.05, 0.03),
             backdropFilter: 'blur(20px)',
-            border: mode === 'dark' ? '1px solid rgba(224, 225, 221, 0.1)' : '1px solid rgba(27, 38, 59, 0.1)',
+            border: '1px solid',
+            borderColor: textAlpha(mode, 0.1),
             mb: 4,
           }}
         >
@@ -260,7 +262,7 @@ const ProjectPage = () => {
             <Typography
               variant="h5"
               sx={{
-                color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
+                color: 'text.primary',
                 fontWeight: 600,
                 mb: 3,
               }}
@@ -289,7 +291,7 @@ const ProjectPage = () => {
                     />
                     <Typography
                       sx={{
-                        color: mode === 'dark' ? 'rgba(224, 225, 221, 0.9)' : 'rgba(27, 38, 59, 0.9)',
+                        color: textAlpha(mode, 0.9),
                         fontSize: '1rem',
                         lineHeight: 1.6,
                       }}
@@ -309,9 +311,10 @@ const ProjectPage = () => {
             <Grid item xs={12} md={6}>
               <Card
                 sx={{
-                  backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.05)' : 'rgba(27, 38, 59, 0.03)',
+                  backgroundColor: textAlpha(mode, 0.05, 0.03),
                   backdropFilter: 'blur(20px)',
-                  border: mode === 'dark' ? '1px solid rgba(224, 225, 221, 0.1)' : '1px solid rgba(27, 38, 59, 0.1)',
+                  border: '1px solid',
+                  borderColor: textAlpha(mode, 0.1),
                   height: '100%',
                 }}
               >
@@ -319,7 +322,7 @@ const ProjectPage = () => {
                   <Typography
                     variant="h5"
                     sx={{
-                      color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
+                      color: 'text.primary',
                       fontWeight: 600,
                       mb: 3,
                     }}
@@ -348,7 +351,7 @@ const ProjectPage = () => {
                       />
                       <Typography
                         sx={{
-                          color: mode === 'dark' ? 'rgba(224, 225, 221, 0.9)' : 'rgba(27, 38, 59, 0.9)',
+                          color: textAlpha(mode, 0.9),
                           fontSize: '0.95rem',
                           lineHeight: 1.6,
                         }}
@@ -366,9 +369,10 @@ const ProjectPage = () => {
             <Grid item xs={12} md={6}>
               <Card
                 sx={{
-                  backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.05)' : 'rgba(27, 38, 59, 0.03)',
+                  backgroundColor: textAlpha(mode, 0.05, 0.03),
                   backdropFilter: 'blur(20px)',
-                  border: mode === 'dark' ? '1px solid rgba(224, 225, 221, 0.1)' : '1px solid rgba(27, 38, 59, 0.1)',
+                  border: '1px solid',
+                  borderColor: textAlpha(mode, 0.1),
                   height: '100%',
                 }}
               >
@@ -376,7 +380,7 @@ const ProjectPage = () => {
                   <Typography
                     variant="h5"
                     sx={{
-                      color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
+                      color: 'text.primary',
                       fontWeight: 600,
                       mb: 3,
                     }}
@@ -405,7 +409,7 @@ const ProjectPage = () => {
                       />
                       <Typography
                         sx={{
-                          color: mode === 'dark' ? 'rgba(224, 225, 221, 0.9)' : 'rgba(27, 38, 59, 0.9)',
+                          color: textAlpha(mode, 0.9),
                           fontSize: '0.95rem',
                           lineHeight: 1.6,
                         }}
@@ -426,7 +430,7 @@ const ProjectPage = () => {
             <Typography
               variant="h5"
               sx={{
-                color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
+                color: 'text.primary',
                 fontWeight: 600,
                 mb: 3,
               }}
@@ -438,8 +442,9 @@ const ProjectPage = () => {
                 <Grid item xs={12} md={6} key={index}>
                   <Card
                     sx={{
-                      backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.05)' : 'rgba(27, 38, 59, 0.03)',
-                      border: mode === 'dark' ? '1px solid rgba(224, 225, 221, 0.1)' : '1px solid rgba(27, 38, 59, 0.1)',
+                      backgroundColor: textAlpha(mode, 0.05, 0.03),
+                      border: '1px solid',
+                      borderColor: textAlpha(mode, 0.1),
                       overflow: 'hidden',
                     }}
                   >
@@ -460,7 +465,7 @@ const ProjectPage = () => {
                       <CardContent sx={{ py: 2 }}>
                         <Typography
                           sx={{
-                            color: mode === 'dark' ? 'rgba(224, 225, 221, 0.7)' : 'rgba(27, 38, 59, 0.7)',
+                            color: textAlpha(mode, 0.7),
                             fontSize: '0.9rem',
                             textAlign: 'center',
                           }}
@@ -494,13 +499,13 @@ const ProjectPage = () => {
               target="_blank"
               rel="noopener noreferrer"
               sx={{
-                borderColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.3)' : 'rgba(27, 38, 59, 0.5)',
-                color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
+                borderColor: textAlpha(mode, 0.3, 0.5),
+                color: 'text.primary',
                 py: 1.5,
                 px: 3,
                 '&:hover': {
-                  backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.1)',
-                  borderColor: mode === 'dark' ? '#e0e1dd' : '#1b263b',
+                  backgroundColor: textAlpha(mode, 0.1),
+                  borderColor: 'text.primary',
                 },
               }}
             >
@@ -533,4 +538,3 @@ const ProjectPage = () => {
 };
 
 export default ProjectPage;
-

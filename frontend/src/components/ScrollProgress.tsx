@@ -20,10 +20,8 @@ const ScrollProgress = () => {
       setScrollProgress(Math.min(progress, 1));
     };
 
-    // Initial calculation
     updateScrollProgress();
 
-    // Add event listener
     window.addEventListener('scroll', updateScrollProgress, { passive: true });
     window.addEventListener('resize', updateScrollProgress, { passive: true });
 
@@ -54,7 +52,7 @@ const ScrollProgress = () => {
         ref={progressRef}
         style={{
           height: '100%',
-          backgroundColor: theme.palette.mode === 'dark' ? '#e0e1dd' : '#1b263b',
+          backgroundColor: theme.palette.text.primary,
           transformOrigin: 'left',
           transform: `scaleX(${scrollProgress})`,
           transition: 'transform 0.1s ease-out',
