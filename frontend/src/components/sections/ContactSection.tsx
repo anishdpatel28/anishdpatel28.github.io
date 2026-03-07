@@ -24,9 +24,10 @@ const ContactSection: React.FC<ContactSectionProps> = ({ mode = 'dark' }) => {
         <Tooltip title="Email" arrow>
           <IconButton
             className="contact-item"
-            onClick={() => window.open('mailto:anishdpatel28@gmail.com', '_blank')}
+            component="a"
+            href="mailto:anishdpatel28@gmail.com"
             sx={{ color: mode === 'dark' ? '#e0e1dd' : '#1b263b', p: 2, fontSize: 40 }}
-            aria-label="Email"
+            aria-label="Send email to Anish Patel"
           >
             <Email sx={{ fontSize: 40 }} />
           </IconButton>
@@ -34,9 +35,12 @@ const ContactSection: React.FC<ContactSectionProps> = ({ mode = 'dark' }) => {
         <Tooltip title="LinkedIn" arrow>
           <IconButton
             className="contact-item"
-            onClick={() => window.open('https://linkedin.com/in/-anishpatel', '_blank')}
+            component="a"
+            href="https://linkedin.com/in/-anishpatel"
+            target="_blank"
+            rel="noopener noreferrer"
             sx={{ color: mode === 'dark' ? '#e0e1dd' : '#1b263b', p: 2, fontSize: 40 }}
-            aria-label="LinkedIn"
+            aria-label="Visit LinkedIn profile (opens in new tab)"
           >
             <LinkedIn sx={{ fontSize: 40 }} />
           </IconButton>
@@ -44,9 +48,12 @@ const ContactSection: React.FC<ContactSectionProps> = ({ mode = 'dark' }) => {
         <Tooltip title="GitHub" arrow>
           <IconButton
             className="contact-item"
-            onClick={() => window.open('https://github.com/anishdpatel28', '_blank')}
+            component="a"
+            href="https://github.com/anishdpatel28"
+            target="_blank"
+            rel="noopener noreferrer"
             sx={{ color: mode === 'dark' ? '#e0e1dd' : '#1b263b', p: 2, fontSize: 40 }}
-            aria-label="GitHub"
+            aria-label="Visit GitHub profile (opens in new tab)"
           >
             <GitHub sx={{ fontSize: 40 }} />
           </IconButton>

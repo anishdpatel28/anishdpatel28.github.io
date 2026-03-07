@@ -58,8 +58,35 @@ function App() {
               overflow: 'hidden !important',
               position: 'relative !important',
             },
+            '.skip-nav': {
+              position: 'absolute',
+              left: '-9999px',
+              top: 'auto',
+              width: '1px',
+              height: '1px',
+              overflow: 'hidden',
+              zIndex: 9999,
+              '&:focus': {
+                position: 'fixed',
+                top: '8px',
+                left: '8px',
+                width: 'auto',
+                height: 'auto',
+                padding: '12px 24px',
+                background: '#1b263b',
+                color: '#e0e1dd',
+                fontSize: '1rem',
+                fontWeight: 600,
+                borderRadius: '8px',
+                boxShadow: '0 4px 16px rgba(0,0,0,0.3)',
+                textDecoration: 'none',
+              },
+            },
           }}
         />
+        <a className="skip-nav" href="#main-content">
+          Skip to main content
+        </a>
         <BrowserRouter
           future={{
             v7_startTransition: true,

@@ -368,7 +368,7 @@ const Home = () => {
   }, [showAnalytics]);
 
   return (
-    <Box>
+    <Box component="main" id="main-content">
       <ScrollProgress />
 
       {/* Analytics & Theme Toggle Card */}
@@ -394,6 +394,7 @@ const Home = () => {
           <Tooltip title={mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}>
             <IconButton
               onClick={toggleTheme}
+              aria-label={mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
               sx={{
                 color: mode === 'dark' ? 'rgba(224, 225, 221, 0.7)' : 'rgba(27, 38, 59, 0.7)',
                 mr: { xs: 0, md: 0.5 },
@@ -411,6 +412,7 @@ const Home = () => {
             <IconButton
               ref={analyticsBtnRef}
               type="button"
+              aria-label="View site analytics"
               onClick={e => { e.stopPropagation(); handleAnalyticsClick(); }}
               sx={{
                 color: mode === 'dark' ? 'rgba(224, 225, 221, 0.7)' : 'rgba(27, 38, 59, 0.7)',
@@ -459,7 +461,9 @@ const Home = () => {
 
       {/* Home Section - Parallax */}
       <Box
+        component="section"
         id="home"
+        aria-label="Introduction"
         ref={homeBackgroundRef}
         sx={{
           minHeight: '100vh',

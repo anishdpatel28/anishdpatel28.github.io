@@ -57,8 +57,9 @@ const ProjectNavbar = () => {
   };
 
   return (
-    <div
+    <nav
       ref={navbarRef}
+      aria-label="Project navigation"
       style={{
         position: 'fixed',
         top: 32,
@@ -106,7 +107,7 @@ const ProjectNavbar = () => {
               p: { xs: 0.75, md: 1.1 },
               border: '2px solid transparent',
             }}
-            aria-label="home"
+            aria-label="Navigate to Home"
           >
             <HomeIcon fontSize="medium" />
           </IconButton>
@@ -116,7 +117,7 @@ const ProjectNavbar = () => {
           <IconButton
             onClick={handleProjectsClick}
             sx={{
-              color: open 
+              color: open
                 ? (mode === 'dark' ? '#e0e1dd' : '#1b263b')
                 : (mode === 'dark' ? 'rgba(224, 225, 221, 0.7)' : 'rgba(27, 38, 59, 0.7)'),
               backgroundColor: open
@@ -139,18 +140,18 @@ const ProjectNavbar = () => {
               alignItems: 'center',
               gap: 0.25,
             }}
-            aria-label="projects"
+            aria-label="Browse projects"
             aria-controls={open ? 'projects-menu' : undefined}
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
             <AppsIcon fontSize="medium" />
-            <KeyboardArrowDownIcon 
-              fontSize="small" 
-              sx={{ 
+            <KeyboardArrowDownIcon
+              fontSize="small"
+              sx={{
                 transition: 'transform 0.2s',
                 transform: open ? 'rotate(180deg)' : 'rotate(0deg)'
-              }} 
+              }}
             />
           </IconButton>
         </Tooltip>
@@ -182,12 +183,12 @@ const ProjectNavbar = () => {
           }}
         >
           <MenuItem disabled sx={{ opacity: 0.7 }}>
-            <ListItemText 
-              primary="All Projects" 
-              primaryTypographyProps={{ 
+            <ListItemText
+              primary="All Projects"
+              primaryTypographyProps={{
                 fontWeight: 600,
                 color: mode === 'dark' ? '#e0e1dd' : '#1b263b'
-              }} 
+              }}
             />
           </MenuItem>
           <Divider sx={{ my: 0.5 }} />
@@ -228,7 +229,7 @@ const ProjectNavbar = () => {
           ))}
         </Menu>
       </Paper>
-    </div>
+    </nav>
   );
 };
 

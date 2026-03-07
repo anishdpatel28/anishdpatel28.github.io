@@ -24,6 +24,7 @@ const PageSection = forwardRef<HTMLDivElement, PageSectionProps>(({
 }, ref) => {
   return (
     <Box
+      component="section"
       ref={ref}
       id={id}
       className={className}

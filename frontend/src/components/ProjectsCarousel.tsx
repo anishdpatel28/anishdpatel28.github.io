@@ -126,7 +126,7 @@ const ProjectsCarousel = () => {
       py: 2
     }}>
       {/* Project Card */}
-      <Card sx={{
+      <Card aria-live="polite" sx={{
         width: '100%',
         maxWidth: 400,
         backgroundColor: 'rgba(224, 225, 221, 0.05)',
@@ -265,6 +265,7 @@ const ProjectsCarousel = () => {
       }}>
         <IconButton
           onClick={prevProject}
+          aria-label="Previous project"
           sx={{
             backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.2)',
             color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
@@ -284,10 +285,23 @@ const ProjectsCarousel = () => {
         <Box sx={{
           display: 'flex',
           gap: 1
-        }}>
-          {projects.map((_, index) => (
+        }}
+          role="tablist"
+          aria-label="Project indicators"
+        >
+          {projects.map((project, index) => (
             <Box
               key={index}
+              role="tab"
+              aria-selected={index === currentProject}
+              aria-label={`Project ${index + 1}: ${project.title}`}
+              tabIndex={index === currentProject ? 0 : -1}
+              onClick={() => {
+                setCurrentProject(index);
+                if (!isMobile) {
+                  setRotation(-index * 90);
+                }
+              }}
               sx={{
                 width: 8,
                 height: 8,
@@ -295,7 +309,8 @@ const ProjectsCarousel = () => {
                 backgroundColor: index === currentProject
                   ? projects[currentProject].color
                   : 'rgba(224, 225, 221, 0.3)',
-                transition: 'all 0.3s ease'
+                transition: 'all 0.3s ease',
+                cursor: 'pointer',
               }}
             />
           ))}
@@ -303,6 +318,7 @@ const ProjectsCarousel = () => {
 
         <IconButton
           onClick={nextProject}
+          aria-label="Next project"
           sx={{
             backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.1)' : 'rgba(27, 38, 59, 0.2)',
             color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
@@ -326,6 +342,9 @@ const ProjectsCarousel = () => {
     <Box
       ref={projectsSectionRef}
       className="projects-carousel"
+      role="region"
+      aria-roledescription="carousel"
+      aria-label="Projects"
       sx={{
         minHeight: '100vh',
         display: 'flex',
@@ -536,6 +555,7 @@ const ProjectsCarousel = () => {
             {/* Project Details */}
             <Box
               className="projects-info"
+              aria-live="polite"
               sx={{
                 flex: 1,
                 minHeight: '60vh',

@@ -76,8 +76,9 @@ const Navbar = () => {
   }, [activeSection]);
 
   return (
-    <div
+    <nav
       ref={navbarRef}
+      aria-label="Main navigation"
       style={{
         position: 'fixed',
         top: 32,
@@ -138,14 +139,14 @@ const Navbar = () => {
                 fontSize: 24,
                 p: { xs: 0.75, md: 1.1 },
               }}
-              aria-label={section.id}
+              aria-label={`Navigate to ${section.id.charAt(0).toUpperCase() + section.id.slice(1)}`}
             >
               {section.icon}
             </IconButton>
           </Tooltip>
         ))}
       </Paper>
-    </div>
+    </nav>
   );
 };
 

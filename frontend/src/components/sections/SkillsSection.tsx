@@ -218,24 +218,31 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ mode = 'dark' }) => {
       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
         {skills.map((skill) => (
           <Tooltip key={skill.name} title={skill.name} arrow>
-            <Box sx={{
-              width: 64,
-              height: 64,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: 2,
-              backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.08)' : 'rgba(27, 38, 59, 0.15)',
-              border: '2px solid rgba(224, 225, 221, 0.3)',
-              fontSize: 40,
-              color: '#e0e1dd',
-              cursor: 'pointer',
-              transition: 'transform 0.2s',
-              '&:hover': {
-                transform: 'scale(1.15)',
-                backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.18)' : 'rgba(27, 38, 59, 0.25)',
-              }
-            }}>
+            <Box
+              tabIndex={0}
+              role="img"
+              aria-label={skill.name}
+              sx={{
+                width: 64,
+                height: 64,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: 2,
+                backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.08)' : 'rgba(27, 38, 59, 0.15)',
+                border: '2px solid rgba(224, 225, 221, 0.3)',
+                fontSize: 40,
+                color: '#e0e1dd',
+                cursor: 'pointer',
+                transition: 'transform 0.2s',
+                '&:hover, &:focus-visible': {
+                  transform: 'scale(1.15)',
+                  backgroundColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.18)' : 'rgba(27, 38, 59, 0.25)',
+                  outline: `2px solid ${mode === 'dark' ? '#e0e1dd' : '#1b263b'}`,
+                  outlineOffset: 2,
+                }
+              }}
+            >
               {skill.icon ? skill.icon : (
                 <Box sx={{ width: 40, height: 40, background: mode === 'dark' ? 'rgba(224,225,221,0.15)' : 'rgba(27,38,59,0.2)', borderRadius: 1 }} />
               )}

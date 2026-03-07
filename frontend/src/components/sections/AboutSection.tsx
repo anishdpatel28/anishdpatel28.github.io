@@ -89,11 +89,12 @@ const AboutSection: React.FC<AboutSectionProps> = ({ mode = 'dark' }) => {
               <IconButton
                 onClick={() => setInternshipIdx((internshipIdx - 1 + internships.length) % internships.length)}
                 size="small"
+                aria-label="Previous work experience"
                 sx={{ mr: 2, visibility: internshipIdx > 0 ? 'visible' : 'hidden' }}
               >
                 <ArrowBack fontSize="small" />
               </IconButton>
-              <Box sx={{ flex: 1 }}>
+              <Box sx={{ flex: 1 }} aria-live="polite">
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                   <Work sx={{ mr: 2, color: mode === 'dark' ? '#e0e1dd' : '#1b263b', fontSize: 28 }} />
                   <Typography variant="h6" sx={{ color: mode === 'dark' ? '#e0e1dd' : '#1b263b', fontWeight: 600 }}>
@@ -110,6 +111,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ mode = 'dark' }) => {
               <IconButton
                 onClick={() => setInternshipIdx((internshipIdx + 1) % internships.length)}
                 size="small"
+                aria-label="Next work experience"
                 sx={{ ml: 2, visibility: internshipIdx < internships.length - 1 ? 'visible' : 'hidden' }}
               >
                 <ArrowForward fontSize="small" />

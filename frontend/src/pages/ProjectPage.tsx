@@ -68,6 +68,8 @@ const ProjectPage = () => {
 
   return (
     <Box
+      component="main"
+      id="main-content"
       sx={{
         minHeight: '100vh',
         background:
@@ -101,6 +103,7 @@ const ProjectPage = () => {
           <Tooltip title={mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}>
             <IconButton
               onClick={toggleTheme}
+              aria-label={mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
               sx={{
                 color: mode === 'dark' ? 'rgba(224, 225, 221, 0.7)' : 'rgba(27, 38, 59, 0.7)',
                 '&:hover': {
@@ -180,6 +183,7 @@ const ProjectPage = () => {
 
           <Typography
             variant="h2"
+            component="h1"
             sx={{
               color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
               fontWeight: 700,
@@ -488,6 +492,7 @@ const ProjectPage = () => {
               startIcon={<GitHub />}
               href={project.githubUrl}
               target="_blank"
+              rel="noopener noreferrer"
               sx={{
                 borderColor: mode === 'dark' ? 'rgba(224, 225, 221, 0.3)' : 'rgba(27, 38, 59, 0.5)',
                 color: mode === 'dark' ? '#e0e1dd' : '#1b263b',
@@ -508,6 +513,7 @@ const ProjectPage = () => {
               startIcon={<Launch />}
               href={project.liveUrl}
               target="_blank"
+              rel="noopener noreferrer"
               sx={{
                 backgroundColor: project.color,
                 py: 1.5,

@@ -35,6 +35,11 @@ const ScrollProgress = () => {
 
   return (
     <Box
+      role="progressbar"
+      aria-label="Page scroll progress"
+      aria-valuenow={Math.round(scrollProgress * 100)}
+      aria-valuemin={0}
+      aria-valuemax={100}
       sx={{
         position: 'fixed',
         top: 0,
