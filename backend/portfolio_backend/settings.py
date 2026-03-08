@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from typing import Any
 from urllib.parse import parse_qsl, urlparse
 
 from dotenv import load_dotenv
@@ -71,6 +72,7 @@ WSGI_APPLICATION = "portfolio_backend.wsgi.application"
 _database_url = os.getenv("DATABASE_URL", "")
 _parsed_db = urlparse(_database_url)
 
+DATABASES: dict[str, dict[str, Any]]
 if _parsed_db.scheme == "sqlite":
     DATABASES = {
         "default": {
