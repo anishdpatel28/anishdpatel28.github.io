@@ -68,19 +68,28 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "portfolio_backend.wsgi.application"
 
-tmpPostgres = urlparse(os.getenv("DATABASE_URL", ""))
+_database_url = os.getenv("DATABASE_URL", "")
+_parsed_db = urlparse(_database_url)
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": (tmpPostgres.path.replace("/", "") if tmpPostgres.path else ""),
-        "USER": tmpPostgres.username or "",
-        "PASSWORD": tmpPostgres.password or "",
-        "HOST": tmpPostgres.hostname or "",
-        "PORT": 5432,
-        "OPTIONS": dict(parse_qsl(tmpPostgres.query or "")),
+if _parsed_db.scheme == "sqlite":
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": _parsed_db.path.lstrip("/") or BASE_DIR / "db.sqlite3",
+        }
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": (_parsed_db.path.replace("/", "") if _parsed_db.path else ""),
+            "USER": _parsed_db.username or "",
+            "PASSWORD": _parsed_db.password or "",
+            "HOST": _parsed_db.hostname or "",
+            "PORT": 5432,
+            "OPTIONS": dict(parse_qsl(_parsed_db.query or "")),
+        }
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
